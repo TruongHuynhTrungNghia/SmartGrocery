@@ -1,4 +1,4 @@
-﻿wousing Autofac;
+﻿using Autofac;
 using Autofac.Integration.Mvc;
 using AutoMapper;
 using FluentValidation.Mvc;
