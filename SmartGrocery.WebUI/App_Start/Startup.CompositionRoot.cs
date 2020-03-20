@@ -27,7 +27,7 @@ namespace SmartGrocery.WebUI
         {
             var configuration = new MapperConfiguration(config =>
             {
-                config.AddProfile(typeof(SmartGrocery.WebUI.Startup));
+                config.AddProfiles(typeof(Startup));
             });
 
             configuration.AssertConfigurationIsValid();
@@ -42,10 +42,14 @@ namespace SmartGrocery.WebUI
 
         private void RegisterWebApiClient(ContainerBuilder builder)
         {
-            builder.RegisterInstance(new HttpClient()
-            {
-                BaseAddress = new Uri("https://localhost:44388/")
-            });
+            //builder.RegisterInstance(new HttpClient()
+            //{
+            //    BaseAddress = new Uri("")
+            //});
+
+            builder.Register(x => new HttpClient() { BaseAddress = new Uri("https://localhost:44388/") })
+                .Named<HttpClient>("SmartGroceryApi")
+                .SingleInstance();
         }
 
         private void IntergrateDIContainerWithFrameworks(IAppBuilder builder, IContainer container)

@@ -91,6 +91,7 @@
     <Compile Include="Customer\CustomerDetailsDto.cs" />
     <Compile Include="Customer\GetCustomerByIdQuery.cs" />
     <Compile Include="Customer\GetCustomerByIdQueryHandler.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Product\BaseProductDto.cs" />
     <Compile Include="Product\CreateBaseProductCommand.cs" />
     <Compile Include="Product\CreateBaseProductCommandHandler.cs" />

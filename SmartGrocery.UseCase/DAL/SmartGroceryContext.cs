@@ -1,13 +1,8 @@
-﻿using SmartGrocery.Model.Customer;
-using SmartGrocery.Model.Product;
+﻿using SmartGrocery.Model.Product;
 using SmartGrocery.Model.Role;
 using SmartGrocery.Model.Transaction;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
-using System.Linq;
-using System.Web;
 
 namespace SmartGrocery.UseCase.DAL
 {
