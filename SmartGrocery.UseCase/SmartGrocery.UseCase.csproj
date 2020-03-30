@@ -100,6 +100,8 @@
     <Compile Include="Product\DuplicateProductException.cs" />
     <Compile Include="Product\EditProductCommnand.cs" />
     <Compile Include="Product\EditProductCommnandHandler.cs" />
+    <Compile Include="Product\GetAllProductsQuery.cs" />
+    <Compile Include="Product\GetAllProductsQueryHandler.cs" />
     <Compile Include="Product\GetBaseproductByIdQuery.cs" />
     <Compile Include="Product\GetBaseproductByIdQueryHandler.cs" />
     <Compile Include="DAL\Migrations\201910081712503_Initialization.cs" />

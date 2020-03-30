@@ -1,9 +1,11 @@
 ﻿using Autofac;
+using Autofac.Features.AttributeFilters;
 using Autofac.Integration.Mvc;
 using AutoMapper;
 using FluentValidation.Mvc;
 using Owin;
 using System;
+using System.Configuration;
 using System.Net.Http;
 using System.Web.Mvc;
 
@@ -15,12 +17,25 @@ namespace SmartGrocery.WebUI
         {
             var containerBuilder = new ContainerBuilder();
 
-            RegisterWebApiClient(containerBuilder);
             RegisterAutoMapper(containerBuilder);
+            RegisterWebMVCComponet(containerBuilder);
+            RegisterWebApiClient(containerBuilder);
 
             var container = containerBuilder.Build();
 
             IntergrateDIContainerWithFrameworks(builder, container);
+        }
+
+        private void RegisterWebMVCComponet(ContainerBuilder builder)
+        {
+            builder.RegisterControllers(typeof(MvcApplication).Assembly).WithAttributeFiltering();
+
+            builder.RegisterModule<AutofacWebTypesModule>();
+
+            // Enable property injection into action filters.
+            builder.RegisterFilterProvider();
+
+            builder.RegisterModelBinderProvider();
         }
 
         private void RegisterAutoMapper(ContainerBuilder containerBuilder)
@@ -42,12 +57,8 @@ namespace SmartGrocery.WebUI
 
         private void RegisterWebApiClient(ContainerBuilder builder)
         {
-            //builder.RegisterInstance(new HttpClient()
-            //{
-            //    BaseAddress = new Uri("")
-            //});
-
-            builder.Register(x => new HttpClient() { BaseAddress = new Uri("https://localhost:44388/") })
+            builder.Register(x => new HttpClient() { BaseAddress = new Uri(ConfigurationManager.AppSettings["SmartGroceryWebApi"]) })
+                .As<HttpClient>()
                 .Named<HttpClient>("SmartGroceryApi")
                 .SingleInstance();
         }

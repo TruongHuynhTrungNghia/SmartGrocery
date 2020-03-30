@@ -1,4 +1,4 @@
-﻿@using SmartGrocery.WebUI.Models
+﻿@using SmartGrocery.WebUI.Models.Products
 
 @model IEnumerable<ProductBaseViewModel>
 
@@ -12,6 +12,7 @@
                 <th>Price</th>
                 <th>Manufacturing Date</th>
                 <th>Expiry Date</th>
+                <th style="width: 120px"></th>
             </tr>
         </thead>
         <tbody>
@@ -26,9 +27,23 @@
                         <td>@product.Price</td>
                         <td>@product.ManufacturingDate</td>
                         <td>@product.ExpiryDate</td>
+                        <td>
+							<button class="btn btn-success edit-product" data-product-id="@product.Id"><span class="glyphicon glyphicon-cog"></span></button>
+							<button class="btn btn-danger delete-product" data-product-id="@product.Id"><span class="glyphicon glyphicon-trash"></span></button>
+                        </td>
                     </tr>
                 }
             }
         </tbody>
     </table>
 </div>
+
+<div class="row">
+    <button class="btn btn-primary" id="create-product">Create</button>
+</div>
+
+@Scripts.Render("~/bundles/products")
+@Styles.Render("~/Content/css")
+<script type="text/javascript">
+	initilize();
+</script>

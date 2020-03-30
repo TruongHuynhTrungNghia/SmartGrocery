@@ -61,6 +61,8 @@ namespace SmartGrocery.WebApi
                     typeof(Startup));
             });
 
+            configuration.AssertConfigurationIsValid();
+
             containerBuilder
                 .RegisterInstance(configuration)
                 .As<MapperConfiguration>()

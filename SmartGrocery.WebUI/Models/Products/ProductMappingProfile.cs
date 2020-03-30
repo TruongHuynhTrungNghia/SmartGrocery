@@ -1,14 +1,12 @@
 ﻿using AutoMapper;
-using SmartGrocery.UseCase.Product;
 using SmartGrocery.WebApi.Contracts.BaseProduct;
 
-namespace SmartGrocery.WebApi.MappingProfiles
+namespace SmartGrocery.WebUI.Models.Products
 {
     public class ProductMappingProfile : Profile
     {
         public ProductMappingProfile()
         {
-            CreateMap<EditProductCommnand, EditProductRequest>();
         }
     }
 }

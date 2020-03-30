@@ -1,0 +1,65 @@
+﻿@using SmartGrocery.WebUI.Models.Products
+
+@model ProductBaseViewModel
+
+@{ 
+	var dateformat = "{0:dd/MM/yyyy}";
+}
+
+<div class="modal fade" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		@using (Ajax.BeginForm("Create", "Product", null, new AjaxOptions()
+		{
+			HttpMethod = "POST",
+			OnSuccess = "onSuccessCreateProduct",
+			OnFailure = "onFailueCreateProduct"
+		}, new { @class = "modal-content form-horizontal" }))
+		{
+			<div class="modal-header">
+				<div class="row">
+					<div class="col-md-11">
+						<h4 class="modal-title">Create New Product</h4>
+					</div>
+					<div class="col-md-1">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+				</div>
+			</div>
+			<div class="modal-body">
+				<div class="row form-group">
+					<div class="col-md-5">
+						@Html.LabelFor(x => x.Name, new { @class = "form-label" })
+						@Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+					</div>
+					<div class="col-lg-offset-2 col-md-5">
+						@Html.LabelFor(x => x.ProductNumber, new { @class = "form-label" })
+						@Html.TextBoxFor(x => x.ProductNumber, new { @class = "form-control" })
+					</div>
+				</div><div class="row form-group">
+					<div class="col-md-5">
+						@Html.LabelFor(x => x.Price, new { @class = "form-label" })
+						@Html.TextBoxFor(x => x.Price, new { @class = "form-control" })
+					</div>
+					<div class="col-lg-offset-2 col-md-5">
+						@Html.LabelFor(x => x.Quantity, new { @class = "form-label" })
+						@Html.TextBoxFor(x => x.Quantity, new { @class = "form-control" })
+					</div>
+				</div>
+				<div class="row form-group">
+					<div class="col-md-5">
+						@Html.LabelFor(x => x.ManufacturingDate, new { @class = "form-label" })
+						@Html.TextBoxFor(x => x.ManufacturingDate, dateformat, new { @class = "form-control" })
+					</div>
+					<div class="col-lg-offset-2 col-md-5">
+						@Html.LabelFor(x => x.ExpiryDate, new { @class = "form-label" })
+						@Html.TextBoxFor(x => x.ExpiryDate, dateformat, new { @class = "form-control" })
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="submit" class="btn btn-success">Confirm</button>
+				<button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+			</div>
+		}
+	</div>
+</div>

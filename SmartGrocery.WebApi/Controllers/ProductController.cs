@@ -1,10 +1,10 @@
-﻿
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
 using Microsoft.Web.Http;
 using SmartGrocery.UseCase.Product;
 using SmartGrocery.WebApi.Contracts.BaseProduct;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -28,8 +28,19 @@ namespace SmartGrocery.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("{id}")]
+        public async Task<IHttpActionResult> Details(CancellationToken cancellationToken)
+        {
+            var request = new GetAllProductsQuery();
+            var response = await mediator.Send(request, cancellationToken);
+
+            var contract = mapper.Map<IEnumerable<BaseProductDto>>(response);
+
+            return Ok(contract);
+        }
+
+        [HttpGet]
         [ResponseType(typeof(ProductContract))]
+        [Route("{id}")]
         public async Task<IHttpActionResult> GetProductById(Guid id, CancellationToken cancellationToken)
         {
             var request = new GetBaseproductByIdQuery
@@ -39,15 +50,8 @@ namespace SmartGrocery.WebApi.Controllers
 
             var productDto = await mediator.Send(request, cancellationToken);
 
-            if (productDto != null)
-            {
-                var contract = mapper.Map<ProductContract>(productDto);
-                return Ok(contract);
-            }
-            else
-            {
-                return NotFound();
-            }
+            var contract = mapper.Map<ProductContract>(productDto);
+            return Ok(contract);
         }
 
         [HttpPost]
@@ -62,13 +66,9 @@ namespace SmartGrocery.WebApi.Controllers
 
                 return Ok(response);
             }
-            catch (DuplicateProductException)
+            catch (DuplicateProductException ex)
             {
-                return NotFound();
-            }
-            catch (Exception ex)
-            {
-                return NotFound();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -84,7 +84,7 @@ namespace SmartGrocery.WebApi.Controllers
 
                 return Ok(response);
             }
-            catch(NullReferenceException ex)
+            catch (NullReferenceException ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -105,9 +105,9 @@ namespace SmartGrocery.WebApi.Controllers
 
                 return Ok(response);
             }
-            catch (NullReferenceException)
+            catch (NullReferenceException ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
     }

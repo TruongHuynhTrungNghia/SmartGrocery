@@ -15,14 +15,14 @@ namespace SmartGrocery.Model.Common
         [IgnoreDataMember]
         public Guid Id { get; private set; }
 
-        protected void InitializedId()
+        protected Entity()
         {
             Id = GenerateNewGuidId();
         }
 
         private Guid GenerateNewGuidId()
         {
-            return new Guid();
+            return Guid.NewGuid();
         }
 
         public void SetId(Guid id)

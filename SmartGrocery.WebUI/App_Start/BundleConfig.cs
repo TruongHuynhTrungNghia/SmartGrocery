@@ -24,7 +24,13 @@ namespace SmartGrocery.WebUI
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/frontend/css/style.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/products").Include(
+                "~/frontend/js/products.js",
+                "~/Scripts/jquery-{version}.js",
+                "~/Scripts/toastr.js"));
         }
     }
 }
