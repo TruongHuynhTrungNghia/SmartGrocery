@@ -1,9 +1,10 @@
 ﻿using MediatR;
+using System;
 
 namespace SmartGrocery.UseCase.Product
 {
     public class DeleteProductCommand : IRequest
     {
-        public string ProductNumber { get; set; }
+        public Guid Id { get; set; }
     }
 }

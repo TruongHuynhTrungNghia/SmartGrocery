@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace SmartGrocery.WebUI.Features.Home
+namespace SmartGrocery.WebUI.Home
 {
     public class HomeController : Controller
     {
@@ -22,7 +22,7 @@ namespace SmartGrocery.WebUI.Features.Home
         {
             ViewBag.Message = "Your contact page.";
 
-            return View("~/Features/Home/Contact.cshtml");
+            return View();
         }
     }
 }

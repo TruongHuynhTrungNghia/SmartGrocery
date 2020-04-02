@@ -1,15 +1,15 @@
-﻿using AutoMapper;
-using Newtonsoft.Json;
-using SmartGrocery.WebApi.Contracts.BaseProduct;
-using SmartGrocery.WebUI.Models.Products;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using AutoMapper;
+using Newtonsoft.Json;
+using SmartGrocery.WebApi.Contracts.BaseProduct;
+using SmartGrocery.WebUI.Models.Products;
 
-namespace SmartGrocery.WebUI.Features.Product
+namespace SmartGrocery.WebUI.Controllers
 {
     public class ProductController : Controller
     {
@@ -55,7 +55,7 @@ namespace SmartGrocery.WebUI.Features.Product
 
         [HttpGet]
         public async Task<ActionResult> Edit(Guid id, CancellationToken cancellation)
-        {
+         {
             var response = await client.GetAsync($"products/{id}", cancellation);
             
             response.EnsureSuccessStatusCode();
@@ -74,7 +74,17 @@ namespace SmartGrocery.WebUI.Features.Product
             var response = await client.PutAsJsonAsync("products", request, cancellationToken);
             response.EnsureSuccessStatusCode();
 
-            return RedirectToAction("Prodcut");
+            return RedirectToAction("Product");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Delete(Guid id, CancellationToken cancellationToken)
+        {
+            var response = await client.DeleteAsync($"products/{id}", cancellationToken);
+
+            response.EnsureSuccessStatusCode();
+
+            return RedirectToAction("Product");
         }
     }
 }

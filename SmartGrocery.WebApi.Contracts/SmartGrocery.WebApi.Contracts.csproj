@@ -48,8 +48,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseProduct\CreateProductRequest.cs" />
     <Compile Include="BaseProduct\EditProductRequest.cs" />
+    <Compile Include="BaseProduct\CreateProductRequest.cs" />
     <Compile Include="BaseProduct\ProductContract.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

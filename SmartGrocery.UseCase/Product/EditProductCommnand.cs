@@ -16,5 +16,7 @@ namespace SmartGrocery.UseCase.Product
         public DateTime ManufacturingDate { get; set; }
 
         public string ProductNumber { get; set; }
+
+        public Guid Id { get; set; }
     }
 }

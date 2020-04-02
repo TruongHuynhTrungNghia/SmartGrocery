@@ -18,7 +18,7 @@ namespace SmartGrocery.UseCase.Product
         public void Handle(DeleteProductCommand command)
         {
             var matchedProduct = context.Set<BaseProduct>()
-                .FirstOrDefault(x => x.ProductNumber == command.ProductNumber);
+                .FirstOrDefault(x => x.Id == command.Id);
 
             if (matchedProduct == null)
             {

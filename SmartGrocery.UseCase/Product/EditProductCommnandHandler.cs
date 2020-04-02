@@ -18,7 +18,7 @@ namespace SmartGrocery.UseCase.Product
         public string Handle(EditProductCommnand commnand)
         {
             var existingProduct = context.Set<BaseProduct>()
-                .SingleOrDefault(x => x.ProductNumber == commnand.Name);
+                .SingleOrDefault(x => x.ProductNumber == commnand.ProductNumber);
 
             if (existingProduct == null)
             {

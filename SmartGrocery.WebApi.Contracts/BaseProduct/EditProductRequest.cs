@@ -4,8 +4,6 @@ namespace SmartGrocery.WebApi.Contracts.BaseProduct
 {
     public class EditProductRequest
     {
-        public Guid Id { get; set; }
-
         public string Name { get; set; }
 
         public decimal Price { get; set; }
@@ -15,5 +13,9 @@ namespace SmartGrocery.WebApi.Contracts.BaseProduct
         public DateTime ExpiryDate { get; set; }
 
         public DateTime ManufacturingDate { get; set; }
+
+        public string ProductNumber { get; set; }
+
+        public Guid Id { get; set; }
     }
 }

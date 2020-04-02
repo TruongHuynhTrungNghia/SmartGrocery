@@ -82,8 +82,11 @@ namespace SmartGrocery.WebApi
 
             containerBuilder
                 .RegisterAssemblyTypes(typeof(SmartGroceryContext).Assembly)
-                .Where(t => t.IsClosedTypeOf(typeof(IRequestHandler<,>)))
-                .AsImplementedInterfaces();
+                .AsClosedTypesOf(typeof(IRequestHandler<,>));
+
+            containerBuilder
+                .RegisterAssemblyTypes(typeof(SmartGroceryContext).Assembly)
+                .AsClosedTypesOf(typeof(IRequestHandler<>));
 
             containerBuilder.Register<SingleInstanceFactory>(ctx =>
             {

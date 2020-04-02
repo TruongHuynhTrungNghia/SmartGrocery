@@ -1,18 +1,18 @@
-create table `base_product` (`Id` CHAR(36) BINARY default ''  not null ,`Name` nvarchar(256)  not null ,`Price` decimal( 18, 2 )  not null ,`Quantity` int not null ,`ExpiryDate` datetime not null ,`ManufacturingDate` datetime not null ,`ProductNumber` nvarchar(128)  not null ,`Transaction_Id` CHAR(36) BINARY,primary key ( `Id`) ) engine=InnoDb auto_increment=0
-CREATE index  `IX_Transaction_Id` on `base_product` (`Transaction_Id` DESC) using HASH
-create table `customer` (`Id` CHAR(36) BINARY default ''  not null ,`LastName` longtext not null ,`FirstName` longtext not null ,`CustomerId` longtext not null ,`DateOfBirth` datetime not null ,`Age` int not null ,`Points` int,`Test` longtext,primary key ( `Id`) ) engine=InnoDb auto_increment=0
-create table `transaction` (`Id` CHAR(36) BINARY default ''  not null ,`TransactionNumber` longtext,`Amount` longtext not null ,`CreatedBy` longtext not null ,`CreatedAt` datetime not null ,`LastUpdatedBy` longtext not null ,`LastUpdatedAt` longtext not null ,`CustomerId` CHAR(36) BINARY default ''  not null ,primary key ( `Id`) ) engine=InnoDb auto_increment=0
-CREATE index  `IX_CustomerId` on `transaction` (`CustomerId` DESC) using HASH
-create table `permission` (`Id` CHAR(36) BINARY default ''  not null ,`Name` nvarchar(128)  not null ,`Description` nvarchar(350) ,primary key ( `Id`) ) engine=InnoDb auto_increment=0
-create table `role` (`Id` CHAR(36) BINARY default ''  not null ,`Name` nvarchar(128)  not null ,`Description` longtext,primary key ( `Id`) ) engine=InnoDb auto_increment=0
-create table `permissions-in-roles` (`Permission_Id` CHAR(36) BINARY default ''  not null ,`Role_Id` CHAR(36) BINARY default ''  not null ,primary key ( `Permission_Id`,`Role_Id`) ) engine=InnoDb auto_increment=0
-CREATE index  `IX_Permission_Id` on `permissions-in-roles` (`Permission_Id` DESC) using HASH
-CREATE index  `IX_Role_Id` on `permissions-in-roles` (`Role_Id` DESC) using HASH
-alter table `base_product` add constraint `FK_base_product_transaction_Transaction_Id`  foreign key (`Transaction_Id`) references `transaction` ( `Id`) 
-alter table `transaction` add constraint `FK_transaction_customer_CustomerId`  foreign key (`CustomerId`) references `customer` ( `Id`)  on update cascade on delete cascade 
-alter table `permissions-in-roles` add constraint `FK_permissions-in-roles_permission_Permission_Id`  foreign key (`Permission_Id`) references `permission` ( `Id`)  on update cascade on delete cascade 
-alter table `permissions-in-roles` add constraint `FK_permissions-in-roles_role_Role_Id`  foreign key (`Role_Id`) references `role` ( `Id`)  on update cascade on delete cascade 
-create table `__MigrationHistory` (`MigrationId` nvarchar(150)  not null ,`ContextKey` nvarchar(300)  not null ,`Model` longblob not null ,`ProductVersion` nvarchar(32)  not null ,primary key ( `MigrationId`,`ContextKey`) ) engine=InnoDb auto_increment=0
+create table `base_product` (`Id` CHAR(36) BINARY default ''  not null ,`Name` nvarchar(256)  not null ,`Price` decimal( 18, 2 )  not null ,`Quantity` int not null ,`ExpiryDate` datetime not null ,`ManufacturingDate` datetime not null ,`ProductNumber` nvarchar(128)  not null ,`Transaction_Id` CHAR(36) BINARY,primary key ( `Id`) ) engine=InnoDb auto_increment=0;
+CREATE index  `IX_Transaction_Id` on `base_product` (`Transaction_Id` DESC) using HASH;
+create table `customer` (`Id` CHAR(36) BINARY default ''  not null ,`LastName` longtext not null ,`FirstName` longtext not null ,`CustomerId` longtext not null ,`DateOfBirth` datetime not null ,`Age` int not null ,`Points` int,`Test` longtext,primary key ( `Id`) ) engine=InnoDb auto_increment=0;
+create table `transaction` (`Id` CHAR(36) BINARY default ''  not null ,`TransactionNumber` longtext,`Amount` longtext not null ,`CreatedBy` longtext not null ,`CreatedAt` datetime not null ,`LastUpdatedBy` longtext not null ,`LastUpdatedAt` longtext not null ,`CustomerId` CHAR(36) BINARY default; ''  not null ,primary key ( `Id`) ) engine=InnoDb auto_increment=0;
+CREATE index  `IX_CustomerId` on `transaction` (`CustomerId` DESC) using HASH;
+create table `permission` (`Id` CHAR(36) BINARY default ''  not null ,`Name` nvarchar(128)  not null ,`Description` nvarchar(350) ,primary key ( `Id`) ) engine=InnoDb auto_increment=0;
+create table `role` (`Id` CHAR(36) BINARY default ''  not null ,`Name` nvarchar(128)  not null ,`Description` longtext,primary key ( `Id`) ) engine=InnoDb auto_increment=0;
+create table `permissions-in-roles` (`Permission_Id` CHAR(36) BINARY default ''  not null ,`Role_Id` CHAR(36) BINARY default ''  not null ,primary key ( `Permission_Id`,`Role_Id`) ) engine=InnoDb auto_increment=0;
+CREATE index  `IX_Permission_Id` on `permissions-in-roles` (`Permission_Id` DESC) using HASH;
+CREATE index  `IX_Role_Id` on `permissions-in-roles` (`Role_Id` DESC) using HASH;
+alter table `base_product` add constraint `FK_base_product_transaction_Transaction_Id`  foreign key (`Transaction_Id`) references `transaction` ( `Id`);
+alter table `transaction` add constraint `FK_transaction_customer_CustomerId`  foreign key (`CustomerId`) references `customer` ( `Id`)  on update cascade on delete cascade ;
+alter table `permissions-in-roles` add constraint `FK_permissions-in-roles_permission_Permission_Id`  foreign key (`Permission_Id`) references `permission` ( `Id`)  on update cascade on delete cascade;
+alter table `permissions-in-roles` add constraint `FK_permissions-in-roles_role_Role_Id`  foreign key (`Role_Id`) references `role` ( `Id`)  on update cascade on delete cascade;
+create table `__MigrationHistory` (`MigrationId` nvarchar(150)  not null ,`ContextKey` nvarchar(300)  not null ,`Model` longblob not null ,`ProductVersion` nvarchar(32)  not null ,primary key ( `MigrationId`,`ContextKey`) ) engine=InnoDb auto_increment=0;
 INSERT INTO `__MigrationHistory`(
 `MigrationId`, 
 `ContextKey`, 

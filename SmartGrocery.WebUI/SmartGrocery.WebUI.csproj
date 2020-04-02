@@ -236,6 +236,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\TransactionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -293,6 +294,7 @@
     <Content Include="Views\Product\Details.cshtml" />
     <Content Include="Views\Product\_Create.cshtml" />
     <Content Include="Views\Product\_Edit.cshtml" />
+    <Content Include="Views\Transaction\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

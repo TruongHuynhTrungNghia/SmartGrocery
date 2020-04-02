@@ -2,6 +2,7 @@ function initilize() {
     registerCreateProduct();
     registerEditProduct();
     registerDeleteProduct();
+    ConfirmedDeleteProduct();
 }
 
 function registerCreateProduct() {
@@ -32,7 +33,6 @@ function registerEditProduct() {
             id: e.currentTarget.getAttribute('data-product-id')
         };
 
-        console.log(data);
         $.ajax({
             type: "GET",
             data: data,
@@ -52,6 +52,37 @@ function registerEditProduct() {
 }
 
 function registerDeleteProduct() {
+    $('.btn.delete-product').on('click', function (e) {
+        let id = e.currentTarget.getAttribute('data-product-id');
+
+        const $modal = $('#confirm-delete-product-modal').appendTo('body');
+
+        $modal.modal({
+            backdrop: 'static',
+            keyboard: true
+        });
+
+        $('#current-product-id').val(id);
+
+        removeModalAfterClosing($modal);
+    });
+}
+
+function ConfirmedDeleteProduct() {
+    $('#delete-product-button').on('click', function () {
+        var data = {
+            id: $('#current-product-id').val()
+        };
+
+        $.ajax({
+            type: "POST",
+            data: data,
+            url: "/Product/Delete",
+            error: function () {
+                toastr.error("There are some error while deleting data.");
+            }
+        })
+    });
 }
 
 function removeModalAfterClosing($modal) {

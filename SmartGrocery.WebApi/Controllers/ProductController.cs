@@ -57,12 +57,12 @@ namespace SmartGrocery.WebApi.Controllers
         [HttpPost]
         [Route]
         [ResponseType(typeof(Guid))]
-        public async Task<IHttpActionResult> CreateProduct(CreateProductRequest request, CancellationToken cancellationToken)
+        public IHttpActionResult CreateProduct(CreateProductRequest request, CancellationToken cancellationToken)
         {
             try
             {
                 var command = mapper.Map<CreateBaseProductCommand>(request);
-                var response = await mediator.Send(command, cancellationToken);
+                var response = mediator.Send(command, cancellationToken);
 
                 return Ok(response);
             }
@@ -91,19 +91,19 @@ namespace SmartGrocery.WebApi.Controllers
         }
 
         [HttpDelete]
-        [Route]
-        public IHttpActionResult DeleteProduct(string productNumber, CancellationToken cancellationToken)
+        [Route("{id}")]
+        public IHttpActionResult DeleteProduct(Guid id, CancellationToken cancellationToken)
         {
             try
             {
                 var command = new DeleteProductCommand
                 {
-                    ProductNumber = productNumber
+                    Id = id
                 };
 
-                var response = mediator.Send(command, cancellationToken);
+                mediator.Send(command, cancellationToken);
 
-                return Ok(response);
+                return Ok();
             }
             catch (NullReferenceException ex)
             {
