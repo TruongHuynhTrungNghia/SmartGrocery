@@ -1,6 +1,7 @@
 ﻿using SmartGrocery.Model.Product;
 using SmartGrocery.Model.Role;
 using SmartGrocery.Model.Transaction;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 
@@ -24,6 +25,28 @@ namespace SmartGrocery.UseCase.DAL
             MapPermissions(modelBuilder);
             MapRole(modelBuilder);
             MapTransaction(modelBuilder);
+            MapProductSnapshot(modelBuilder);
+        }
+
+        private void MapProductSnapshot(DbModelBuilder modelBuilder)
+        {
+            var entity = modelBuilder.Entity<ProductSnapshot>();
+
+            entity.Property(x => x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+
+            entity.Property(x => x.NumberOfSoldProduct).IsRequired();
+
+            entity
+               .HasRequired(x => x.Product)
+               .WithMany(x => x.ProductSnapshot)
+               .HasForeignKey(x => x.ProductId)
+               .WillCascadeOnDelete(false);
+
+            entity
+                .HasRequired(x => x.Transaction)
+                .WithMany(x => x.ProductSnapshot)
+                .HasForeignKey(x => x.TransactionId)
+                .WillCascadeOnDelete(false);
         }
 
         private void MapTransaction(DbModelBuilder modelBuilder)

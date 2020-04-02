@@ -45,9 +45,11 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="MySqlScript\Initialization.sql" />
+    <EmbeddedResource Include="MySqlScript\002_ImplementeProductSnapshot.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MySqlScript\001_Initialization.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

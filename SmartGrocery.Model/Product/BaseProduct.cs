@@ -1,5 +1,6 @@
 ﻿using SmartGrocery.Model.Common;
 using System;
+using System.Collections.Generic;
 
 namespace SmartGrocery.Model.Product
 {
@@ -16,6 +17,8 @@ namespace SmartGrocery.Model.Product
         public DateTime ManufacturingDate { get; set; }
 
         public string ProductNumber { get; set; }
+
+        public virtual ICollection<ProductSnapshot> ProductSnapshot { get; set; }
 
         public void Update(
             string name,

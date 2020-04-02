@@ -1,5 +1,4 @@
 ﻿using SmartGrocery.Model.Common;
-using SmartGrocery.Model.Product;
 using System;
 using System.Collections.Generic;
 
@@ -23,6 +22,6 @@ namespace SmartGrocery.Model.Transaction
 
         public virtual Customer.Customer Customer { get; set; }
 
-        public virtual ICollection<BaseProduct> Products { get; set; }
+        public virtual ICollection<Product.ProductSnapshot> ProductSnapshot { get; set; }
     }
 }

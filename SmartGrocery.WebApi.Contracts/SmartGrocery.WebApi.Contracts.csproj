@@ -48,13 +48,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Transaction\CreateTransactionRequest.cs" />
     <Compile Include="BaseProduct\EditProductRequest.cs" />
     <Compile Include="BaseProduct\CreateProductRequest.cs" />
     <Compile Include="BaseProduct\ProductContract.cs" />
+    <Compile Include="BaseProduct\ProductSnapshotContract.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

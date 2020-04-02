@@ -28,6 +28,7 @@ namespace SmartGrocery.WebApi.Controllers
         }
 
         [HttpGet]
+        [ResponseType(typeof(ProductContract))]
         public async Task<IHttpActionResult> Details(CancellationToken cancellationToken)
         {
             var request = new GetAllProductsQuery();
