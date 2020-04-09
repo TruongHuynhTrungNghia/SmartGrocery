@@ -30,8 +30,7 @@ namespace SmartGrocery.UseCase.Product
                 commnand.Price,
                 commnand.Quantity,
                 commnand.ExpiryDate,
-                commnand.ManufacturingDate
-                );
+                commnand.ManufacturingDate);
 
             context.SaveChanges();
 

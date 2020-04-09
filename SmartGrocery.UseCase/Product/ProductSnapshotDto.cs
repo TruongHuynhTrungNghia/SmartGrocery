@@ -1,6 +1,6 @@
-﻿namespace SmartGrocery.WebApi.Contracts.BaseProduct
+﻿namespace SmartGrocery.UseCase.Product
 {
-    public class ProductSnapshotContract
+    public class ProductSnapshotDto
     {
         public string ProductNumer { get; set; }
 

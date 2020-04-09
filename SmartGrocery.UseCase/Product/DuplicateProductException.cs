@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace SmartGrocery.UseCase.Product
 {
@@ -16,7 +17,7 @@ namespace SmartGrocery.UseCase.Product
         }
 
         public DuplicateProductException(string productNumber)
-            : this(productNumber, $"The product with number {productNumber} has been existed.")
+            : this(productNumber, $"The product with number {productNumber} is existing.")
         {
         }
 

@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Web.Http.Description;
+using Swashbuckle.Swagger;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http.Description;
-using Microsoft.Web.Http.Description;
-using Swashbuckle.Swagger;
 
 namespace SmartGrocery.WebApi
 {
@@ -11,7 +11,7 @@ namespace SmartGrocery.WebApi
         public void Apply(Operation operation, SchemaRegistry schemaRegistry, ApiDescription apiDescription)
         {
             var description = apiDescription as VersionedApiDescription;
-            
+
             if (description?.ApiVersion == null)
             {
                 return;

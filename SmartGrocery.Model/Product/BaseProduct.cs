@@ -33,5 +33,10 @@ namespace SmartGrocery.Model.Product
             this.ExpiryDate = expiryDate;
             this.ManufacturingDate = manufacturingDate;
         }
+
+        public void UpdateQuantity(int quantity)
+        {
+            this.Quantity = quantity;
+        }
     }
 }

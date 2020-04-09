@@ -5,8 +5,6 @@ using FluentValidation.WebApi;
 using MediatR;
 using Owin;
 using SmartGrocery.UseCase.DAL;
-using SmartGrocery.UseCase.Product;
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Web.Http;
@@ -15,13 +13,9 @@ namespace SmartGrocery.WebApi
 {
     public partial class Startup
     {
-        private const string SmartGroceryConnectionString = "SmartGroceryDatabase";
-
         private void CompositionRoot(IAppBuilder builder, HttpConfiguration configuration)
         {
             var containerBuilder = new ContainerBuilder();
-
-            RegisterDbContext(containerBuilder);
 
             RegisterMediator(containerBuilder);
 
@@ -29,18 +23,11 @@ namespace SmartGrocery.WebApi
 
             RegisterWebApiControlers(containerBuilder, configuration);
 
+            containerBuilder.RegisterModule(new SmartGroceryModule());
+
             var container = containerBuilder.Build();
 
             IntergrateDIContainerWithFrameworks(builder, container, configuration);
-        }
-
-        private void RegisterDbContext(ContainerBuilder containerBuilder)
-        {
-            containerBuilder
-                .RegisterType<SmartGroceryContext>()
-                .AsSelf()
-                //.UsingConstructor(typeof(string), typeof(ILifetimeScope))
-                .WithParameter((pi, ctx) => pi.ParameterType == typeof(string), (pi, ctx) => SmartGroceryConnectionString);
         }
 
         private void RegisterWebApiControlers(ContainerBuilder containerBuilder, HttpConfiguration configuration)

@@ -54,6 +54,8 @@
     <Compile Include="BaseProduct\ProductContract.cs" />
     <Compile Include="BaseProduct\ProductSnapshotContract.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Transaction\EditTransactionRequest.cs" />
+    <Compile Include="Transaction\TransactionContract.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

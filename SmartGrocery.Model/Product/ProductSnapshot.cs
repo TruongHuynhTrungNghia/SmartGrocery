@@ -1,6 +1,5 @@
 ﻿using SmartGrocery.Model.Common;
 using System;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SmartGrocery.Model.Product
 {
@@ -19,5 +18,5 @@ namespace SmartGrocery.Model.Product
         public virtual BaseProduct Product { get; set; }
 
         public virtual Transaction.Transaction Transaction { get; set; }
-    } 
+    }
 }

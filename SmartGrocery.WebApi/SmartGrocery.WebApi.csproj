@@ -225,12 +225,13 @@
   <ItemGroup>
     <Compile Include="App_Start\StartupCompositionRoot.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
-    <Compile Include="Controllers\TransactionController.cs" />
+    <Compile Include="Controllers\TransactionsController.cs" />
     <Compile Include="ImplicitApiVersionParameter.cs" />
     <Compile Include="App_Start\Startup.Swagger.cs" />
     <Compile Include="App_Start\Startup.WebApi.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="MappingProfiles\ProductMappingProfile.cs" />
+    <Compile Include="MappingProfiles\TransactionMappingProfiles.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -10,7 +10,7 @@ namespace SmartGrocery.WebApi.MappingProfiles
         {
             CreateMap<EditProductCommnand, EditProductRequest>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id));
-            
+
             CreateMap<EditProductRequest, EditProductCommnand>();
         }
     }

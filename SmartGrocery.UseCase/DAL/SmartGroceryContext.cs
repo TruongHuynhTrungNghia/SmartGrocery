@@ -1,7 +1,6 @@
 ﻿using SmartGrocery.Model.Product;
 using SmartGrocery.Model.Role;
 using SmartGrocery.Model.Transaction;
-using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 

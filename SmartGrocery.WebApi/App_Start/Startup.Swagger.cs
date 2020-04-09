@@ -1,10 +1,8 @@
-﻿using Microsoft.Web.Http.Routing;
-using Owin;
+﻿using Owin;
 using Swashbuckle.Application;
 using System.IO;
 using System.Reflection;
 using System.Web.Http;
-using System.Web.Http.Routing;
 
 namespace SmartGrocery.WebApi
 {
