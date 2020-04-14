@@ -40,12 +40,6 @@ namespace SmartGrocery.UseCase.DAL
                .WithMany(x => x.ProductSnapshot)
                .HasForeignKey(x => x.ProductId)
                .WillCascadeOnDelete(false);
-
-            entity
-                .HasRequired(x => x.Transaction)
-                .WithMany(x => x.ProductSnapshot)
-                .HasForeignKey(x => x.TransactionId)
-                .WillCascadeOnDelete(false);
         }
 
         private void MapTransaction(DbModelBuilder modelBuilder)
@@ -65,7 +59,12 @@ namespace SmartGrocery.UseCase.DAL
             entity
                 .HasRequired(x => x.Customer)
                 .WithMany(x => x.Transactions)
-                .HasForeignKey(x => x.CustomerId)
+                .HasForeignKey(x => x.CustomerId);
+
+            entity
+                .HasMany(x => x.ProductSnapshot)
+                .WithRequired(x => x.Transaction)
+                .HasForeignKey(x => x.TransactionId)
                 .WillCascadeOnDelete();
         }
 

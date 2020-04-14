@@ -1,17 +1,32 @@
-﻿using MediatR;
-using System;
+﻿using AutoMapper;
+using MediatR;
+using SmartGrocery.UseCase.DAL;
+using System.Data.Entity;
+using System.Linq;
+using Customerbase = SmartGrocery.Model.Customer.Customer;
 
 namespace SmartGrocery.UseCase.Customer
 {
     public class GetCustomerByIdQueryHandler : IRequestHandler<GetCustomerByIdQuery, CustomerDetailsDto>
     {
-        public GetCustomerByIdQueryHandler()
+        private readonly SmartGroceryContext context;
+        private readonly IMapper mapper;
+
+        public GetCustomerByIdQueryHandler(SmartGroceryContext context, IMapper mapper)
         {
+            this.context = context;
+            this.mapper = mapper;
         }
 
         public CustomerDetailsDto Handle(GetCustomerByIdQuery query)
         {
-            throw new NotImplementedException();
+            var customer = context.Set<Customerbase>()
+                .AsNoTracking()
+                .FirstOrDefault(x => x.Id == query.CustomerId);
+
+            var customerDto = mapper.Map<CustomerDetailsDto>(customer);
+
+            return customerDto;
         }
     }
 }

@@ -1,9 +1,8 @@
-﻿using SmartGrocery.UseCase.Transactions;
-using System;
+﻿using System;
 
-namespace SmartGrocery.UseCase.Customer
+namespace SmartGrocery.WebApi.Contracts.Customer
 {
-    public class CustomerDetailsDto
+    public class CustomerContract
     {
         public Guid Id { get; set; }
 
@@ -18,7 +17,5 @@ namespace SmartGrocery.UseCase.Customer
         public int Age { get; set; }
 
         public int Points { get; set; }
-
-        public TransactionDto[] TransactionDtos { get; set; }
     }
 }

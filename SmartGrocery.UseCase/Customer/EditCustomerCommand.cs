@@ -1,12 +1,10 @@
-﻿using SmartGrocery.UseCase.Transactions;
+﻿using MediatR;
 using System;
 
 namespace SmartGrocery.UseCase.Customer
 {
-    public class CustomerDetailsDto
+    public class EditCustomerCommand : IRequest<string>
     {
-        public Guid Id { get; set; }
-
         public string LastName { get; set; }
 
         public string FirstName { get; set; }
@@ -16,9 +14,5 @@ namespace SmartGrocery.UseCase.Customer
         public DateTime DateOfBirth { get; set; }
 
         public int Age { get; set; }
-
-        public int Points { get; set; }
-
-        public TransactionDto[] TransactionDtos { get; set; }
     }
 }

@@ -3,7 +3,6 @@ using MediatR;
 using SmartGrocery.Model.Transaction;
 using SmartGrocery.UseCase.DAL;
 using SmartGrocery.UseCase.Product;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,7 +15,7 @@ namespace SmartGrocery.UseCase.Transactions
         private readonly ProductUpdater productUpdater;
 
         public UpdateTransactionCommandhandler(
-            IMapper mapper, 
+            IMapper mapper,
             SmartGroceryContext context,
             ProductUpdater productUpdater)
         {
@@ -53,7 +52,7 @@ namespace SmartGrocery.UseCase.Transactions
                 productUpdater.DeleteExistingProductSnapshot(existingtransaction.Id);
 
                 var productSnapshots = productUpdater.CreateNewListofProductSnapshot(mapper.Map<IEnumerable<UpdatedProductSnapshot>>(command.ProductSnapshotDto), existingtransaction.Id).ToList();
-                foreach(var snapshot in productSnapshots)
+                foreach (var snapshot in productSnapshots)
                 {
                     existingtransaction.ProductSnapshot.Add(snapshot);
                 }

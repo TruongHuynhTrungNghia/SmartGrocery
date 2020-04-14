@@ -48,6 +48,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Customer\CreateCustomerRequest.cs" />
+    <Compile Include="Customer\CustomerContract.cs" />
+    <Compile Include="Customer\CustomerDetailsContract.cs" />
+    <Compile Include="Customer\EditCustomerRequest.cs" />
     <Compile Include="Transaction\CreateTransactionRequest.cs" />
     <Compile Include="BaseProduct\EditProductRequest.cs" />
     <Compile Include="BaseProduct\CreateProductRequest.cs" />

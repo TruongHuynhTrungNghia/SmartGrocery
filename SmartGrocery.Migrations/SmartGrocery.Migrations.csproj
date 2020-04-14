@@ -51,5 +51,11 @@
   <ItemGroup>
     <EmbeddedResource Include="MySqlScript\001_Initialization.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MySqlScript\003_AddTransactionAndProdcutSnapshotRealation.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MySqlScript\004_RemoveTestFromCustomer.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

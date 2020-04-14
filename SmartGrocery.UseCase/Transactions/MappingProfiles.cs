@@ -15,7 +15,7 @@ namespace SmartGrocery.UseCase.Transactions
                 .ForMember(dest => dest.ProductSnapshot, opt => opt.Ignore());
 
             CreateMap<UpdatedProductSnapshot, ProductSnapshot>()
-                .ForMember(dest => dest.NumberOfSoldProduct, opt => opt.MapFrom(src => src.NumberOfSoldProduct))
+                .ForMember(dest => dest.NumberOfSoldProduct, opt => opt.MapFrom(src => src.Amount))
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.ProductId, opt => opt.Ignore())
                 .ForMember(dest => dest.TransactionId, opt => opt.Ignore())
@@ -24,6 +24,8 @@ namespace SmartGrocery.UseCase.Transactions
                 .ForMember(dest => dest.Transaction, opt => opt.Ignore())
                 .ForMember(dest => dest.Status, opt => opt.Ignore())
                 .ForMember(dest => dest.RemainingProduct, opt => opt.Ignore());
+
+            CreateMap<Transaction, TransactionDto>();
         }
     }
 }

@@ -87,5 +87,27 @@ namespace SmartGrocery.WebApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpDelete]
+        [Route]
+        [ResponseType(typeof(string))]
+        public IHttpActionResult Delete (string TransasctionId, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var command = new DeleteTransactionCommand
+                {
+                    TransactionId = TransasctionId
+                };
+
+                var respone = mediator.Send(command, cancellationToken);
+
+                return Ok(respone);
+            }
+            catch (TransactionIsNotExistException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

@@ -3,6 +3,7 @@ using MediatR;
 using SmartGrocery.Model.Transaction;
 using SmartGrocery.UseCase.DAL;
 using System.Linq;
+using System.Data.Entity;
 
 namespace SmartGrocery.UseCase.Transactions
 {
@@ -20,6 +21,7 @@ namespace SmartGrocery.UseCase.Transactions
         public TransactionDto Handle(GetTransactionByIdQuery query)
         {
             var transaction = context.Set<Transaction>()
+                .Include(x => x.ProductSnapshot)
                 .AsNoTracking()
                 .FirstOrDefault(x => x.Id == query.Id);
 
