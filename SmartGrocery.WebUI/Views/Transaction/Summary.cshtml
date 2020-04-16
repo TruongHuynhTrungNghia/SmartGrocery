@@ -1,0 +1,33 @@
+﻿@using SmartGrocery.WebUI.Models.Transactions
+
+@model IEnumerable<TransactionViewModel>
+
+<div class="row form-group">
+	<table class="table table-bordered table-hover" style="background: whitesmoke">
+		<thead>
+			<tr>
+				<th>Transaction Number</th>
+			</tr>
+		</thead>
+		<tbody>
+			@if (Model.Any())
+			{
+				foreach (var transaction in Model)
+				{
+					<tr>
+						<td>@transaction.TransactionNumber</td>
+						<td>@transaction.Amount</td>
+						<td>@transaction.CreatedBy</td>
+						<td>@transaction.CreatedAt</td>
+						<td>@transaction.LastUpdatedBy</td>
+						<td>@transaction.LastUpdatedAt</td>
+					</tr>
+				}
+			}
+			else
+			{
+				<p>There are no result</p>
+			}
+		</tbody>
+	</table>
+</div>

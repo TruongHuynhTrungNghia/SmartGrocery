@@ -23,6 +23,7 @@ namespace SmartGrocery.UseCase.Product
 
             CreateMap<ProductSnapshotDto, UpdatedProductSnapshot>()
                 .ForMember(dest => dest.ProductId, opt => opt.Ignore())
+                .ForMember(dest => dest.ProductNumber, opt => opt.MapFrom(src => src.ProductNumer))
                 .ForMember(dest => dest.Amount, opt => opt.MapFrom(src => src.NumberOfSoldProduct));
         }
     }

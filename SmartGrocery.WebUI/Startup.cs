@@ -10,6 +10,8 @@ namespace SmartGrocery.WebUI
         public void Configuration(IAppBuilder builder)
         {
             ConfigurationCompositionRoot(builder);
+
+            ConfigureAuth(builder);
         }
     }
 }

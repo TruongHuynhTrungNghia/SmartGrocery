@@ -51,6 +51,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Role\Permission.cs" />
     <Compile Include="Role\Role.cs" />
+    <Compile Include="Role\User.cs" />
+    <Compile Include="Role\UserLogin.cs" />
     <Compile Include="Transaction\Transaction.cs" />
   </ItemGroup>
   <ItemGroup />

@@ -141,5 +141,13 @@ namespace SmartGrocery.UseCase.DAL
 
             entity.Property(x => x.ExpiryDate).IsRequired();
         }
+
+        private void MapUserLogin(DbModelBuilder modelBuilder)
+        {
+            var entity = modelBuilder.Entity<UserLogin>()
+                .ToTable("userlogins");
+
+            entity.Property(x => x.UserId).IsRequired();
+        }
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.Web.Http;
 using SmartGrocery.UseCase.Transactions;
 using SmartGrocery.WebApi.Contracts.Transaction;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -26,13 +27,14 @@ namespace SmartGrocery.WebApi.Controllers
 
         [HttpGet]
         [Route]
-        [ResponseType(typeof(TransactionDto))]
+        [ResponseType(typeof(IEnumerable<TransactionDto>))]
         public IHttpActionResult GetTransactions(CancellationToken cancellation)
         {
             var request = new GetAllTransactionsQuery();
             var response = mediator.Send(request, cancellation);
+            var transactionContract = mapper.Map<Transaction[]>(response.Result);
 
-            return Ok(response);
+            return Ok(transactionContract);
         }
 
         [HttpPost]
