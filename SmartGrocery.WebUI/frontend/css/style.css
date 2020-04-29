@@ -28,3 +28,7 @@
 #toast-container > .toast-success:before {
     content: "\f00c";
 }
+
+.form-label {
+    color: red
+}

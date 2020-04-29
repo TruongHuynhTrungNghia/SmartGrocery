@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Newtonsoft.Json;
+using SmartGrocery.WebApi.Contracts.Transaction;
 using SmartGrocery.WebUI.Models.Transactions;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,49 @@ namespace SmartGrocery.WebUI.Controllers
             var viewModel = JsonConvert.DeserializeObject<List<TransactionViewModel>>(contract);
 
             return View("Summary", viewModel);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Details(Guid Id, CancellationToken cancellationToken)
+        {
+            var response = await client.GetAsync($"transactions/{Id}", cancellationToken);
+            response.EnsureSuccessStatusCode();
+
+            var contract = await response.Content.ReadAsStringAsync();
+            var viewModel = JsonConvert.DeserializeObject<TransactionDetailsViewModel>(contract);
+
+            return View("Details", viewModel);
+        }
+
+        [HttpGet]
+        public ActionResult Create()
+        {
+            var viewModel = new TransactionDetailsViewModel();
+
+            return View("Create", viewModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Create(TransactionDetailsViewModel viewModel, CancellationToken cancellationToken)
+        {
+            var request = mapper.Map<CreateTransactionRequest>(viewModel);
+
+            var response = await client.PostAsJsonAsync("transactions", request, cancellationToken);
+            response.EnsureSuccessStatusCode();
+
+            return RedirectToAction("Summary");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Edit (Guid Id, CancellationToken cancellationToken)
+        {
+            var response = await client.GetAsync($"transactions/{Id}", cancellationToken);
+            response.EnsureSuccessStatusCode();
+
+            var contract = await response.Content.ReadAsStringAsync();
+            var viewModel = JsonConvert.DeserializeObject<TransactionDetailsViewModel>(contract);
+
+            return PartialView("_Edit", viewModel);
         }
     }
 }

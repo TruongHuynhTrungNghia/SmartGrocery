@@ -30,7 +30,21 @@ namespace SmartGrocery.WebUI
             bundles.Add(new ScriptBundle("~/bundles/products").Include(
                 "~/frontend/js/products.js",
                 "~/Scripts/jquery-{version}.js",
+                "~/Scripts/toastr.js",
+                "~/Content/toastr.scss"));
+
+            bundles.Add(new ScriptBundle("~/bundles/transactions").Include(
+                "~/frontend/js/transactions.js",
+                "~/Scripts/jquery-{version}.js",
                 "~/Scripts/toastr.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/customers").Include(
+                "~/frontend/js/customers.js",
+                "~/Scripts/jquery-{version}.js",
+                "~/Scripts/toastr.js",
+                "~/Content/toastr.scss",
+                "~/Content/autocomplete.scss",
+                "~/Scripts/autocomplete.js"));
         }
     }
 }

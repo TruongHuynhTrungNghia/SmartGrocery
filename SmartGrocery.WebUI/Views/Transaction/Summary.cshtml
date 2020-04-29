@@ -1,33 +1,47 @@
 ﻿@using SmartGrocery.WebUI.Models.Transactions
 
 @model IEnumerable<TransactionViewModel>
-
-<div class="row form-group">
-	<table class="table table-bordered table-hover" style="background: whitesmoke">
-		<thead>
-			<tr>
-				<th>Transaction Number</th>
-			</tr>
-		</thead>
-		<tbody>
-			@if (Model.Any())
-			{
-				foreach (var transaction in Model)
+<div class="container">
+	<a class="btn btn-primary" href="/Transaction/Create">Create</a>
+	<div class="row form-group">
+		<table class="table table-bordered table-hover table-dark" style="background: whitesmoke">
+			<thead class="thead-dark">
+				<tr>
+					<th>Transaction Number</th>
+					<th>Amount</th>
+					<th>Created By</th>
+					<th>Created At</th>
+					<th>Last Updated By</th>
+					<th>Last Updated At</th>
+				</tr>
+			</thead>
+			<tbody>
+				@if (Model.Any())
+				{
+					foreach (var transaction in Model)
+					{
+						<tr>
+							<td><a href="/Transaction/Details/@transaction.TransactionId" style="color:red">@transaction.TransactionNumber</a></td>
+							<td>@transaction.Amount</td>
+							<td>@transaction.CreatedBy</td>
+							<td>@transaction.CreatedAt</td>
+							<td>@transaction.LastUpdatedBy</td>
+							<td>@transaction.LastUpdatedAt</td>
+						</tr>
+					}
+				}
+				else
 				{
 					<tr>
-						<td>@transaction.TransactionNumber</td>
-						<td>@transaction.Amount</td>
-						<td>@transaction.CreatedBy</td>
-						<td>@transaction.CreatedAt</td>
-						<td>@transaction.LastUpdatedBy</td>
-						<td>@transaction.LastUpdatedAt</td>
+						<td>There are no result</td>
 					</tr>
 				}
-			}
-			else
-			{
-				<p>There are no result</p>
-			}
-		</tbody>
-	</table>
+			</tbody>
+		</table>
+	</div>
 </div>
+
+@Scripts.Render("~/bundles/transactions")
+<script type="text/javascript">
+	initilize();
+</script>

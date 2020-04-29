@@ -55,7 +55,7 @@ namespace SmartGrocery.WebUI.Controllers
 
         [HttpGet]
         public async Task<ActionResult> Edit(Guid id, CancellationToken cancellation)
-         {
+        {
             var response = await client.GetAsync($"products/{id}", cancellation);
             
             response.EnsureSuccessStatusCode();
@@ -85,6 +85,19 @@ namespace SmartGrocery.WebUI.Controllers
             response.EnsureSuccessStatusCode();
 
             return RedirectToAction("Product");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetProductByNumber(string productNumber, CancellationToken cancellationToken)
+        {
+            var response = await client.GetAsync($"products/transactions/{productNumber}", cancellationToken);
+
+            response.EnsureSuccessStatusCode();
+
+            var contract = await response.Content.ReadAsStringAsync();
+            var viewModel = JsonConvert.DeserializeObject<ProductSnapshotViewModel>(contract);
+
+            return Json(new { result = viewModel }, JsonRequestBehavior.AllowGet);
         }
     }
 }

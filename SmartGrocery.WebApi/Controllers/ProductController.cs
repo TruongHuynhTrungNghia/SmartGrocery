@@ -44,7 +44,7 @@ namespace SmartGrocery.WebApi.Controllers
         [Route("{id}")]
         public async Task<IHttpActionResult> GetProductById(Guid id, CancellationToken cancellationToken)
         {
-            var request = new GetBaseproductByIdQuery
+            var request = new GetBaseProductByIdQuery
             {
                 ProductId = id
             };
@@ -110,6 +110,22 @@ namespace SmartGrocery.WebApi.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpGet]
+        [Route("transactions/{productNumber}")]
+        public async Task<IHttpActionResult> GetProductByItNumber(string productNumber, CancellationToken cancellationToken)
+        {
+            var request = new GetProductByNumberQuery
+            {
+                ProductNumber = productNumber
+            };
+
+            var productSnapshotDto = await mediator.Send(request, cancellationToken);
+
+            var contract = mapper.Map<ProductContract>(productSnapshotDto);
+
+            return Ok(contract);
         }
     }
 }

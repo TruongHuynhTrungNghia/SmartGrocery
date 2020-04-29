@@ -17,6 +17,6 @@ namespace SmartGrocery.WebApi.Contracts.Customer
 
         public int Points { get; set; }
 
-        public TransactionContract[] TransactionContracts { get; set; }
+        public TransactionDetails[] TransactionContracts { get; set; }
     }
 }

@@ -14,5 +14,7 @@ namespace SmartGrocery.UseCase.Customer
         public DateTime DateOfBirth { get; set; }
 
         public int Age { get; set; }
+
+        public int Points { get; set; }
     }
 }

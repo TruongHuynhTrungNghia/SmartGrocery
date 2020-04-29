@@ -2,7 +2,7 @@
 
 namespace SmartGrocery.UseCase.Transactions
 {
-    public class GetAllTransactionsQuery : IRequest<TransactionDto>
+    public class GetAllTransactionsQuery : IRequest<TransactionDto[]>
     {
     }
 }

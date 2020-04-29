@@ -38,5 +38,7 @@ namespace SmartGrocery.Model.Product
         {
             this.Quantity = quantity;
         }
+
+        public decimal CalculateTotalPrice(int numberOfProduct) => Price * numberOfProduct;
     }
 }

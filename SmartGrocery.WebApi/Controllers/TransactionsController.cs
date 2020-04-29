@@ -27,7 +27,6 @@ namespace SmartGrocery.WebApi.Controllers
 
         [HttpGet]
         [Route]
-        [ResponseType(typeof(IEnumerable<TransactionDto>))]
         public IHttpActionResult GetTransactions(CancellationToken cancellation)
         {
             var request = new GetAllTransactionsQuery();
@@ -35,6 +34,22 @@ namespace SmartGrocery.WebApi.Controllers
             var transactionContract = mapper.Map<Transaction[]>(response.Result);
 
             return Ok(transactionContract);
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        [ResponseType(typeof(TransactionDetails))]
+        public IHttpActionResult GetTransactionyById(Guid id, CancellationToken cancellationToken)
+        {
+            var query = new GetTransactionByIdQuery
+            {
+                Id = id
+            };
+
+            var response = mediator.Send(query, cancellationToken);
+            var contract = mapper.Map<TransactionDetails>(response.Result);
+
+            return Ok(contract);
         }
 
         [HttpPost]
@@ -53,22 +68,6 @@ namespace SmartGrocery.WebApi.Controllers
             {
                 return BadRequest(ex.Message);
             }
-        }
-
-        [HttpGet]
-        [Route("{id}")]
-        [ResponseType(typeof(TransactionContract))]
-        public IHttpActionResult GetTransactionyById(Guid id, CancellationToken cancellationToken)
-        {
-            var query = new GetTransactionByIdQuery
-            {
-                Id = id
-            };
-
-            var response = mediator.Send(query, cancellationToken);
-            var contract = mapper.Map<TransactionContract>(response);
-
-            return Ok(contract);
         }
 
         [HttpPut]

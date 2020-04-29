@@ -1,0 +1,42 @@
+﻿@using SmartGrocery.WebUI.Models.Customer
+
+@model CustomerViewModel
+
+<div class="container">
+	<h3 style="color:red;font-weight:bold">@Model.CustomerId</h3>
+
+	<div class="row form-group">
+		<div class="col-md-3">
+			@Html.LabelFor(m => m.CustomerFullName, new { @class = "form-label" })
+			<p>@Model.CustomerFullName</p>
+		</div>
+		<div class="col-md-3 col-md-offset-1">
+			@Html.LabelFor(m => m.CustomerId, new { @class = "form-label" })
+			<p>@Model.CustomerId</p>
+		</div>
+	</div>
+	<div class="row form-group">
+		<div class="col-md-3">
+			@Html.LabelFor(m => m.DateOfBirth, new { @class = "form-label" })
+			<p>@Model.DateOfBirth</p>
+		</div>
+		<div class="col-md-3 col-md-offset-1">
+			@Html.LabelFor(m => m.Age, new { @class = "form-label" })
+			<p>@Model.Age</p>
+		</div>
+		<div class="col-md-3 col-md-offset-1">
+			@Html.LabelFor(m => m.Points, new { @class = "form-label" })
+			<p>@Model.Points</p>
+		</div>
+	</div>
+	<div class="row form-group">
+		<div class="col-md-12">
+			<button class="btn btn-primary col-md-1" id="edit-customer" data-customer-number="@Model.CustomerId">Edit</button>
+		</div>
+	</div>
+</div>
+
+@Scripts.Render("~/bundles/customers")
+<script type="text/javascript">
+	initilize();
+</script>

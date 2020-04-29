@@ -7,18 +7,18 @@ using System.Linq;
 
 namespace SmartGrocery.UseCase.Product
 {
-    public class GetBaseproductByIdQueryHandler : IRequestHandler<GetBaseproductByIdQuery, BaseProductDto>
+    public class GetBaseProductByIdQueryHandler : IRequestHandler<GetBaseProductByIdQuery, BaseProductDto>
     {
         private readonly SmartGroceryContext context;
         private readonly IMapper mapper;
 
-        public GetBaseproductByIdQueryHandler(SmartGroceryContext context, IMapper mapper)
+        public GetBaseProductByIdQueryHandler(SmartGroceryContext context, IMapper mapper)
         {
             this.context = context;
             this.mapper = mapper;
         }
 
-        public BaseProductDto Handle(GetBaseproductByIdQuery query)
+        public BaseProductDto Handle(GetBaseProductByIdQuery query)
         {
             var product = context.Set<BaseProduct>().SingleOrDefault(x => x.Id == query.ProductId);
 

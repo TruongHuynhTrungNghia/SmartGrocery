@@ -1,0 +1,96 @@
+﻿@using SmartGrocery.WebUI.Models.Transactions
+
+@model TransactionDetailsViewModel
+
+<div class="modal fade" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		@using (Ajax.BeginForm("Edit", "Transaction", null, new AjaxOptions()
+		{
+			HttpMethod = "POST",
+			OnSuccess = "onSuccessEditTransaction",
+			OnFailure = "onFailueEditTransaction",
+		}, new { @class = "modal-content form-horizontal"}))
+		{
+			<div class="modal-header">
+				<div class="row">
+					<div class="col-md-11">
+						<h4 class="modal-title"> Create New Transaction</h4>
+					</div>
+					<div class="col-md-1">
+						<button class="close" data-dismiss="modal">&times;</button>
+					</div>
+				</div>
+			</div>
+			<div class="modal-body">
+				<div class="row form-group">
+					<div class="col-md-4 required">
+						@Html.LabelFor(x => x.TransactionNumber, new { @class = "form-label" })
+						@Html.TextBoxFor(x => x.TransactionNumber, new { @class = "form-control" })
+						@Html.ValidationMessageFor(x => x.TransactionNumber)
+					</div>
+					<div class="col-md-offset-1 col-md-4">
+						@Html.LabelFor(x => x.CreatedAt, new { @class = "form-label" })
+						<p>@Model.CreatedAt</p>
+					</div>
+				</div>
+				<div class="row form-group">
+					<div class="col-md-4">
+						@Html.LabelFor(x => x.Amount, new { @class = "form-label" })
+						@Html.TextBoxFor(x => x.Amount, new { @class = "form-control" })
+					</div>
+				</div>
+				<div class="row form-group">
+					<div class="col-md-12">
+						<table id="products-table" class="table order-list table-bordered">
+							<thead>
+								<tr>
+									<td class="col-sm-4">Product Number</td>
+									<td class="col-sm-3">Product Name</td>
+									<td class="col-md-2">Amount</td>
+									<td class="col-md-2">Cost</td>
+									<td class="col-md-1"></td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									@for (var i = 0; i < Model.ProductSnapshots.Length; i ++)
+									{
+										<td class="input-group">
+											@Html.TextBoxFor(x => x.ProductSnapshots[i].ProductNumber, new { @class = "form-control" })
+											<span class="input-group-addon clickable search-by-product-number"><i class="glyphicon glyphicon-search" /></span>
+										</td>
+										<td>
+											@Html.TextBoxFor(x => x.ProductSnapshots[i].ProductName, new { @class = "form-control" })
+										</td>
+										<td>
+											@Html.TextBoxFor(x => x.ProductSnapshots[i].NumberOfSoldProduct, new { @class = "form-control" })
+										</td>
+										<td>
+											@Html.TextBoxFor(x => x.ProductSnapshots[i].Price, new { @class = "form-control" })
+										</td>
+										<td>
+											<button  class="deleteRow"><i class="glyphicon glyphicon-trash center-block"></i></button>
+										</td>
+									}
+								</tr>
+							</tbody>
+							<tfoot>
+								<tr>
+									<td colspan="5" style="text-align: left;">
+										<input type="button" class="btn btn-sm btn-block " id="addrow" value="Add Row" />
+									</td>
+								</tr>
+								<tr>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="submit" class="btn btn-success">Confirm</button>
+				<button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+			</div>
+		}
+	</div>
+</div>

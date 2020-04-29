@@ -1,1 +1,96 @@
-﻿
+﻿@using SmartGrocery.WebUI.Models.Transactions
+
+@model TransactionDetailsViewModel
+
+<div class="container">
+	<h3 style="color:red;font-weight:bold">@Model.TransactionNumber</h3>
+
+	<div class="form-group">
+		<div class="row">
+			<div class="col-md-3">
+				@Html.LabelFor(x => x.TransactionNumber, new { @class = "form-label" })
+				<p>@Model.TransactionNumber</p>
+			</div>
+			<div class="col-md-3 col-md-offset-1">
+				@Html.LabelFor(x => x.Amount, new { @class = "form-label" })
+				<p>@Model.Amount</p>
+			</div>
+			<div class="col-md-3 col-md-offset-1">
+				@Html.LabelFor(x => x.CustomerName, new { @class = "form-label" })
+				<p>@Model.CustomerName</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3">
+				@Html.LabelFor(x => x.CreatedBy, new { @class = "form-label" })
+				<p>@Model.CreatedBy</p>
+			</div>
+			<div class="col-md-3 col-md-offset-1">
+				@Html.LabelFor(x => x.CreatedAt, new { @class = "form-label" })
+				<p>@Model.CreatedAt</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3">
+				@Html.LabelFor(x => x.LastUpdatedBy, new { @class = "form-label" })
+				<p>@Model.LastUpdatedBy</p>
+			</div>
+			<div class="col-md-3 col-md-offset-1">
+				@Html.LabelFor(x => x.LastUpdatedAt, new { @class = "form-label" })
+				<p>@Model.LastUpdatedAt</p>
+			</div>
+		</div>
+		<div class="row">
+			<div data-toggle="collapse" data-target="#product-snapshot" class="form-group">
+				<button><span class="glyphicon glyphicon-plus" aria-hidden="false" /></button>
+				@Html.LabelFor(x => x.ProductSnapshots, new { @class = "form-label" })
+			</div>
+			<div id="product-snapshot" class="collapse">
+				<table class="table table-bordered table-hover" style="background: whitesmoke">
+					<thead>
+						<tr>
+							<th>Product Number</th>
+							<th>Number Off Sold Product</th>
+							<th>Price</th>
+						</tr>
+					</thead>
+					<tbody>
+						@if (Model.ProductSnapshots.Any())
+						{
+							foreach (var productSnapshot in Model.ProductSnapshots)
+							{
+								<tr>
+									<td>@productSnapshot.ProductNumber</td>
+									<td>@productSnapshot.NumberOfSoldProduct</td>
+									<td>@productSnapshot.Price</td>
+								</tr>
+							}
+						}
+						else
+						{
+							<tr>
+								<td colspan="3">There are no result.</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="row form-group">
+		<div class="col-md-12">
+			<button class="btn btn-primary col-md-1" id="edit-transaction" data-transaction-id="@Model.TransactionId">Edit</button>
+		</div>
+	</div>
+</div>
+
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/transactions")
+<title>jQuery UI Autocomplete - Default functionality</title>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript">
+	initilize();
+</script>

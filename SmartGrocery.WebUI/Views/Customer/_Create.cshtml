@@ -1,0 +1,69 @@
+﻿@using SmartGrocery.WebUI.Models.Customer
+
+@model CreateCustomerViewModel
+
+<div class="modal fade" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		@using (Ajax.BeginForm("Create", "Customer", null, new AjaxOptions()
+		{
+			HttpMethod = "POST",
+			OnSuccess = "onSuccessCreateCustomer",
+			OnFailure = "onFailueCreateCustomer",
+		}, new { @class = "modal-content form-horizontal" }))
+		{
+			<div class="modal-header">
+				<div class="row">
+					<div class="col-md-11">
+						<h4 class="modal-title"> Create New Customer</h4>
+					</div>
+					<div class="col-md-1">
+						<button class="close" data-dismiss="modal">&times;</button>
+					</div>
+				</div>
+			</div>
+			<div class="modal-body">
+				<div class="container">
+					<div class="row form-group">
+						<div class="col-md-3 required">
+							@Html.LabelFor(m => m.CustomerFirstName, new { @class = "form-label" })
+							@Html.TextBoxFor(m => m.CustomerFirstName, new { @class = "form-control" })
+							@Html.ValidationMessageFor(m => m.CustomerFirstName)
+						</div>
+						<div class="col-md-3 col-md-offset-1 required">
+							@Html.LabelFor(m => m.CustomerLastName, new { @class = "form-label" })
+							@Html.TextBoxFor(m => m.CustomerLastName, new { @class = "form-control" })
+							@Html.ValidationMessageFor(m => m.CustomerLastName)
+						</div>
+					</div>
+					<div class="row form-group">
+						<div class="col-md-3 required">
+							@Html.LabelFor(m => m.DateOfBirth, new { @class = "form-label" })
+							@Html.TextBoxFor(m => m.DateOfBirth, new { @class = "form-control" })
+							@Html.ValidationMessageFor(m => m.DateOfBirth)
+						</div>
+						<div class="col-md-3 col-md-offset-1 required">
+							@Html.LabelFor(m => m.Age, new { @class = "form-label" })
+							@Html.TextBoxFor(m => m.Age, new { @class = "form-control" })
+							@Html.ValidationMessageFor(m => m.Age)
+						</div>
+					</div>
+					<div class="row form-group">
+						<div class="col-md-3">
+							@Html.LabelFor(m => m.Points, new { @class = "form-label" })
+							@Html.TextBoxFor(m => m.Points, new { @class = "form-control" })
+						</div>
+						<div class="col-md-3 col-md-offset-1 required">
+							@Html.LabelFor(m => m.CustomerId, new { @class = "form-label" })
+							@Html.TextBoxFor(m => m.CustomerId, new { @class = "form-control" })
+							@Html.ValidationMessageFor(m => m.CustomerId)
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="submit" class="btn btn-success">Confirm</button>
+				<button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+			</div>
+		}
+	</div>
+</div>

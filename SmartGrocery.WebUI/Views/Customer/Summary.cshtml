@@ -1,0 +1,49 @@
+﻿@using SmartGrocery.WebUI.Models.Customer
+
+@model IEnumerable<CustomerViewModel>
+
+<div class="container">
+	<div class="row form-group">
+		<div class="col-md-12">
+			<button class="btn btn-success col-md-1" id="create-customer">Create</button>
+		</div>
+	</div>
+
+	<div class="row form-group">
+		<table class="table tale-bordered table-hover" style="background: whitesmoke">
+			<thead class="thead-dark">
+				<tr>
+					<th>Customer Number</th>
+					<th>Customer Name</th>
+					<th>Date of Birth</th>
+					<th>Age</th>
+					<th>Points</th>
+				</tr>
+			</thead>
+			<tbody>
+				@if (Model.Any())
+				{
+					foreach (var customer in Model)
+					{
+						<tr>
+							<td><a href="/Customer/Details?customerNumber=@customer.CustomerId" style="color:red">@customer.CustomerId</a></td>
+							<td>@customer.CustomerFullName</td>
+							<td>@customer.DateOfBirth</td>
+							<td>@customer.Age</td>
+							<td>@customer.Points</td>
+						</tr>
+					}
+				}
+				else
+				{
+					<tr><p>There are no result</p></tr>
+				}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+@Scripts.Render("~/bundles/customers")
+<script type="text/javascript">
+	initilize();
+</script>

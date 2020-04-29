@@ -23,12 +23,12 @@ namespace SmartGrocery.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("id")]
-        public IHttpActionResult GetCustomerById(Guid id, CancellationToken cancellationToken)
+        [Route("{customerNumber}")]
+        public IHttpActionResult GetCustomerById(string customerNumber, CancellationToken cancellationToken)
         {
             var request = new GetCustomerByIdQuery
             {
-                CustomerId = id
+                CustomerId = customerNumber
             };
 
             var response = mediator.Send(request, cancellationToken);
@@ -55,7 +55,6 @@ namespace SmartGrocery.WebApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
 
         [HttpPut]
         [Route]

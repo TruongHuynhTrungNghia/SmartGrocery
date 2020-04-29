@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
 using SmartGrocery.UseCase.DAL;
-using System.Data.Entity;
 using System.Linq;
 using Customerbase = SmartGrocery.Model.Customer.Customer;
 
@@ -22,7 +21,7 @@ namespace SmartGrocery.UseCase.Customer
         {
             var customer = context.Set<Customerbase>()
                 .AsNoTracking()
-                .FirstOrDefault(x => x.Id == query.CustomerId);
+                .FirstOrDefault(x => x.CustomerId == query.CustomerId);
 
             var customerDto = mapper.Map<CustomerDetailsDto>(customer);
 

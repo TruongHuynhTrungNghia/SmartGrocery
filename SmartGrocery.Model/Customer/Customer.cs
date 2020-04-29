@@ -27,7 +27,10 @@ namespace SmartGrocery.Model.Customer
             CustomerId = customer.CustomerId;
             DateOfBirth = customer.DateOfBirth;
             Age = customer.Age;
+            Points = customer.Points;
         }
+
+        public string CustomerFullName => $"{LastName} {FirstName}";
     }
 
     public class UpdatedCustomer
@@ -41,5 +44,7 @@ namespace SmartGrocery.Model.Customer
         public DateTime DateOfBirth { get; set; }
 
         public int Age { get; set; }
+
+        public int Points { get; set; }
     }
 }

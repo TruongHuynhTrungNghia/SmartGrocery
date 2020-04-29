@@ -137,14 +137,16 @@
     <Compile Include="Product\EditProductCommnandHandler.cs" />
     <Compile Include="Product\GetAllProductsQuery.cs" />
     <Compile Include="Product\GetAllProductsQueryHandler.cs" />
-    <Compile Include="Product\GetBaseproductByIdQuery.cs" />
-    <Compile Include="Product\GetBaseproductByIdQueryHandler.cs" />
+    <Compile Include="Product\GetBaseProductByIdQuery.cs" />
+    <Compile Include="Product\GetBaseProductByIdQueryHandler.cs" />
     <Compile Include="DAL\Migrations\201910081712503_Initialization.cs" />
     <Compile Include="DAL\Migrations\201910081712503_Initialization.Designer.cs">
       <DependentUpon>201910081712503_Initialization.cs</DependentUpon>
     </Compile>
     <Compile Include="DAL\Migrations\Configuration.cs" />
     <Compile Include="DAL\SmartGroceryContext.cs" />
+    <Compile Include="Product\GetProductByNumberQuery.cs" />
+    <Compile Include="Product\GetProductByNumberQueryHandler.cs" />
     <Compile Include="Product\IRequestHandler.cs" />
     <Compile Include="Product\MappingProfile.cs" />
     <Compile Include="Product\ProductSnapshotDto.cs" />

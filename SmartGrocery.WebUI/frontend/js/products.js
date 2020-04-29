@@ -45,7 +45,7 @@ function registerEditProduct() {
                 });
             },
             error: function () {
-                toastr.error("There are some error while loading data to edit new product.");
+                toastr.error("There are some error while loading data to edit product.");
             }
         });
     });

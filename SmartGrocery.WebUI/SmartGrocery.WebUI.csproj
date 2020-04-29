@@ -291,6 +291,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
@@ -301,8 +302,13 @@
     <Compile Include="Models\Authentication\AccountViewModels.cs" />
     <Compile Include="Models\Authentication\IdentityModels.cs" />
     <Compile Include="Models\Authentication\ManageViewModels.cs" />
+    <Compile Include="Models\Customer\CreateCustomerViewModel.cs" />
+    <Compile Include="Models\Customer\CustomerViewModel.cs" />
+    <Compile Include="Models\Customer\MappingProfile.cs" />
     <Compile Include="Models\Products\ProductMappingProfile.cs" />
     <Compile Include="Models\Products\ProductBaseViewModel.cs" />
+    <Compile Include="Models\Products\ProductSnapshotViewModel.cs" />
+    <Compile Include="Models\Transactions\MappingProfile.cs" />
     <Compile Include="Models\Transactions\TransactionDetailsViewModel.cs" />
     <Compile Include="Models\Transactions\TransactionViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -319,9 +325,12 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="frontend\css\style.css" />
+    <Content Include="frontend\js\customers.js" />
+    <Content Include="frontend\js\transactions.js" />
     <Content Include="frontend\js\products.js" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\autocomplete.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Compile Include="App_Start\Startup.CompositionRoot.cs" />
@@ -330,6 +339,7 @@
     <Content Include="Views\Web.config" />
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
+    <Content Include="Content\autocomplete.scss" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -376,6 +386,13 @@
     <Content Include="Views\Manage\SetPassword.cshtml" />
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Transaction\Create.cshtml" />
+    <Content Include="Views\Transaction\_ProductSnapshot.cshtml" />
+    <Content Include="Views\Customer\Summary.cshtml" />
+    <Content Include="Views\Customer\Details.cshtml" />
+    <Content Include="Views\Customer\_Create.cshtml" />
+    <Content Include="Views\Customer\_Edit.cshtml" />
+    <Content Include="Views\Transaction\_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
