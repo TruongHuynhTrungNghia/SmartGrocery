@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Newtonsoft.Json;
 using SmartGrocery.WebApi.Contracts.Transaction;
+using SmartGrocery.WebUI.Models.Products;
 using SmartGrocery.WebUI.Models.Transactions;
 using System;
 using System.Collections.Generic;
@@ -53,6 +54,8 @@ namespace SmartGrocery.WebUI.Controllers
         {
             var viewModel = new TransactionDetailsViewModel();
 
+            viewModel.CreateNewProductSnapshot();
+
             return View("Create", viewModel);
         }
 
@@ -77,6 +80,12 @@ namespace SmartGrocery.WebUI.Controllers
             var viewModel = JsonConvert.DeserializeObject<TransactionDetailsViewModel>(contract);
 
             return PartialView("_Edit", viewModel);
+        }
+
+        [HttpGet]
+        public ActionResult GetNewProductSnapshot()
+        {
+            return PartialView("EditorTemplates/_ProductSnapshot", new ProductSnapshotViewModel());
         }
     }
 }

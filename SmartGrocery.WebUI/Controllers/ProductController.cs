@@ -94,8 +94,9 @@ namespace SmartGrocery.WebUI.Controllers
 
             response.EnsureSuccessStatusCode();
 
-            var contract = await response.Content.ReadAsStringAsync();
-            var viewModel = JsonConvert.DeserializeObject<ProductSnapshotViewModel>(contract);
+            var json = await response.Content.ReadAsStringAsync();
+            var contract = JsonConvert.DeserializeObject<ProductContract>(json);
+            var viewModel = mapper.Map<ProductSnapshotViewModel>(contract);
 
             return Json(new { result = viewModel }, JsonRequestBehavior.AllowGet);
         }

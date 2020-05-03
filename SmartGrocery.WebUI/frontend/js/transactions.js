@@ -4,6 +4,10 @@ function initilize() {
     ConfirmedDeleteTransaction();
     AddNewCellInTable();
     SearchNewProduct();
+    calculatMoneyBaseOnAmount();
+    calculateTotalPrice();
+    $('#ProductSnapshots_0__NumberOfSoldProduct').addClass('amount-input');
+    $('#ProductSnapshots_0__Price').addClass('')
 }
 
 function registerEditTransaction() {
@@ -71,33 +75,52 @@ function removeModalAfterClosing($modal) {
 }
 
 function AddNewCellInTable() {
-    var counter = 1;
-
-    $('#add-row').on('click', function () {
-        var newRow = $("<tr>");
-        var cols = "";
-
-        cols += '<td class="input-group"><input class="form-control" id="ProductSnapshots_' + counter + '__ProductNumer" name="ProductSnapshots[' + counter + '].ProductNumer" type="text" value=""><span class="input-group-addon clickable search-by-product-number"><i class="glyphicon glyphicon-search"></i></span></td>';
-        cols += '<td><input class="form-control" id = "ProductSnapshots_' + counter + '__ProductName" name = "ProductSnapshots[' + counter + '].ProductName" type = "text" value = "" ></td >';
-        cols += '<td><input class="form-control" data-val="true" data-val-number="The field NumberOfSoldProduct must be a number." id = "ProductSnapshots_' + counter + '__NumberOfSoldProduct" name = "ProductSnapshots[' + counter + '].NumberOfSoldProduct" type = "text" value = "" ></td >';
-        cols += '<td><input class="form-control" data-val="true" data-val-number="The field Price must be a number." id = "ProductSnapshots_' + counter + '__Price" name = "ProductSnapshots[' + counter + '].Price" type = "text" value = "" ></td >'
-        cols += '<td><button class="deleteRow btn btn-danger"><i class="glyphicon glyphicon-trash center-block"></i></button></td >';
-        newRow.append(cols);
-        $("table.order-list").append(newRow);
-        counter++;
+    $('#add-row').on('click', function (e) {
+        $.ajax({
+            type: 'GET',
+            url: '/Transaction/GetNewProductSnapshot',
+            success: function (result) {
+                var newRow = $(result);
+                var container = $('#products-table').find('tbody');
+                container.append(newRow);
+                updateNewRowIdandName(newRow, container);
+            }
+        });
     });
 
-    $(document).on('click', '.deleteRow',function (event) {
-        console.log(event);
+    $(document).on('click', '.deleteRow', function (event) {
+        let container = $(this).closest('tbody');
         $(this).closest('tr').remove();
-        counter -= 1
+
+        let allRows = container.find('tr');
+        for (let i = 0; i < allRows.length; i++) {
+            let row = $(allRows[i]);
+
+            row.find('input').each(function () {
+                let currentId = $(this).attr('name').split('.')[1];
+
+                $(this).attr('id', 'ProductSnapshots_' + i + '__' + currentId);
+                $(this).attr('name', 'ProductSnapshots[' + i + '].' + currentId);
+            });
+        }
+    });
+}
+
+function updateNewRowIdandName(newRow, container) {
+    let indexOfNewProduct = container.find('tr').length - 1;
+
+    newRow.find('input').each(function () {
+        let currentId = $(this).attr('id');
+
+        $(this).attr('id', 'ProductSnapshots_' + indexOfNewProduct + '__' + currentId);
+        $(this).attr('name', 'ProductSnapshots[' + indexOfNewProduct + '].' + currentId);
     });
 }
 
 function SearchNewProduct() {
     $(document).on("click", ".search-by-product-number", function (event) {
         console.log(event.target);
-        let $productNumberId = $('.search-by-product-number').siblings('input');
+        let $productNumberId = $(this).siblings('input');
 
         if ($productNumberId.val().length < 3) {
             toastr.warning("Please input at least 3 characters.");
@@ -126,29 +149,36 @@ function SearchProductByItNumber($productNumberId) {
 }
 
 function populateProductInfo($productNumberId, result) {
+    let prefix = $productNumberId.attr('name').split('.')[0];
+
     $.each(result.result, function (key, value) {
         console.log(key + ' ' + value);
         console.log($productNumberId.attr('id'));
+        $('input[name="' + prefix + '.' + key + '"]').val(value);
     });
 }
 
-//function EnableAutoComplete($productNumberId, data) {
-//    $($productNumberId).autocomplete({
-//        source: function (request, response) {
-//            response($.map(data.result, function (val, item) {
-//                return {
-//                    label: val.ProductName,
-//                    value: val.ProductNumber,
-//                    ProductInfo: val
-//                };
-//            }));
-//        },
-//        select: function (event, ui) {
+function calculatMoneyBaseOnAmount() {
+    $(document).on('input', ".amount-input", function () {
+        let currentAmount = parseFloat($(this).val());
 
-//        }
-//    }).focus(function () {
-//        $(this).autocomplete('search', $productNumberId.val());
-//    });
+        if (!isNaN(currentAmount)) {
+            let currentPrice = parseFloat($(this).parent().closest('tr').find('.price-input').val());
 
-//    $productNumberId.focus();
-//}
+            $(this).parent().closest('tr').find('.price-input').val(currentAmount * currentPrice);
+            $(this).parent().closest('tr').find('.price-input').trigger('change');
+        }
+    });
+}
+
+function calculateTotalPrice() {
+    $('#calculate-total-price').on('click', function () {
+        let total = 0;
+
+        $(document).find('.price-input').each(function (index, value) {
+            total += parseFloat(value.value);
+        });
+
+        $('#Amount').val(total);
+    })
+}

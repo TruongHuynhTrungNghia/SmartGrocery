@@ -2,7 +2,7 @@
 {
     public class ProductSnapshotDto
     {
-        public string ProductNumer { get; set; }
+        public string ProductNumber { get; set; }
 
         public int NumberOfSoldProduct { get; set; }
 

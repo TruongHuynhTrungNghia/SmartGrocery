@@ -2,85 +2,91 @@
 
 @model TransactionDetailsViewModel
 
-@using (Ajax.BeginForm("Create", "Transaction", null, new AjaxOptions()
+@using (Html.BeginForm("Create", "Transaction", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-	HttpMethod = "POST",
-	OnSuccess = "onSuccessCreateTransaction",
-	OnFailure = "onFailueCreateTransaction",
-}, new { @class = "form-horizontal transaction-form" }))
-{
-	<div class="container">
-		<div class="row form-group">
-			<div class="col-md-4 required">
-				@Html.LabelFor(x => x.TransactionNumber, new { @class = "form-label" })
-				@Html.TextBoxFor(x => x.TransactionNumber, new { @class = "form-control" })
-				@Html.ValidationMessageFor(x => x.TransactionNumber)
-			</div>
-			<div class="col-md-offset-1 col-md-4">
-				@Html.LabelFor(x => x.CreatedAt, new { @class = "form-label" })
-				<p>@Model.CreatedAt</p>
-			</div>
-		</div>
-		<div class="row form-group">
-			<div class="col-md-4">
-				@Html.LabelFor(x => x.Amount, new { @class = "form-label" })
-				@Html.TextBoxFor(x => x.Amount, new { @class = "form-control" })
-			</div>
-		</div>
-		<div class="row form-group">
-			<div class="col-md-12">
-				<table id="products-table" class="table order-list table-bordered">
-					<thead>
-						<tr>
-							<td class="col-sm-3">Product Number</td>
-							<td class="col-sm-3">Product Name</td>
-							<td class="col-md-2">Amount</td>
-							<td class="col-md-2">Cost</td>
-							<td class="col-md-1"></td>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td class="input-group">
-								@Html.TextBoxFor(x => x.ProductSnapshots[0].ProductNumber, new { @class = "form-control" })
-								<span class="input-group-addon clickable search-by-product-number">
-									<i class="input-group glyphicon glyphicon-search"></i>
-								</span>
-							</td>
-							<td>
-								@Html.TextBoxFor(x => x.ProductSnapshots[0].ProductName, new { @class = "form-control" })
-							</td>
-							<td>
-								@Html.TextBoxFor(x => x.ProductSnapshots[0].NumberOfSoldProduct, new { @class = "form-control" })
-							</td>
-							<td>
-								@Html.TextBoxFor(x => x.ProductSnapshots[0].Price, new { @class = "form-control" })
-							</td>
-							<td>
-								<button class="deleteRow btn btn-danger"><i class="glyphicon glyphicon-trash center-block"></i></button>
-							</td>
-						</tr>
-					</tbody>
-					<tfoot>
-						<tr>
-							<td colspan="5" style="text-align: left;">
-								<input type="button" class="btn btn-sm btn-block " id="add-row" value="Add Row" />
-							</td>
-						</tr>
-						<tr>
-						</tr>
-					</tfoot>
-				</table>
-			</div>
-		</div>
+    <div class="section-container">
+        <div class="row">
+            <div class="col-md-4 form-group required">
+                @Html.LabelFor(x => x.TransactionNumber, new { @class = "form-label" })
+                @Html.TextBoxFor(x => x.TransactionNumber, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.TransactionNumber)
+            </div>
+            <div class="col-md-offset-1 col-md-4">
+                @Html.LabelFor(x => x.CreatedAt, new { @class = "form-label" })
+                <p>@Model.CreatedAt</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Amount, new { @class = "form-label" })
+                    <div class="input-group">
+                        @Html.TextBoxFor(x => x.Amount, new { @class = "form-control" })
+                        <span class="input-group-addon clickable" id="calculate-total-price">
+                            <i class="glyphicon glyphicon-usd"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 form-group">
+                <table id="products-table" class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="col-sm-3">Product Number</th>
+                            <th class="col-sm-3">Product Name</th>
+                            <th class="col-md-2">Amount</th>
+                            <th class="col-md-2">Cost</th>
+                            <th class="col-md-1"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @*<tr>
+                                <td class="input-group">
+                                    @Html.TextBoxFor(x => x.ProductSnapshots[0].ProductNumber, new { @class = "form-control" })
+                                    <span class="input-group-addon clickable search-by-product-number">
+                                        <i class="input-group glyphicon glyphicon-search"></i>
+                                    </span>
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(x => x.ProductSnapshots[0].ProductName, new { @class = "form-control" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(x => x.ProductSnapshots[0].NumberOfSoldProduct, new { @class = "form-control amount-input" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(x => x.ProductSnapshots[0].Price, new { @class = "form-control price-input" })
+                                </td>
+                                <td>
+                                    <button class="deleteRow btn btn-danger"><i class="glyphicon glyphicon-trash center-block"></i></button>
+                                </td>
+                            </tr>*@
+                        @for (var i = 0; i < Model.ProductSnapshots.Length; i++)
+                        {
+                            @Html.EditorFor(m => m.ProductSnapshots[i], "_ProductSnapshot")
+                        }
 
-		<div class="row form-group">
-			<button type="submit" class="btn btn-success" id="create-transaction">Confirm</button>
-		</div>
-	</div>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5" style="text-align: left;">
+                                <input type="button" class="btn btn-sm btn-block " id="add-row" value="Add Row" />
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="row form-group">
+            <button type="submit" class="btn btn-success" id="create-transaction">Confirm</button>
+        </div>
+    </div>
 }
 
-@Scripts.Render("~/bundles/transactions")
-<script>
-	initilize();
-</script>
+@section scripts{
+    @Scripts.Render("~/bundles/transactions")
+    <script>
+        initilize();
+    </script>
+}

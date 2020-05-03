@@ -11,7 +11,6 @@ namespace SmartGrocery.WebUI.Models.Products
                 .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.NumberOfSoldProduct, opt => opt.Ignore())
                 .ForMember(dest => dest.ProductNumber, opt => opt.MapFrom(src => src.ProductNumber));
-
         }
     }
 }

@@ -1,0 +1,24 @@
+﻿@using SmartGrocery.WebUI.Models.Products
+
+@model ProductSnapshotViewModel
+
+<tr>
+    <td class="input-group">
+        @Html.TextBoxFor(x => x.ProductNumber, new { @class = "form-control" })
+        <span class="input-group-addon clickable search-by-product-number">
+            <i class="input-group glyphicon glyphicon-search"></i>
+        </span>
+    </td>
+    <td>
+        @Html.TextBoxFor(x => x.ProductName, new { @class="form-control" })
+    </td>
+    <td>
+        @Html.TextBoxFor(x => x.NumberOfSoldProduct, new { @class="form-control amount-input" })
+    </td>
+    <td>
+        @Html.TextBoxFor(x => x.Price, new { @class="form-control price-input"})
+    </td>
+    <td>
+        <button class="deleteRow btn btn-danger"><i class="glyphicon glyphicon-trash center-block"></i></button>
+    </td>
+</tr>

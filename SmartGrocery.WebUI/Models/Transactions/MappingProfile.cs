@@ -12,6 +12,9 @@ namespace SmartGrocery.WebUI.Models.Transactions
         public MappingProfile()
         {
             CreateMap<TransactionDetails, TransactionDetailsViewModel>();
+            CreateMap<TransactionDetailsViewModel, CreateTransactionRequest>()
+                .ForMember(dest => dest.CustomerId, opt => opt.Ignore())
+                .ForMember(dest => dest.ProductSnapshotContracts, opt => opt.MapFrom(src => src.ProductSnapshots));
         }
     }
 }

@@ -23,12 +23,10 @@ namespace SmartGrocery.UseCase.Product
 
             CreateMap<ProductSnapshotDto, UpdatedProductSnapshot>()
                 .ForMember(dest => dest.ProductId, opt => opt.Ignore())
-                .ForMember(dest => dest.ProductNumber, opt => opt.MapFrom(src => src.ProductNumer))
                 .ForMember(dest => dest.Amount, opt => opt.MapFrom(src => src.NumberOfSoldProduct));
 
             CreateMap<ProductSnapshot, ProductSnapshotDto>()
-                .ForMember(dest => dest.Price, opt => opt.ResolveUsing(x => GetPriceFromBaseProduct(x.Product, x.NumberOfSoldProduct)))
-                .ForMember(dest => dest.ProductNumer, opt => opt.MapFrom(x => x.Product.ProductNumber));
+                .ForMember(dest => dest.Price, opt => opt.ResolveUsing(x => GetPriceFromBaseProduct(x.Product, x.NumberOfSoldProduct)));
         }
 
         private decimal GetPriceFromBaseProduct(BaseProduct product, int numberOfProduct)
