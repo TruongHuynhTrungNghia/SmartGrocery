@@ -1,9 +1,5 @@
 ﻿using AutoMapper;
 using SmartGrocery.WebApi.Contracts.Transaction;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace SmartGrocery.WebUI.Models.Transactions
 {
@@ -13,7 +9,9 @@ namespace SmartGrocery.WebUI.Models.Transactions
         {
             CreateMap<TransactionDetails, TransactionDetailsViewModel>();
             CreateMap<TransactionDetailsViewModel, CreateTransactionRequest>()
-                .ForMember(dest => dest.CustomerId, opt => opt.Ignore())
+                .ForMember(dest => dest.ProductSnapshotContracts, opt => opt.MapFrom(src => src.ProductSnapshots));
+
+            CreateMap<TransactionDetailsViewModel, EditTransactionRequest>()
                 .ForMember(dest => dest.ProductSnapshotContracts, opt => opt.MapFrom(src => src.ProductSnapshots));
         }
     }

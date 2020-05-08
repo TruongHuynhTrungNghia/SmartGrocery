@@ -4,7 +4,7 @@ using System;
 
 namespace SmartGrocery.UseCase.Transactions
 {
-    public class UpdateTransactionCommand : IRequest<string>
+    public class UpdateTransactionCommand : IRequest<Guid>
     {
         public string TransactionNumber { get; set; }
 

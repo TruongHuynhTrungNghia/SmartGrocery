@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentValidation;
+using System;
 using System.ComponentModel;
 
 namespace SmartGrocery.WebUI.Models.Customer
@@ -20,5 +21,19 @@ namespace SmartGrocery.WebUI.Models.Customer
         public DateTime DateOfBirth { get; set; }
 
         public int Points { get; set; }
+    }
+
+    public class CreateCustomerViewModelValidator : AbstractValidator<CreateCustomerViewModel>
+    {
+        public CreateCustomerViewModelValidator()
+        {
+            RuleFor(x => x.CustomerFirstName).NotEmpty();
+            RuleFor(x => x.CustomerLastName).NotEmpty();
+            RuleFor(x => x.CustomerId).NotEmpty();
+            RuleFor(x => x.DateOfBirth).NotEmpty();
+            RuleFor(x => x.Age)
+                .NotEmpty()
+                .InclusiveBetween(18, 100);
+        }
     }
 }

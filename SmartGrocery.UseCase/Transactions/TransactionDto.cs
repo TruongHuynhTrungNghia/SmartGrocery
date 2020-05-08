@@ -11,6 +11,8 @@ namespace SmartGrocery.UseCase.Transactions
 
         public string CustomerName { get; set; }
 
+        public string CustomerId { get; set; }
+
         public string Amount { get; set; }
 
         public string CreatedBy { get; set; }

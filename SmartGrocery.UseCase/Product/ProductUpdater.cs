@@ -129,6 +129,9 @@ namespace SmartGrocery.UseCase.Product
         {
             var checkedProductNumbers = GetProductNumbers(updatedProducts);
 
+            var isallUpdatedProductNumberExistInDatabase = AllUpdatedProductNumberExistInDatabase();
+            var isAllUpdatedProductQuantityIsSmallerThanProduct = AllUpdatedProductQuantityIsSmallerThanProduct();
+
             return AllUpdatedProductNumberExistInDatabase() && AllUpdatedProductQuantityIsSmallerThanProduct();
 
             bool AllUpdatedProductNumberExistInDatabase()

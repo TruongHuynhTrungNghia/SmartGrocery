@@ -6,8 +6,7 @@ function initilize() {
     SearchNewProduct();
     calculatMoneyBaseOnAmount();
     calculateTotalPrice();
-    $('#ProductSnapshots_0__NumberOfSoldProduct').addClass('amount-input');
-    $('#ProductSnapshots_0__Price').addClass('')
+    recalculateTotalPrice();
 }
 
 function registerEditTransaction() {
@@ -75,7 +74,7 @@ function removeModalAfterClosing($modal) {
 }
 
 function AddNewCellInTable() {
-    $('#add-row').on('click', function (e) {
+    $(document).on('click', '#add-row', function (e) {
         $.ajax({
             type: 'GET',
             url: '/Transaction/GetNewProductSnapshot',
@@ -161,12 +160,18 @@ function populateProductInfo($productNumberId, result) {
 function calculatMoneyBaseOnAmount() {
     $(document).on('input', ".amount-input", function () {
         let currentAmount = parseFloat($(this).val());
+        let totalAmount = parseFloat($(this).parent().closest('tr').find('input[name*=TotalProduct]').val());
 
         if (!isNaN(currentAmount)) {
-            let currentPrice = parseFloat($(this).parent().closest('tr').find('.price-input').val());
+            if (currentAmount <= totalAmount) {
+                let currentPrice = parseFloat($(this).parent().closest('tr').find('input[name*=Price]').val());
 
-            $(this).parent().closest('tr').find('.price-input').val(currentAmount * currentPrice);
-            $(this).parent().closest('tr').find('.price-input').trigger('change');
+                $(this).parent().closest('tr').find('.price-input').val(currentAmount * currentPrice);
+                $(this).parent().closest('tr').find('.price-input').trigger('change');
+            }
+            else {
+                alert("The remaining amount of product is " + totalAmount);
+            }
         }
     });
 }
@@ -181,4 +186,16 @@ function calculateTotalPrice() {
 
         $('#Amount').val(total);
     })
+}
+
+function recalculateTotalPrice() {
+    $(document).on('click', '#recalculate-total-price', function () {
+        let total = 0;
+
+        $(document).find('.price-input').each(function (index, value) {
+            total += parseFloat(value.value);
+        });
+
+        $('#Amount').val(total);
+    });
 }

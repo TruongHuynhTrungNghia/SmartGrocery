@@ -1,6 +1,7 @@
 ﻿@using SmartGrocery.WebUI.Models.Customer
+@using PagedList.Mvc
 
-@model IEnumerable<CustomerViewModel>
+@model PagedList.IPagedList<CustomerViewModel>
 
 <div class="container">
 	<div class="row form-group">
@@ -40,6 +41,9 @@
 				}
 			</tbody>
 		</table>
+		Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+		@Html.PagedListPager(Model, page => Url.Action("Summary", new { page }))
 	</div>
 </div>
 

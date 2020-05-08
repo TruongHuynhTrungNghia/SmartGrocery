@@ -14,7 +14,7 @@
 			<div class="modal-header">
 				<div class="row">
 					<div class="col-md-11">
-						<h4 class="modal-title"> Create New Transaction</h4>
+						<h4 class="modal-title">Edit Transaction</h4>
 					</div>
 					<div class="col-md-1">
 						<button class="close" data-dismiss="modal">&times;</button>
@@ -33,10 +33,17 @@
 						<p>@Model.CreatedAt</p>
 					</div>
 				</div>
+				@Html.HiddenFor(x => x.LastUpdatedBy)
+				@Html.HiddenFor(x => x.LastUpdatedAt)
 				<div class="row form-group">
 					<div class="col-md-4">
 						@Html.LabelFor(x => x.Amount, new { @class = "form-label" })
-						@Html.TextBoxFor(x => x.Amount, new { @class = "form-control" })
+						<div class="input-group">
+							@Html.TextBoxFor(x => x.Amount, new { @class = "form-control" })
+							<span class="input-group-addon clickable" id="recalculate-total-price">
+								<i class="glyphicon glyphicon-usd"></i>
+							</span>
+						</div>
 					</div>
 				</div>
 				<div class="row form-group">
@@ -53,31 +60,16 @@
 							</thead>
 							<tbody>
 								<tr>
-									@for (var i = 0; i < Model.ProductSnapshots.Length; i ++)
+									@for (var i = 0; i < Model.ProductSnapshots.Length; i++)
 									{
-										<td class="input-group">
-											@Html.TextBoxFor(x => x.ProductSnapshots[i].ProductNumber, new { @class = "form-control" })
-											<span class="input-group-addon clickable search-by-product-number"><i class="glyphicon glyphicon-search" /></span>
-										</td>
-										<td>
-											@Html.TextBoxFor(x => x.ProductSnapshots[i].ProductName, new { @class = "form-control" })
-										</td>
-										<td>
-											@Html.TextBoxFor(x => x.ProductSnapshots[i].NumberOfSoldProduct, new { @class = "form-control" })
-										</td>
-										<td>
-											@Html.TextBoxFor(x => x.ProductSnapshots[i].Price, new { @class = "form-control" })
-										</td>
-										<td>
-											<button  class="deleteRow"><i class="glyphicon glyphicon-trash center-block"></i></button>
-										</td>
+										@Html.EditorFor(m => m.ProductSnapshots[i], "_ProductSnapshot")
 									}
 								</tr>
 							</tbody>
 							<tfoot>
 								<tr>
 									<td colspan="5" style="text-align: left;">
-										<input type="button" class="btn btn-sm btn-block " id="addrow" value="Add Row" />
+										<input type="button" class="btn btn-sm btn-block " id="add-row" value="Add Row" />
 									</td>
 								</tr>
 								<tr>

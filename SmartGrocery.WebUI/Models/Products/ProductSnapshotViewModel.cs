@@ -9,5 +9,14 @@
         public int NumberOfSoldProduct { get; set; }
 
         public decimal Price { get; set; }
+
+        public int TotalProduct { get; set; }
+
+        public decimal DisplayPrice { get; set; }
+
+        internal void UpdateProductPriceByQuantity()
+        {
+            this.Price *= this.NumberOfSoldProduct;
+        }
     }
 }

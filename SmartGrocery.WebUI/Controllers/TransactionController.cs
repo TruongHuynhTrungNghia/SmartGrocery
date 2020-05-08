@@ -1,15 +1,16 @@
 ﻿using AutoMapper;
 using Newtonsoft.Json;
+using PagedList;
 using SmartGrocery.WebApi.Contracts.Transaction;
 using SmartGrocery.WebUI.Models.Products;
 using SmartGrocery.WebUI.Models.Transactions;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace SmartGrocery.WebUI.Controllers
@@ -34,7 +35,9 @@ namespace SmartGrocery.WebUI.Controllers
             var contract = await response.Content.ReadAsStringAsync();
             var viewModel = JsonConvert.DeserializeObject<List<TransactionViewModel>>(contract);
 
-            return View("Summary", viewModel);
+            int pageSize = int.Parse(ConfigurationManager.AppSettings["DefaultPageSize"]);
+            int pageNumber = 1;
+            return View("Summary", viewModel.ToPagedList(pageNumber, pageSize));
         }
 
         [HttpGet]
@@ -53,7 +56,8 @@ namespace SmartGrocery.WebUI.Controllers
         public ActionResult Create()
         {
             var viewModel = new TransactionDetailsViewModel();
-
+            viewModel.CreatedBy = User.Identity.Name;
+            viewModel.LastUpdatedBy = User.Identity.Name;
             viewModel.CreateNewProductSnapshot();
 
             return View("Create", viewModel);
@@ -62,6 +66,12 @@ namespace SmartGrocery.WebUI.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(TransactionDetailsViewModel viewModel, CancellationToken cancellationToken)
         {
+            if (!ModelState.IsValid)
+            {
+                return View("Create", viewModel);
+            }
+
+            viewModel.CalculateProductPrice();
             var request = mapper.Map<CreateTransactionRequest>(viewModel);
 
             var response = await client.PostAsJsonAsync("transactions", request, cancellationToken);
@@ -71,15 +81,34 @@ namespace SmartGrocery.WebUI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Edit (Guid Id, CancellationToken cancellationToken)
+        public async Task<ActionResult> Edit(Guid Id, CancellationToken cancellationToken)
         {
             var response = await client.GetAsync($"transactions/{Id}", cancellationToken);
             response.EnsureSuccessStatusCode();
 
             var contract = await response.Content.ReadAsStringAsync();
             var viewModel = JsonConvert.DeserializeObject<TransactionDetailsViewModel>(contract);
+            viewModel.LastUpdatedBy = User.Identity.Name;
+            viewModel.LastUpdatedAt = DateTime.Now.ToString();
+            if (viewModel.ProductSnapshots == null)
+            {
+                viewModel.CreateNewProductSnapshot();
+            }
 
             return PartialView("_Edit", viewModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Edit(TransactionDetailsViewModel viewModel, CancellationToken cancellationToken)
+        {
+            var request = mapper.Map<EditTransactionRequest>(viewModel);
+
+            var response = await client.PutAsJsonAsync("transactions", request, cancellationToken);
+            response.EnsureSuccessStatusCode();
+            var json = response.Content.ReadAsStringAsync();
+            var transactionId = JsonConvert.DeserializeObject<Guid>(json.Result);
+
+            return RedirectToAction("Details", new { Id = transactionId });
         }
 
         [HttpGet]

@@ -1,42 +1,47 @@
 ﻿@using SmartGrocery.WebUI.Models.Products
+@using PagedList.Mvc
 
-@model IEnumerable<ProductBaseViewModel>
 
-<div class="row">
-    <table class="table table-bordered table-hover" style="background: whitesmoke;">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Manufacturing Date</th>
-                <th>Expiry Date</th>
-                <th style="width: 120px"></th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model.Any())
-            {
-                foreach (var product in Model)
-               {
-                    <tr>
-                        <td>@product.ProductNumber</td>
-                        <td>@product.Name</td>
-                        <td>@product.Quantity</td>
-                        <td>@product.Price</td>
-                        <td>@product.ManufacturingDate</td>
-                        <td>@product.ExpiryDate</td>
-                        <td>
-							<button class="btn btn-success edit-product" data-product-id="@product.Id"><span class="glyphicon glyphicon-cog"></span></button>
-							<button class="btn btn-danger delete-product" data-product-id="@product.Id"><span class="glyphicon glyphicon-trash"></span></button>
-                        </td>
-                    </tr>
+@model PagedList.IPagedList<ProductBaseViewModel>
+
+    <div class="row">
+        <table class="table table-bordered table-hover" style="background: whitesmoke;">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Manufacturing Date</th>
+                    <th>Expiry Date</th>
+                    <th style="width: 120px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    foreach (var product in Model)
+                    {
+                        <tr>
+                            <td>@product.ProductNumber</td>
+                            <td>@product.Name</td>
+                            <td>@product.Quantity</td>
+                            <td>@product.Price</td>
+                            <td>@product.ManufacturingDate</td>
+                            <td>@product.ExpiryDate</td>
+                            <td>
+                                <button class="btn btn-success edit-product" data-product-id="@product.Id"><span class="glyphicon glyphicon-cog"></span></button>
+                                <button class="btn btn-danger delete-product" data-product-id="@product.Id"><span class="glyphicon glyphicon-trash"></span></button>
+                            </td>
+                        </tr>
+                    }
                 }
-            }
-        </tbody>
-    </table>
-</div>
+            </tbody>
+        </table>
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+        @Html.PagedListPager(Model, page => Url.Action("Details", new { page }))
+    </div>
 
 <div class="row">
     <button class="btn btn-primary" id="create-product">Create</button>
@@ -70,5 +75,5 @@
 @Scripts.Render("~/bundles/products")
 @Styles.Render("~/Content/css")
 <script type="text/javascript">
-	initilize();
+    initilize();
 </script>

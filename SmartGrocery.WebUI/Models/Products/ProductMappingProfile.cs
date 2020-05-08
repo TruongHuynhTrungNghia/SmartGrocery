@@ -10,6 +10,7 @@ namespace SmartGrocery.WebUI.Models.Products
             CreateMap<ProductContract, ProductSnapshotViewModel>()
                 .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.NumberOfSoldProduct, opt => opt.Ignore())
+                .ForMember(dest => dest.DisplayPrice, opt => opt.Ignore())
                 .ForMember(dest => dest.ProductNumber, opt => opt.MapFrom(src => src.ProductNumber));
         }
     }

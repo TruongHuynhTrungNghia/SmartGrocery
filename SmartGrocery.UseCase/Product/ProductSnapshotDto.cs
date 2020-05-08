@@ -2,6 +2,8 @@
 {
     public class ProductSnapshotDto
     {
+        public string ProductName { get; set; }
+
         public string ProductNumber { get; set; }
 
         public int NumberOfSoldProduct { get; set; }

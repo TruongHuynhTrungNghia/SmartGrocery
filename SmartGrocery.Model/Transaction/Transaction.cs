@@ -30,7 +30,6 @@ namespace SmartGrocery.Model.Transaction
             Amount = transaction.Amount;
             LastUpdatedAt = transaction.LastUpdatedAt;
             LastUpdatedBy = transaction.LastUpdatedBy;
-            CustomerId = transaction.CustomerId;
         }
     }
 

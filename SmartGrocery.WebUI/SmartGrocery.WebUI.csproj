@@ -332,6 +332,10 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Compile Include="App_Start\Startup.CompositionRoot.cs" />
+    <Content Include="Scripts\jquery.webcam.js" />
+    <Content Include="Scripts\jquery.webcam.min.js" />
+    <Content Include="Scripts\jscam.swf" />
+    <Content Include="Scripts\jscam_canvas_only.swf" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
     <Content Include="Views\Web.config" />
@@ -391,6 +395,7 @@
     <Content Include="Views\Customer\_Edit.cshtml" />
     <Content Include="Views\Transaction\_Edit.cshtml" />
     <Content Include="Views\Transaction\EditorTemplates\_ProductSnapshot.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

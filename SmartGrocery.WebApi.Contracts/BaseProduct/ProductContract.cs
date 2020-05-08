@@ -15,5 +15,7 @@ namespace SmartGrocery.WebApi.Contracts.BaseProduct
         public DateTime ManufacturingDate { get; set; }
 
         public string ProductNumber { get; set; }
+
+        public int TotalProduct { get; set; }
     }
 }

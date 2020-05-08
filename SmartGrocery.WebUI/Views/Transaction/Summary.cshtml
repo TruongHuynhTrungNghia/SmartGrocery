@@ -1,7 +1,9 @@
 ﻿@using SmartGrocery.WebUI.Models.Transactions
+@using PagedList.Mvc;
 
-@model IEnumerable<TransactionViewModel>
-<div class="container">
+@model PagedList.IPagedList<TransactionViewModel>
+
+<div class="section-container">
 	<a class="btn btn-primary" href="/Transaction/Create">Create</a>
 	<div class="row form-group">
 		<table class="table table-bordered table-hover table-dark" style="background: whitesmoke">
@@ -38,7 +40,10 @@
 				}
 			</tbody>
 		</table>
-	</div>
+		Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+		@Html.PagedListPager(Model, page => Url.Action("Summary", new { page }))
+</div>
 </div>
 
 @Scripts.Render("~/bundles/transactions")

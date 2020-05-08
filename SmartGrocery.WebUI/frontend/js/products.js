@@ -2,7 +2,8 @@ function initilize() {
     registerCreateProduct();
     registerEditProduct();
     registerDeleteProduct();
-    ConfirmedDeleteProduct();
+    confirmedDeleteProduct();
+    onFailueCreateProduct();
 }
 
 function registerCreateProduct() {
@@ -68,7 +69,7 @@ function registerDeleteProduct() {
     });
 }
 
-function ConfirmedDeleteProduct() {
+function confirmedDeleteProduct() {
     $('#delete-product-button').on('click', function () {
         var data = {
             id: $('#current-product-id').val()
@@ -89,4 +90,8 @@ function removeModalAfterClosing($modal) {
     $modal.on('hidden.bs.modal', function () {
         $modal.remove();
     })
+}
+
+function onFailueCreateProduct() {
+    console.log("Error");
 }

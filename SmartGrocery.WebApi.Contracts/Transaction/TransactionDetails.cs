@@ -6,6 +6,8 @@ namespace SmartGrocery.WebApi.Contracts.Transaction
     {
         public string CustomerName { get; set; }
 
+        public string CustomerId { get; set; }
+
         public ProductSnapshotContract[] ProductSnapshots { get; set; }
     }
 }

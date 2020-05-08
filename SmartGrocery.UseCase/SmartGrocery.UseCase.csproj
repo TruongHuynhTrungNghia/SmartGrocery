@@ -105,6 +105,7 @@
     <Compile Include="Customer\CreateCustomerCommandHandler.cs" />
     <Compile Include="Customer\CustomerDetailsDto.cs" />
     <Compile Include="Customer\CustomerNotFoundException.cs" />
+    <Compile Include="Customer\CustomerUpdater.cs" />
     <Compile Include="Customer\DuplicateCustomerException.cs" />
     <Compile Include="Customer\EditCustomerCommand.cs" />
     <Compile Include="Customer\EditCustomerCommandHandler.cs" />

@@ -5,15 +5,24 @@
 @using (Html.BeginForm("Create", "Transaction", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="section-container">
+        @Html.HiddenFor(x => x.CreatedBy)
+        @Html.HiddenFor(x => x.LastUpdatedBy)
         <div class="row">
             <div class="col-md-4 form-group required">
                 @Html.LabelFor(x => x.TransactionNumber, new { @class = "form-label" })
                 @Html.TextBoxFor(x => x.TransactionNumber, new { @class = "form-control" })
                 @Html.ValidationMessageFor(x => x.TransactionNumber)
             </div>
-            <div class="col-md-offset-1 col-md-4">
+            <div class="col-md-offset-1 col-md-4 form-group">
                 @Html.LabelFor(x => x.CreatedAt, new { @class = "form-label" })
                 <p>@Model.CreatedAt</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 form-group">
+                @Html.LabelFor(x => x.CustomerId, new { @class = "form-label" })
+                @Html.TextBoxFor(x => x.CustomerId, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.CustomerId)
             </div>
         </div>
         <div class="row">
@@ -42,31 +51,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @*<tr>
-                                <td class="input-group">
-                                    @Html.TextBoxFor(x => x.ProductSnapshots[0].ProductNumber, new { @class = "form-control" })
-                                    <span class="input-group-addon clickable search-by-product-number">
-                                        <i class="input-group glyphicon glyphicon-search"></i>
-                                    </span>
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(x => x.ProductSnapshots[0].ProductName, new { @class = "form-control" })
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(x => x.ProductSnapshots[0].NumberOfSoldProduct, new { @class = "form-control amount-input" })
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(x => x.ProductSnapshots[0].Price, new { @class = "form-control price-input" })
-                                </td>
-                                <td>
-                                    <button class="deleteRow btn btn-danger"><i class="glyphicon glyphicon-trash center-block"></i></button>
-                                </td>
-                            </tr>*@
                         @for (var i = 0; i < Model.ProductSnapshots.Length; i++)
                         {
                             @Html.EditorFor(m => m.ProductSnapshots[i], "_ProductSnapshot")
                         }
-
                     </tbody>
                     <tfoot>
                         <tr>
@@ -79,6 +67,22 @@
             </div>
         </div>
         <div class="row form-group">
+            <div style="margin: 0 auto; width: 980px; text-align: center">
+                <div style="float: left; border: 4px solid #ccc; padding: 5px">
+                    <div id="Camera">
+                    </div>
+                    <br>
+                    <input type="button" value="Capture" />
+                </div>
+                <div style="float: left; margin-left: 20px; border: 4px solid #ccc; padding: 5px">
+                    <img id="show" style="width: 320px; height: 240px;" src="../../WebImages/person.jpg" />
+                    <br>
+                    <br>
+                    <input id="Submit1" type="submit" value="submit" />
+                </div>
+            </div>
+        </div>
+        <div class="row form-group">
             <button type="submit" class="btn btn-success" id="create-transaction">Confirm</button>
         </div>
     </div>
@@ -86,7 +90,26 @@
 
 @section scripts{
     @Scripts.Render("~/bundles/transactions")
+    <script src="@Url.Content("~/Scripts/jquery.webcam.js")">
+    </script>
     <script>
-        initilize();
+		initilize();
+
+         $("#Camera").webcam({  
+                width: 320,  
+                height: 240,  
+                mode: "save",  
+                swffile: "@Url.Content("~/Scripts/jscam.swf")",  
+                onTick: function () { },  
+                onSave: function () {  
+                    UploadPic();  
+                },  
+                onCapture: function () {  
+                    webcam.save("@Url.Content("~/Photo/Capture")/");  
+             },  
+                debug: function () { },  
+                onLoad: function () { }  
+  
+            });  
     </script>
 }

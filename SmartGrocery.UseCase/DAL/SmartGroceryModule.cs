@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using SmartGrocery.UseCase.Customer;
 using SmartGrocery.UseCase.Product;
 
 namespace SmartGrocery.UseCase.DAL
@@ -12,6 +13,7 @@ namespace SmartGrocery.UseCase.DAL
             RegisterDbContext(builder);
 
             builder.RegisterType<ProductUpdater>().AsSelf();
+            builder.RegisterType<CustomerUpdater>().AsSelf();
         }
 
         private void RegisterDbContext(ContainerBuilder containerBuilder)

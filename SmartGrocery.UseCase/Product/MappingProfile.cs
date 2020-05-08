@@ -26,7 +26,9 @@ namespace SmartGrocery.UseCase.Product
                 .ForMember(dest => dest.Amount, opt => opt.MapFrom(src => src.NumberOfSoldProduct));
 
             CreateMap<ProductSnapshot, ProductSnapshotDto>()
-                .ForMember(dest => dest.Price, opt => opt.ResolveUsing(x => GetPriceFromBaseProduct(x.Product, x.NumberOfSoldProduct)));
+                .ForMember(dest => dest.Price, opt => opt.ResolveUsing(x => GetPriceFromBaseProduct(x.Product, x.NumberOfSoldProduct)))
+                .ForMember(dest => dest.ProductNumber, opt => opt.MapFrom(src => src.Product.ProductNumber))
+                .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product.Name));
         }
 
         private decimal GetPriceFromBaseProduct(BaseProduct product, int numberOfProduct)

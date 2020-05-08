@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Newtonsoft.Json;
+using PagedList;
 using SmartGrocery.WebApi.Contracts.Customer;
 using SmartGrocery.WebUI.Models.Customer;
 using System;
+using System.Configuration;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,7 +24,7 @@ namespace SmartGrocery.WebUI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Summary(CancellationToken cancellationToken)
+        public async Task<ActionResult> Summary(int? page, CancellationToken cancellationToken)
         {
             var response = await client.GetAsync("customers", cancellationToken);
             response.EnsureSuccessStatusCode();
@@ -31,7 +33,10 @@ namespace SmartGrocery.WebUI.Controllers
             var contract = JsonConvert.DeserializeObject<CustomerDetailsContract[]>(json);
             var viewModel = mapper.Map<CustomerViewModel[]>(contract);
 
-            return View("Summary", viewModel);
+            int pageNumber = page ?? 1;
+            int pageSize = int.Parse(ConfigurationManager.AppSettings["DefaultPageSize"]);
+
+            return View("Summary", viewModel.ToPagedList(pageNumber, pageSize));
         }
 
         [HttpGet]

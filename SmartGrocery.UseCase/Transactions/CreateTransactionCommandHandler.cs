@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using SmartGrocery.Model.Transaction;
+using SmartGrocery.UseCase.Customer;
 using SmartGrocery.UseCase.DAL;
 using SmartGrocery.UseCase.Product;
 using System.Collections.Generic;
@@ -13,15 +14,19 @@ namespace SmartGrocery.UseCase.Transactions
         private readonly IMapper mapper;
         private readonly SmartGroceryContext context;
         private readonly ProductUpdater productUpdater;
+        private readonly CustomerUpdater customerUpdater;
+        private const string Admin = "Admin";
 
         public CreateTransactionCommandHandler(
             IMapper mapper,
             SmartGroceryContext context,
-            ProductUpdater productUpdater)
+            ProductUpdater productUpdater,
+            CustomerUpdater customerUpdater)
         {
             this.mapper = mapper;
             this.context = context;
             this.productUpdater = productUpdater;
+            this.customerUpdater = customerUpdater;
         }
 
         public string Handle(CreateTransactionCommand command)
@@ -35,6 +40,9 @@ namespace SmartGrocery.UseCase.Transactions
             }
 
             var transaction = mapper.Map<Transaction>(command);
+
+            var customer = customerUpdater.GetCustomerByCustomerNumber(command.CustomerId);
+            transaction.CustomerId = customer.Id;
 
             if (productUpdater.ValidListOfProductResult(mapper.Map<IEnumerable<UpdatedProductSnapshot>>(command.ProductSnapshotDto)).IsValid)
             {

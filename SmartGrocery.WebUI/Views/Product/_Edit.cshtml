@@ -27,20 +27,20 @@
             </div>
             <div class="modal-body">
                 <div class="row form-group">
-                    <div class="col-md-5">
+                    <div class="col-md-5 required">
                         @Html.LabelFor(x => x.Name, new { @class = "form-label" })
                         @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
                     </div>
-                    <div class="col-lg-offset-2 col-md-5">
+                    <div class="col-lg-offset-2 col-md-5 required">
                         @Html.LabelFor(x => x.ProductNumber, new { @class = "form-label" })
                         @Html.TextBoxFor(x => x.ProductNumber, new { @class = "form-control" })
                     </div>
-                </div><div class="row form-group">
+                </div><div class="row form-group required">
                     <div class="col-md-5">
                         @Html.LabelFor(x => x.Price, new { @class = "form-label" })
                         @Html.TextBoxFor(x => x.Price, new { @class = "form-control" })
                     </div>
-                    <div class="col-lg-offset-2 col-md-5">
+                    <div class="col-lg-offset-2 col-md-5 required">
                         @Html.LabelFor(x => x.Quantity, new { @class = "form-label" })
                         @Html.TextBoxFor(x => x.Quantity, new { @class = "form-control" })
                     </div>

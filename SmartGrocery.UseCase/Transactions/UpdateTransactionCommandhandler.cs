@@ -3,12 +3,13 @@ using MediatR;
 using SmartGrocery.Model.Transaction;
 using SmartGrocery.UseCase.DAL;
 using SmartGrocery.UseCase.Product;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace SmartGrocery.UseCase.Transactions
 {
-    public class UpdateTransactionCommandhandler : IRequestHandler<UpdateTransactionCommand, string>
+    public class UpdateTransactionCommandhandler : IRequestHandler<UpdateTransactionCommand, Guid>
     {
         private readonly IMapper mapper;
         private readonly SmartGroceryContext context;
@@ -24,7 +25,7 @@ namespace SmartGrocery.UseCase.Transactions
             this.productUpdater = productUpdater;
         }
 
-        public string Handle(UpdateTransactionCommand command)
+        public Guid Handle(UpdateTransactionCommand command)
         {
             var existingtransaction = context.Set<Transaction>()
                 .FirstOrDefault(x => x.TransactionNumber == command.TransactionNumber);
@@ -38,9 +39,9 @@ namespace SmartGrocery.UseCase.Transactions
 
             UpdateProduct(existingtransaction, command);
 
-            context.SaveChangesAsync();
+            context.SaveChanges();
 
-            return existingtransaction.TransactionNumber;
+            return existingtransaction.Id;
         }
 
         private void UpdateProduct(Transaction existingtransaction, UpdateTransactionCommand command)

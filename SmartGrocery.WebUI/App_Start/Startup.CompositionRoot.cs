@@ -20,10 +20,21 @@ namespace SmartGrocery.WebUI
             RegisterAutoMapper(containerBuilder);
             RegisterWebMVCComponet(containerBuilder);
             RegisterWebApiClient(containerBuilder);
+            RegisterFluentValidator(containerBuilder);
 
             var container = containerBuilder.Build();
 
             IntergrateDIContainerWithFrameworks(builder, container);
+        }
+
+        private void RegisterFluentValidator(ContainerBuilder containerBuilder)
+        {
+            //containerBuilder.RegisterAssemblyTypes(ThisAssembly)
+            //       .Where(t => t.Name.EndsWith("Validator"))
+            //       .AsImplementedInterfaces()
+            //       .InstancePerLifetimeScope();
+
+            containerBuilder.RegisterType<FluentValidationModelValidatorProvider>().As<ModelValidatorProvider>();
         }
 
         private void RegisterWebMVCComponet(ContainerBuilder builder)

@@ -3,6 +3,8 @@
 @model ProductSnapshotViewModel
 
 <tr>
+    @Html.HiddenFor(x => x.TotalProduct)
+    @Html.HiddenFor(x => x.Price)
     <td class="input-group">
         @Html.TextBoxFor(x => x.ProductNumber, new { @class = "form-control" })
         <span class="input-group-addon clickable search-by-product-number">
@@ -16,7 +18,7 @@
         @Html.TextBoxFor(x => x.NumberOfSoldProduct, new { @class="form-control amount-input" })
     </td>
     <td>
-        @Html.TextBoxFor(x => x.Price, new { @class="form-control price-input"})
+        @Html.TextBoxFor(x => x.DisplayPrice, new { @class="form-control price-input"})
     </td>
     <td>
         <button class="deleteRow btn btn-danger"><i class="glyphicon glyphicon-trash center-block"></i></button>

@@ -18,7 +18,7 @@ namespace SmartGrocery.UseCase.Transactions
 
         public string LastUpdatedAt { get; set; }
 
-        public Guid CustomerId { get; set; }
+        public string CustomerId { get; set; }
 
         public ProductSnapshotDto[] ProductSnapshotDto { get; set; }
     }

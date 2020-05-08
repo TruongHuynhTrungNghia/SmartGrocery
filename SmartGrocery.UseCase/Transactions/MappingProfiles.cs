@@ -2,17 +2,23 @@
 using SmartGrocery.Model.Product;
 using SmartGrocery.Model.Transaction;
 using SmartGrocery.UseCase.Product;
+using System;
 
 namespace SmartGrocery.UseCase.Transactions
 {
     public class MappingProfiles : Profile
     {
+        //TODO: Replace it with user email after implementing auth
+        private const string Admin = "Admin";
+
         public MappingProfiles()
         {
             CreateMap<CreateTransactionCommand, Transaction>()
+                .ForMember(dest => dest.LastUpdatedAt, opt => opt.UseValue(DateTime.Now))
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.Customer, opt => opt.Ignore())
-                .ForMember(dest => dest.ProductSnapshot, opt => opt.Ignore());
+                .ForMember(dest => dest.ProductSnapshot, opt => opt.Ignore())
+                .ForMember(dest => dest.CustomerId, opt => opt.Ignore());
 
             CreateMap<UpdatedProductSnapshot, ProductSnapshot>()
                 .ForMember(dest => dest.NumberOfSoldProduct, opt => opt.MapFrom(src => src.Amount))
