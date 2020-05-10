@@ -66,10 +66,30 @@
                 </table>
             </div>
         </div>
-		<div class="row">
-			<input type="file" accept="image/*;capture=camcorder"/>
-            <device type="media" onchange="update(this.data)"></device>
-            <video autoplay></video>
+        <div class="row">
+            <div class="left">
+                <div id="startButton" class="button">
+                    Start
+                </div>
+                <h2>Preview</h2>
+                <video id="preview" width="160" height="120" autoplay muted></video>
+            </div>
+            <div class="right">
+                <div id="stopButton" class="button">
+                    Stop
+                </div>
+                <h2>Recording</h2>
+                <video id="recording" width="160" height="120" controls></video>
+                <a id="downloadButton" class="button">
+                    Download
+                </a>
+            </div>
+            <div class="bottom">
+                <pre id="log"></pre>
+            </div>
+        </div>
+        <div class="row">
+            <button class="btn btn-danger" id="stop-stream">Stop</button>
         </div>
         <div class="row form-group">
             <button type="submit" class="btn btn-success" id="create-transaction">Confirm</button>
@@ -83,31 +103,5 @@
     </script>
     <script>
 		initilize();
-
-		function update(stream) {
-			document.querySelector('video').src = stream.url;
-		}
-		//const constraints = {
-		//	video: true
-		//};
-
-		const video = document.querySelector('video');
-
-		//navigator.mediaDevices.getUserMedia(constraints).
-		//	then((stream) => { video.srcObject = stream });
-
-		const hdConstraints = {
-			video: { width: { min: 1280 }, height: { min: 720 } }
-		};
-
-		navigator.mediaDevices.getUserMedia(hdConstraints).
-			then((stream) => { video.srcObject = stream });
-
-		const vgaConstraints = {
-			video: { width: { exact: 640 }, height: { exact: 480 } }
-		};
-
-		navigator.mediaDevices.getUserMedia(vgaConstraints).
-			then((stream) => { video.srcObject = stream });
     </script>
 }

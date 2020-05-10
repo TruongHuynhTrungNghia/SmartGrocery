@@ -7,6 +7,7 @@ function initilize() {
     calculatMoneyBaseOnAmount();
     calculateTotalPrice();
     recalculateTotalPrice();
+    handleCustomerEmotionalDetection();
 }
 
 function registerEditTransaction() {
@@ -197,5 +198,97 @@ function recalculateTotalPrice() {
         });
 
         $('#Amount').val(total);
+    });
+}
+
+var logElement = document.getElementById("log");
+
+function handleCustomerEmotionalDetection() {
+    let preview = document.getElementById("preview");
+    let recording = document.getElementById("recording");
+    let startButton = document.getElementById("startButton");
+    let stopButton = document.getElementById("stopButton");
+    let downloadButton = document.getElementById("downloadButton");
+
+    let recordingTimeMS = 5000;
+
+    startButton.addEventListener("click", function () {
+        navigator.mediaDevices.getUserMedia({
+            video: true
+        }).then(stream => {
+            preview.srcObject = stream;
+            downloadButton.href = stream;
+            preview.captureStream = preview.captureStream || preview.mozCaptureStream;
+            return new Promise(resolve => preview.onplaying = resolve);
+        }).then(() => startRecording(preview.captureStream(), recordingTimeMS))
+            .then(recordedChunks => {
+                let recordedBlob = new Blob(recordedChunks, { type: "video/webm" });
+                //let testBlob = new Blob(recordedChunks, { type: "text/plain" });
+                recording.src = URL.createObjectURL(recordedBlob);
+                downloadButton.href = recording.src;
+                sendBackToController(recording.src);
+                downloadButton.download = "RecordedVideo.webm";
+
+                log("Successfully recorded " + recordedBlob.size + " bytes of " +
+                    recordedBlob.type + " media.");
+            })
+            .catch(log);
+    }, false); stopButton.addEventListener("click", function () {
+        stop(preview.srcObject);
+    }, false);
+}
+
+function startRecording(stream, lengthInMS) {
+    let recorder = new MediaRecorder(stream);
+    let data = [];
+
+    recorder.ondataavailable = event => data.push(event.data);
+    recorder.start();
+    log(recorder.state + " for " + (lengthInMS / 1000) + " seconds...");
+
+    let stopped = new Promise((resolve, reject) => {
+        recorder.onstop = resolve;
+        recorder.onerror = event => reject(event.name);
+    });
+
+    let recorded = wait(lengthInMS).then(
+        () => recorder.state == "recording" && recorder.stop()
+    );
+
+    return Promise.all([
+        stopped,
+        recorded
+    ]).then(() => data);
+}
+
+function log(msg) {
+    logElement.innerHTML += msg + "\n";
+}
+
+function wait(delayInMS) {
+    return new Promise(resolve => setTimeout(resolve, delayInMS));
+}
+
+function stop(stream) {
+    stream.getTracks().forEach(track => track.stop());
+}
+
+function sendBackToController(recordedBlob) {
+    let reader = new FileReader();
+    let videoData = reader.readAsDataURL(recordedBlob);
+
+    let data = {
+        videoData: videoData
+    };
+    $.ajax({
+        type: POST,
+        data: data,
+        url: '/Transaction/StoreVideo',
+        success: function (result) {
+            console.log(result);
+        },
+        error: function () {
+            alert("Error");
+        }
     });
 }

@@ -116,5 +116,13 @@ namespace SmartGrocery.WebUI.Controllers
         {
             return PartialView("EditorTemplates/_ProductSnapshot", new ProductSnapshotViewModel());
         }
+
+        [HttpGet]
+        public ActionResult StoreVideo(string videoData, CancellationToken cancellationToken)
+        {
+            var flag = videoData;
+
+            return Json(videoData, JsonRequestBehavior.AllowGet);
+        }
     }
 }
