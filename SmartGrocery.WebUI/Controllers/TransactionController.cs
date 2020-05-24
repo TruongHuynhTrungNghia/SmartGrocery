@@ -7,11 +7,17 @@ using SmartGrocery.WebUI.Models.Transactions;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
+using System.IO;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
+using Emgu.CV;
+using Emgu.CV.Structure;
+//using Accord.Video.FFMPEG;
+using System.Drawing;
+using SmartGrocery.Infrastructure;
 
 namespace SmartGrocery.WebUI.Controllers
 {
@@ -19,11 +25,13 @@ namespace SmartGrocery.WebUI.Controllers
     {
         private readonly IMapper mapper;
         private readonly HttpClient client;
+        private readonly EmotionalRPCClient emotionalRPCClient;
 
-        public TransactionController(IMapper mapper, HttpClient client)
+        public TransactionController(IMapper mapper, HttpClient client, EmotionalRPCClient emotionalRPCClient)
         {
             this.mapper = mapper;
             this.client = client;
+            this.emotionalRPCClient = emotionalRPCClient;
         }
 
         [HttpGet]
@@ -117,12 +125,61 @@ namespace SmartGrocery.WebUI.Controllers
             return PartialView("EditorTemplates/_ProductSnapshot", new ProductSnapshotViewModel());
         }
 
-        [HttpGet]
-        public ActionResult StoreVideo(string videoData, CancellationToken cancellationToken)
+        public async Task<ActionResult> StoreVideo()
         {
-            var flag = videoData;
+            foreach (string upload in Request.Files)
+            {
+                //var path = AppDomain.CurrentDomain.BaseDirectory + "uploads/";
+                var file = Request.Files[upload];
 
-            return Json(videoData, JsonRequestBehavior.AllowGet);
+
+                //test();
+                var videoByte = ConvertToMediaToByte(file);
+                var response = emotionalRPCClient.SendEmotionDataToServer(videoByte);
+                var videoBase64 = Convert.ToBase64String(videoByte);
+                string result = System.Text.Encoding.UTF8.GetString(videoByte);
+
+                var flag = System.IO.File.Exists(@"F:\Write.txt");
+
+                using (FileStream fs = System.IO.File.OpenWrite(@"F:\Write.txt"))
+                {
+                    using (StreamWriter sw = new StreamWriter(fs))
+                    {
+                        //sw.Write(DateTime.Now.ToString() + " sent email to " + email);
+                        sw.Write(result);
+                    }
+                    fs.Close();
+                }
+
+                using (FileStream fs = System.IO.File.OpenWrite(@"F:\Write1.txt"))
+                {
+                    using (StreamWriter sw = new StreamWriter(fs))
+                    {
+                        sw.Write(videoBase64);
+                    }
+                    fs.Close();
+                }
+
+                if (file == null)
+                {
+                    return Json(new { message = "Error" }, JsonRequestBehavior.AllowGet);
+                }
+            }
+
+            return Json(new { message = "Success"}, JsonRequestBehavior.AllowGet);
+        }
+
+        private byte[] ConvertToMediaToByte(HttpPostedFileBase file)
+        {
+            var length = file.ContentLength;
+            var bytes = new byte[length];
+
+            using (var inputStream = file.InputStream)
+            {
+                inputStream.Read(bytes, 0, file.ContentLength);
+            }
+
+            return bytes;
         }
     }
 }

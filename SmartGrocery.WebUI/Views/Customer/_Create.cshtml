@@ -58,6 +58,16 @@
 							@Html.ValidationMessageFor(m => m.CustomerId)
 						</div>
 					</div>
+					<div class="row form-group">
+						<div class="col-md-3">
+							@Html.LabelFor(m => m.Email, new { @class = "form-label" })
+							@Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+						</div>
+						<div class="col-md-3 col-md-offset-1">
+							@Html.LabelFor(m => m.IdNumber, new { @class = "form-label" })
+							@Html.TextBoxFor(m => m.IdNumber, new { @class = "form-control" })
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="modal-footer">

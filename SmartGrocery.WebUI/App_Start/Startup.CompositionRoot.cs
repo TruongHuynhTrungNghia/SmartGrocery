@@ -4,6 +4,7 @@ using Autofac.Integration.Mvc;
 using AutoMapper;
 using FluentValidation.Mvc;
 using Owin;
+using SmartGrocery.Infrastructure;
 using System;
 using System.Configuration;
 using System.Net.Http;
@@ -21,6 +22,8 @@ namespace SmartGrocery.WebUI
             RegisterWebMVCComponet(containerBuilder);
             RegisterWebApiClient(containerBuilder);
             RegisterFluentValidator(containerBuilder);
+
+            containerBuilder.RegisterType<EmotionalRPCClient>().AsSelf();
 
             var container = containerBuilder.Build();
 

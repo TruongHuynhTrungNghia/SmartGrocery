@@ -1,10 +1,6 @@
 ﻿using IronPython.Hosting;
 using Microsoft.Scripting.Hosting;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartGrocery.Infrastructure
 {
@@ -25,6 +21,18 @@ namespace SmartGrocery.Infrastructure
             object result = source.Execute(scope);
             parameter = scope.GetVariable<string>("parameter"); // To get the finally set variable 'parameter' from the python script
             return parameter;
+        }
+
+        public IEnumerable<EmotionalData> GetCustomerEmotion(byte[] videoData)
+        {
+            var emotionDatas = new List<EmotionalData>();
+
+            if (videoData == null)
+            {
+                return new List<EmotionalData>();
+            }
+
+            return emotionDatas;
         }
     }
 }

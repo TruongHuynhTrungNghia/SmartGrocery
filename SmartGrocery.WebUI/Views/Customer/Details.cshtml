@@ -30,6 +30,16 @@
 		</div>
 	</div>
 	<div class="row form-group">
+		<div class="col-md-3">
+			@Html.LabelFor(m => m.Email, new { @class = "form-label" })
+			<p>@Model.Email</p>
+		</div>
+		<div class="col-md-3 col-md-offset-1">
+			@Html.LabelFor(m => m.Idnumber, new { @class = "form-label" })
+			<p>@Model.Idnumber</p>
+		</div>
+	</div>
+	<div class="row form-group">
 		<div class="col-md-12">
 			<button class="btn btn-primary col-md-1" id="edit-customer" data-customer-number="@Model.CustomerId">Edit</button>
 		</div>

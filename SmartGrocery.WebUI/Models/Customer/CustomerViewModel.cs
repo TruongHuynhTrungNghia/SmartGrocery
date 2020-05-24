@@ -17,5 +17,9 @@ namespace SmartGrocery.WebUI.Models.Customer
         public int Age { get; set; }
 
         public int Points { get; set; }
+
+        public string Email { get; set; }
+
+        public string Idnumber { get; set; }
     }
 }

@@ -24,9 +24,16 @@ namespace SmartGrocery.WebUI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Summary(int? page, CancellationToken cancellationToken)
+        public async Task<ActionResult> Summary(string searchTerm, int? page, CancellationToken cancellationToken)
         {
-            var response = await client.GetAsync("customers", cancellationToken);
+            if (string.IsNullOrWhiteSpace(searchTerm))
+            {
+                searchTerm = "$$$";
+            }
+
+            ViewBag.CurrentFilter = searchTerm;
+
+            var response = await client.GetAsync($"customers/lists/{searchTerm}", cancellationToken);
             response.EnsureSuccessStatusCode();
 
             var json = await response.Content.ReadAsStringAsync();
@@ -38,6 +45,22 @@ namespace SmartGrocery.WebUI.Controllers
 
             return View("Summary", viewModel.ToPagedList(pageNumber, pageSize));
         }
+
+        //[HttpGet]
+        //public async Task<ActionResult> SearchCustomer(string searchTerm, CancellationToken cancellationToken)
+        //{
+        //    var response = await client.GetAsync($"customers/lists/{searchTerm}", cancellationToken);
+        //    response.EnsureSuccessStatusCode();
+
+        //    var json = await response.Content.ReadAsStringAsync();
+        //    var contract = JsonConvert.DeserializeObject<CustomerDetailsContract[]>(json);
+        //    var viewModel = mapper.Map<CustomerViewModel[]>(contract);
+
+        //    int pageNumber = 1;
+        //    int pageSize = int.Parse(ConfigurationManager.AppSettings["DefaultPageSize"]);
+
+        //    return View("Summary", viewModel.ToPagedList(pageNumber, pageSize));
+        //}
 
         [HttpGet]
         public async Task<ActionResult> Details(string customerNumber, CancellationToken cancellationToken)

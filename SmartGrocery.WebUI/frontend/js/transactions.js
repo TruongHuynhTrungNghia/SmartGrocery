@@ -10,6 +10,11 @@ function initilize() {
     handleCustomerEmotionalDetection();
 }
 
+function handleSuccess(stream) {
+    screenshotButton.disabled = false;
+    video.srcObject = stream;
+}
+
 function registerEditTransaction() {
     $('#edit-transaction').on("click", function (e) {
         let data = {
@@ -205,29 +210,23 @@ var logElement = document.getElementById("log");
 
 function handleCustomerEmotionalDetection() {
     let preview = document.getElementById("preview");
-    let recording = document.getElementById("recording");
     let startButton = document.getElementById("startButton");
     let stopButton = document.getElementById("stopButton");
-    let downloadButton = document.getElementById("downloadButton");
 
-    let recordingTimeMS = 5000;
+    let recordingTimeMS = 2000;
+    let captureTimeMS = 200;
 
     startButton.addEventListener("click", function () {
         navigator.mediaDevices.getUserMedia({
             video: true
         }).then(stream => {
             preview.srcObject = stream;
-            downloadButton.href = stream;
             preview.captureStream = preview.captureStream || preview.mozCaptureStream;
             return new Promise(resolve => preview.onplaying = resolve);
         }).then(() => startRecording(preview.captureStream(), recordingTimeMS))
             .then(recordedChunks => {
-                let recordedBlob = new Blob(recordedChunks, { type: "video/webm" });
-                //let testBlob = new Blob(recordedChunks, { type: "text/plain" });
-                recording.src = URL.createObjectURL(recordedBlob);
-                downloadButton.href = recording.src;
-                sendBackToController(recording.src);
-                downloadButton.download = "RecordedVideo.webm";
+                let recordedBlob = new Blob(recordedChunks, { type: "video/mp4" });
+                sendBackToController(recordedBlob);
 
                 log("Successfully recorded " + recordedBlob.size + " bytes of " +
                     recordedBlob.type + " media.");
@@ -245,6 +244,7 @@ function startRecording(stream, lengthInMS) {
     recorder.ondataavailable = event => data.push(event.data);
     recorder.start();
     log(recorder.state + " for " + (lengthInMS / 1000) + " seconds...");
+
 
     let stopped = new Promise((resolve, reject) => {
         recorder.onstop = resolve;
@@ -274,21 +274,48 @@ function stop(stream) {
 }
 
 function sendBackToController(recordedBlob) {
-    let reader = new FileReader();
-    let videoData = reader.readAsDataURL(recordedBlob);
+    var fileType = 'video'; // or "audio"
+    var fileName = 'ABCDEF.webm';  // or "wav"
 
-    let data = {
-        videoData: videoData
-    };
-    $.ajax({
-        type: POST,
-        data: data,
-        url: '/Transaction/StoreVideo',
-        success: function (result) {
-            console.log(result);
-        },
-        error: function () {
-            alert("Error");
-        }
+    var formData = new FormData();
+    formData.append(fileType + '-filename', fileName);
+    formData.append(fileType + '-blob', recordedBlob);
+
+    xhr('/Transaction/StoreVideo', formData, function (fName) {
+        window.open(location.href + 'uploads/' + fName);
     });
+}
+
+function xhr(url, data, callback) {
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function () {
+        if (request.readyState == 4 && request.status == 200) {
+            callback(location.href + request.responseText);
+        }
+    };
+    request.open('POST', url);
+    request.send(data);
+}
+
+function capture(recordedBlob) {
+    var canvas = document.getElementById('canvas');
+    var video = document.getElementById('video');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+
+    /** Code to merge image **/
+    /** For instance, if I want to merge a play image on center of existing image **/
+    const playImage = new Image();
+    playImage.src = 'path to image asset';
+    playImage.onload = () => {
+        const startX = (video.videoWidth / 2) - (playImage.width / 2);
+        const startY = (video.videoHeight / 2) - (playImage.height / 2);
+        canvas.getContext('2d').drawImage(playImage, startX, startY, playImage.width, playImage.height);
+        canvas.toBlob() = (blob) => {
+            const img = new Image();
+            img.src = window.URL.createObjectUrl(blob);
+        };
+    };
+    /** End **/
 }

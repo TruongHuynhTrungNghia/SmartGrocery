@@ -114,6 +114,8 @@
     <Compile Include="Customer\GetCustomerByIdQuery.cs" />
     <Compile Include="Customer\GetCustomerByIdQueryHandler.cs" />
     <Compile Include="Customer\MappingProfile.cs" />
+    <Compile Include="Customer\SearchCustomerQuery.cs" />
+    <Compile Include="Customer\SearchCustomerQueryHandler.cs" />
     <Compile Include="DAL\Migrations\202004021624198_ImplementedProductSnapshot.cs" />
     <Compile Include="DAL\Migrations\202004021624198_ImplementedProductSnapshot.Designer.cs">
       <DependentUpon>202004021624198_ImplementedProductSnapshot.cs</DependentUpon>
@@ -125,6 +127,10 @@
     <Compile Include="DAL\Migrations\202004111459196_RemoveTestInCustomerTable.cs" />
     <Compile Include="DAL\Migrations\202004111459196_RemoveTestInCustomerTable.Designer.cs">
       <DependentUpon>202004111459196_RemoveTestInCustomerTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Migrations\202005171647286_AddCustomerIdNumberAndEmail.cs" />
+    <Compile Include="DAL\Migrations\202005171647286_AddCustomerIdNumberAndEmail.Designer.cs">
+      <DependentUpon>202005171647286_AddCustomerIdNumberAndEmail.cs</DependentUpon>
     </Compile>
     <Compile Include="DAL\SmartGroceryModule.cs" />
     <Compile Include="Migrations\Configuration.cs" />
@@ -190,6 +196,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DAL\Migrations\202004111459196_RemoveTestInCustomerTable.resx">
       <DependentUpon>202004111459196_RemoveTestInCustomerTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DAL\Migrations\202005171647286_AddCustomerIdNumberAndEmail.resx">
+      <DependentUpon>202005171647286_AddCustomerIdNumberAndEmail.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -15,5 +15,9 @@ namespace SmartGrocery.WebApi.Contracts.Customer
         public int Age { get; set; }
 
         public int Points { get; set; }
+
+        public string IdNumber { get; set; }
+
+        public string Email { get; set; }
     }
 }

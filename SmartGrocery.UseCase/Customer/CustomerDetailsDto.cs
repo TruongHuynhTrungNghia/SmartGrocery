@@ -19,6 +19,10 @@ namespace SmartGrocery.UseCase.Customer
 
         public int Points { get; set; }
 
+        public string Email { get; set; }
+
+        public string IdNumber { get; set; }
+
         public TransactionDto[] TransactionDtos { get; set; }
     }
 }

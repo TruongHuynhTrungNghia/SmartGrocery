@@ -18,6 +18,11 @@ namespace SmartGrocery.Model.Customer
 
         public int Points { get; set; }
 
+        public string Email { get; set; }
+
+        public string IdNumber { get; set; }
+
+
         public virtual ICollection<Transaction.Transaction> Transactions { get; set; }
 
         public void Update(UpdatedCustomer customer)
@@ -28,6 +33,8 @@ namespace SmartGrocery.Model.Customer
             DateOfBirth = customer.DateOfBirth;
             Age = customer.Age;
             Points = customer.Points;
+            Email = customer.Email;
+            IdNumber = customer.IdNumber;
         }
 
         public string CustomerFullName => $"{LastName} {FirstName}";
@@ -46,5 +53,9 @@ namespace SmartGrocery.Model.Customer
         public int Age { get; set; }
 
         public int Points { get; set; }
+
+        public string Email { get; set; }
+
+        public string IdNumber { get; set; }
     }
 }

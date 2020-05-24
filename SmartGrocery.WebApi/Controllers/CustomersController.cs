@@ -5,6 +5,7 @@ using SmartGrocery.UseCase.Customer;
 using SmartGrocery.WebApi.Contracts.Customer;
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace SmartGrocery.WebApi.Controllers
@@ -80,6 +81,21 @@ namespace SmartGrocery.WebApi.Controllers
             var query = new GetAllCustomerQuery();
             var response = mediator.Send(query, cancellationToken);
             var contract = mapper.Map<CustomerContract[]>(response.Result);
+
+            return Ok(contract);
+        }
+
+        [HttpGet]
+        [Route("lists/{searchTerm}")]
+        public async Task<IHttpActionResult> SearchCustomer(string searchTerm, CancellationToken cancellationToken)
+        {
+            var query = new SearchCustomerQuery
+            {
+                SearchTerm = searchTerm
+            };
+
+            var response = await mediator.Send(query, cancellationToken);
+            var contract = mapper.Map<CustomerContract[]>(response);
 
             return Ok(contract);
         }

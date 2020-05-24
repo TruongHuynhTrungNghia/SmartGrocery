@@ -21,6 +21,10 @@ namespace SmartGrocery.WebUI.Models.Customer
         public DateTime DateOfBirth { get; set; }
 
         public int Points { get; set; }
+
+        public string IdNumber { get; set; }
+
+        public string Email { get; set; }
     }
 
     public class CreateCustomerViewModelValidator : AbstractValidator<CreateCustomerViewModel>
