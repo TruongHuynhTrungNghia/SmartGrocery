@@ -125,48 +125,53 @@ namespace SmartGrocery.WebUI.Controllers
             return PartialView("EditorTemplates/_ProductSnapshot", new ProductSnapshotViewModel());
         }
 
-        public async Task<ActionResult> StoreVideo()
+        public async Task<ActionResult> StoreVideo(string base64image)
         {
-            foreach (string upload in Request.Files)
-            {
-                //var path = AppDomain.CurrentDomain.BaseDirectory + "uploads/";
-                var file = Request.Files[upload];
+            var image = base64image.Substring(22);  // remove data:image/png;base64,
+
+            byte[] bytes = Convert.FromBase64String(image);
+
+            var response = emotionalRPCClient.SendEmotionDataToServer(bytes);
+            //foreach (string upload in Request.Files)
+            //{
+            //    //var path = AppDomain.CurrentDomain.BaseDirectory + "uploads/";
+            //    var file = Request.Files[upload];
 
 
-                //test();
-                var videoByte = ConvertToMediaToByte(file);
-                var response = emotionalRPCClient.SendEmotionDataToServer(videoByte);
-                var videoBase64 = Convert.ToBase64String(videoByte);
-                string result = System.Text.Encoding.UTF8.GetString(videoByte);
+            //    //test();
+            //    var videoByte = ConvertToMediaToByte(file);
+            //    var response = emotionalRPCClient.SendEmotionDataToServer(videoByte);
+            //    var videoBase64 = Convert.ToBase64String(videoByte);
+            //    string result = System.Text.Encoding.UTF8.GetString(videoByte);
 
-                var flag = System.IO.File.Exists(@"F:\Write.txt");
+            //    var flag = System.IO.File.Exists(@"F:\Write.txt");
 
-                using (FileStream fs = System.IO.File.OpenWrite(@"F:\Write.txt"))
-                {
-                    using (StreamWriter sw = new StreamWriter(fs))
-                    {
-                        //sw.Write(DateTime.Now.ToString() + " sent email to " + email);
-                        sw.Write(result);
-                    }
-                    fs.Close();
-                }
+            //    using (FileStream fs = System.IO.File.OpenWrite(@"F:\Write.txt"))
+            //    {
+            //        using (StreamWriter sw = new StreamWriter(fs))
+            //        {
+            //            //sw.Write(DateTime.Now.ToString() + " sent email to " + email);
+            //            sw.Write(result);
+            //        }
+            //        fs.Close();
+            //    }
 
-                using (FileStream fs = System.IO.File.OpenWrite(@"F:\Write1.txt"))
-                {
-                    using (StreamWriter sw = new StreamWriter(fs))
-                    {
-                        sw.Write(videoBase64);
-                    }
-                    fs.Close();
-                }
+            //    using (FileStream fs = System.IO.File.OpenWrite(@"F:\Write1.txt"))
+            //    {
+            //        using (StreamWriter sw = new StreamWriter(fs))
+            //        {
+            //            sw.Write(videoBase64);
+            //        }
+            //        fs.Close();
+            //    }
 
-                if (file == null)
-                {
-                    return Json(new { message = "Error" }, JsonRequestBehavior.AllowGet);
-                }
-            }
+            //    if (file == null)
+            //    {
+            //        return Json(new { message = "Error" }, JsonRequestBehavior.AllowGet);
+            //    }
+            //}
 
-            return Json(new { message = "Success"}, JsonRequestBehavior.AllowGet);
+            return Json(new { result = response}, JsonRequestBehavior.AllowGet);
         }
 
         private byte[] ConvertToMediaToByte(HttpPostedFileBase file)

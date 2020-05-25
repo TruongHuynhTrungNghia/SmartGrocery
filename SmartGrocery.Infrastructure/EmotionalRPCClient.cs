@@ -42,15 +42,8 @@ namespace SmartGrocery.Infrastructure
 
         public string SendEmotionDataToServer(byte[] data)
         {
-            var rpcClient = new EmotionalRPCClient();
-            var response = rpcClient.Call(data);
-
-            return response;
-        }
-
-        private string Call(byte[] data)
-        {
             var messageBytes = data;
+
             channel.BasicPublish(
                 exchange: "",
                 routingKey: "rpc_queue",

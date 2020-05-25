@@ -7,8 +7,10 @@ function initilize() {
     calculatMoneyBaseOnAmount();
     calculateTotalPrice();
     recalculateTotalPrice();
-    handleCustomerEmotionalDetection();
+    //handleCustomerEmotionalDetection();
+    startup();
 }
+
 
 function handleSuccess(stream) {
     screenshotButton.disabled = false;
@@ -208,34 +210,34 @@ function recalculateTotalPrice() {
 
 var logElement = document.getElementById("log");
 
-function handleCustomerEmotionalDetection() {
-    let preview = document.getElementById("preview");
-    let startButton = document.getElementById("startButton");
-    let stopButton = document.getElementById("stopButton");
+//function handleCustomerEmotionalDetection() {
+//    let preview = document.getElementById("preview");
+//    let startButton = document.getElementById("startButton");
+//    let stopButton = document.getElementById("stopButton");
 
-    let recordingTimeMS = 2000;
-    let captureTimeMS = 200;
+//    let recordingTimeMS = 2000;
+//    let captureTimeMS = 200;
 
-    startButton.addEventListener("click", function () {
-        navigator.mediaDevices.getUserMedia({
-            video: true
-        }).then(stream => {
-            preview.srcObject = stream;
-            preview.captureStream = preview.captureStream || preview.mozCaptureStream;
-            return new Promise(resolve => preview.onplaying = resolve);
-        }).then(() => startRecording(preview.captureStream(), recordingTimeMS))
-            .then(recordedChunks => {
-                let recordedBlob = new Blob(recordedChunks, { type: "video/mp4" });
-                sendBackToController(recordedBlob);
+//    startButton.addEventListener("click", function () {
+//        navigator.mediaDevices.getUserMedia({
+//            video: true
+//        }).then(stream => {
+//            preview.srcObject = stream;
+//            preview.captureStream = preview.captureStream || preview.mozCaptureStream;
+//            return new Promise(resolve => preview.onplaying = resolve);
+//        }).then(() => startRecording(preview.captureStream(), recordingTimeMS))
+//            .then(recordedChunks => {
+//                let recordedBlob = new Blob(recordedChunks, { type: "video/mp4" });
+//                sendBackToController(recordedBlob);
 
-                log("Successfully recorded " + recordedBlob.size + " bytes of " +
-                    recordedBlob.type + " media.");
-            })
-            .catch(log);
-    }, false); stopButton.addEventListener("click", function () {
-        stop(preview.srcObject);
-    }, false);
-}
+//                log("Successfully recorded " + recordedBlob.size + " bytes of " +
+//                    recordedBlob.type + " media.");
+//            })
+//            .catch(log);
+//    }, false); stopButton.addEventListener("click", function () {
+//        stop(preview.srcObject);
+//    }, false);
+//}
 
 function startRecording(stream, lengthInMS) {
     let recorder = new MediaRecorder(stream);
@@ -261,16 +263,8 @@ function startRecording(stream, lengthInMS) {
     ]).then(() => data);
 }
 
-function log(msg) {
-    logElement.innerHTML += msg + "\n";
-}
-
 function wait(delayInMS) {
     return new Promise(resolve => setTimeout(resolve, delayInMS));
-}
-
-function stop(stream) {
-    stream.getTracks().forEach(track => track.stop());
 }
 
 function sendBackToController(recordedBlob) {
@@ -281,8 +275,18 @@ function sendBackToController(recordedBlob) {
     formData.append(fileType + '-filename', fileName);
     formData.append(fileType + '-blob', recordedBlob);
 
-    xhr('/Transaction/StoreVideo', formData, function (fName) {
-        window.open(location.href + 'uploads/' + fName);
+    //xhr('/Transaction/StoreVideo', formData, function (fName) {
+    //    window.open(location.href + 'uploads/' + fName);
+    //});
+    $.ajax({
+        url: '/Transaction/StoreVideo',
+        data: formData,
+        processData: false,
+        contentType: false,
+        type: 'POST',
+        success: function (data) {
+            alert(data);
+        }
     });
 }
 
@@ -318,4 +322,106 @@ function capture(recordedBlob) {
         };
     };
     /** End **/
+}
+
+var streaming = false;
+var width = 320;
+var height = 0; 
+var canvas = document.getElementById("canvas");
+var video = document.getElementById("video");
+let stopButton = document.getElementById("stopButton");
+
+function startup() {
+    let startButton = document.getElementById("start");
+
+    //navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+    //    .then(function (stream) {
+    //        video.srcObject = stream;
+    //        video.play();
+    //    })
+    //    .catch(function (err) {
+    //        console.log("An error occurred: " + err);
+    //    });
+
+    video.addEventListener('canplay', function (ev) {
+        if (!streaming) {
+            height = video.videoHeight / (video.videoWidth / width);
+
+            // Firefox currently has a bug where the height can't be read from
+            // the video, so we will make assumptions if this happens.
+
+            if (isNaN(height)) {
+                height = width / (4 / 3);
+            }
+
+            video.setAttribute('width', width);
+            video.setAttribute('height', height);
+            canvas.setAttribute('width', width);
+            canvas.setAttribute('height', height);
+            streaming = true;
+        }
+    }, false);
+
+    startButton.addEventListener('click', function (event) {
+        navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+            .then(function (stream) {
+                video.srcObject = stream;
+                video.play();
+            })
+            .catch(function (err) {
+                console.log("An error occurred: " + err);
+            });
+        captureImages();
+        event.preventDefault();
+    }, false);
+}
+
+function stop(stream) {
+    stream.getTracks().forEach(track => track.stop());
+}
+
+function log(msg) {
+    logElement.innerHTML += msg + "\n";
+}
+
+function captureImages() {
+    let captureTimeMS = 2000;
+    let totalImage = 5;
+
+    const timer = setInterval(function () {
+        captureImage();
+        totalImage--;
+
+        if (totalImage === 0) {
+            clearInterval(timer);
+        }
+    }, captureTimeMS);
+
+    //stop(video.srcObject);
+}
+
+function captureImage() {
+    console.log('1');
+    var context = canvas.getContext('2d');
+    if (width && height) {
+        canvas.width = width;
+        canvas.height = height;
+        context.drawImage(video, 0, 0, width, height);
+
+        let data = canvas.toDataURL('image/png');
+
+        var formData = new FormData();
+        formData.append("base64image", data);
+
+        $.ajax({
+            url: '/Transaction/StoreVideo',
+            data: formData,
+            processData: false,
+            contentType: false,
+            type: 'POST',
+            success: function (data) {
+                log(data.result);
+            }
+        });
+    }
 }

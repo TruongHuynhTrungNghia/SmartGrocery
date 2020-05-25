@@ -70,7 +70,7 @@
 			</div>
 		</div>
 
-		<div class="row">
+		@*<div class="row">
 			<div class="left">
 				<div id="startButton" class="button">
 					Start
@@ -86,22 +86,30 @@
 			<div class="bottom">
 				<pre id="log"></pre>
 			</div>
+		</div>*@
+
+	<div class="row">
+		<div class="left">
+			<div id="start" class="button">
+				Start
+			</div>
+			<h2>Preview</h2>
+			<video id="video" controls="controls" autoplay muted></video>
 		</div>
-
-		<div>
-			<video id="video" controls="controls">
-				<source src=".mp4" />
-			</video>
-
-			<button id="capture">Capture</button>
-
-			<div id="output"></div>
+		<div class="right">
+			<div id="stopButton" class="button">
+				Stop
+			</div>
+			<canvas id="canvas" hidden></canvas>
 		</div>
-
-		<div class="row form-group">
-			<button type="submit" class="btn btn-success" id="create-transaction">Confirm</button>
+		<div class="bottom">
+			<pre id="log"></pre>
 		</div>
 	</div>
+	<div class="row form-group">
+		<button type="submit" class="btn btn-success" id="create-transaction">Confirm</button>
+	</div>
+</div>
 }
 
 @section scripts{
