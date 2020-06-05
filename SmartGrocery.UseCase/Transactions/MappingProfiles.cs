@@ -34,7 +34,9 @@ namespace SmartGrocery.UseCase.Transactions
             CreateMap<Transaction, TransactionDto>()
                 .ForMember(dest => dest.TransactionId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.ProductSnapshotDtos, opt => opt.MapFrom(src => src.ProductSnapshot))
-                .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer.CustomerFullName));
+                .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer.CustomerFullName))
+                .ForMember(dest => dest.CustomerEmotion, opt => opt.MapFrom(src => src.Customer.LastestCustomerEmotion))
+                .ForMember(dest => dest.CustomerEmotionProbability, opt => opt.MapFrom(src => src.Customer.EmotionProbability));
         }
     }
 }

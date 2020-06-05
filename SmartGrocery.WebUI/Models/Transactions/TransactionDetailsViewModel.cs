@@ -18,6 +18,11 @@ namespace SmartGrocery.WebUI.Models.Transactions
         [DisplayName("Customer Name")]
         public string CustomerName { get; set; }
 
+        [DisplayName("Customer Emotion")]
+        public string CustomerEmotion { get; set; }
+
+        public string CustomerEmotionProbability { get; set; }
+
         public ProductSnapshotViewModel[] ProductSnapshots { get; set; }
 
         internal void CreateNewProductSnapshot()

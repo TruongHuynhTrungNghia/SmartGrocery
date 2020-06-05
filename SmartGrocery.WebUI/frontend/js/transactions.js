@@ -9,6 +9,7 @@ function initilize() {
     recalculateTotalPrice();
     //handleCustomerEmotionalDetection();
     startup();
+    searchCustomer();
 }
 
 
@@ -132,12 +133,12 @@ function SearchNewProduct() {
         if ($productNumberId.val().length < 3) {
             toastr.warning("Please input at least 3 characters.");
         } else {
-            SearchProductByItNumber($productNumberId)
+            searchProductByItNumber($productNumberId)
         }
     })
 }
 
-function SearchProductByItNumber($productNumberId) {
+function searchProductByItNumber($productNumberId) {
     let data = {
         productNumber: $productNumberId.val()
     };
@@ -159,8 +160,6 @@ function populateProductInfo($productNumberId, result) {
     let prefix = $productNumberId.attr('name').split('.')[0];
 
     $.each(result.result, function (key, value) {
-        console.log(key + ' ' + value);
-        console.log($productNumberId.attr('id'));
         $('input[name="' + prefix + '.' + key + '"]').val(value);
     });
 }
@@ -239,67 +238,67 @@ var logElement = document.getElementById("log");
 //    }, false);
 //}
 
-function startRecording(stream, lengthInMS) {
-    let recorder = new MediaRecorder(stream);
-    let data = [];
+//function startRecording(stream, lengthInMS) {
+//    let recorder = new MediaRecorder(stream);
+//    let data = [];
 
-    recorder.ondataavailable = event => data.push(event.data);
-    recorder.start();
-    log(recorder.state + " for " + (lengthInMS / 1000) + " seconds...");
+//    recorder.ondataavailable = event => data.push(event.data);
+//    recorder.start();
+//    log(recorder.state + " for " + (lengthInMS / 1000) + " seconds...");
 
 
-    let stopped = new Promise((resolve, reject) => {
-        recorder.onstop = resolve;
-        recorder.onerror = event => reject(event.name);
-    });
+//    let stopped = new Promise((resolve, reject) => {
+//        recorder.onstop = resolve;
+//        recorder.onerror = event => reject(event.name);
+//    });
 
-    let recorded = wait(lengthInMS).then(
-        () => recorder.state == "recording" && recorder.stop()
-    );
+//    let recorded = wait(lengthInMS).then(
+//        () => recorder.state == "recording" && recorder.stop()
+//    );
 
-    return Promise.all([
-        stopped,
-        recorded
-    ]).then(() => data);
-}
+//    return Promise.all([
+//        stopped,
+//        recorded
+//    ]).then(() => data);
+//}
 
-function wait(delayInMS) {
-    return new Promise(resolve => setTimeout(resolve, delayInMS));
-}
+//function wait(delayInMS) {
+//    return new Promise(resolve => setTimeout(resolve, delayInMS));
+//}
 
-function sendBackToController(recordedBlob) {
-    var fileType = 'video'; // or "audio"
-    var fileName = 'ABCDEF.webm';  // or "wav"
+//function sendBackToController(recordedBlob) {
+//    var fileType = 'video'; // or "audio"
+//    var fileName = 'ABCDEF.webm';  // or "wav"
 
-    var formData = new FormData();
-    formData.append(fileType + '-filename', fileName);
-    formData.append(fileType + '-blob', recordedBlob);
+//    var formData = new FormData();
+//    formData.append(fileType + '-filename', fileName);
+//    formData.append(fileType + '-blob', recordedBlob);
 
-    //xhr('/Transaction/StoreVideo', formData, function (fName) {
-    //    window.open(location.href + 'uploads/' + fName);
-    //});
-    $.ajax({
-        url: '/Transaction/StoreVideo',
-        data: formData,
-        processData: false,
-        contentType: false,
-        type: 'POST',
-        success: function (data) {
-            alert(data);
-        }
-    });
-}
+//    //xhr('/Transaction/StoreVideo', formData, function (fName) {
+//    //    window.open(location.href + 'uploads/' + fName);
+//    //});
+//    $.ajax({
+//        url: '/Transaction/StoreVideo',
+//        data: formData,
+//        processData: false,
+//        contentType: false,
+//        type: 'POST',
+//        success: function (data) {
+//            alert(data);
+//        }
+//    });
+//}
 
-function xhr(url, data, callback) {
-    var request = new XMLHttpRequest();
-    request.onreadystatechange = function () {
-        if (request.readyState == 4 && request.status == 200) {
-            callback(location.href + request.responseText);
-        }
-    };
-    request.open('POST', url);
-    request.send(data);
-}
+//function xhr(url, data, callback) {
+//    var request = new XMLHttpRequest();
+//    request.onreadystatechange = function () {
+//        if (request.readyState == 4 && request.status == 200) {
+//            callback(location.href + request.responseText);
+//        }
+//    };
+//    request.open('POST', url);
+//    request.send(data);
+//}
 
 function capture(recordedBlob) {
     var canvas = document.getElementById('canvas');
@@ -333,15 +332,6 @@ let stopButton = document.getElementById("stopButton");
 
 function startup() {
     let startButton = document.getElementById("start");
-
-    //navigator.mediaDevices.getUserMedia({ video: true, audio: false })
-    //    .then(function (stream) {
-    //        video.srcObject = stream;
-    //        video.play();
-    //    })
-    //    .catch(function (err) {
-    //        console.log("An error occurred: " + err);
-    //    });
 
     video.addEventListener('canplay', function (ev) {
         if (!streaming) {
@@ -400,9 +390,11 @@ function captureImages() {
     //stop(video.srcObject);
 }
 
+let currentEmotion;
+let currentEmotionProbability = 0;
 function captureImage() {
-    console.log('1');
-    var context = canvas.getContext('2d');
+    let context = canvas.getContext('2d');
+
     if (width && height) {
         canvas.width = width;
         canvas.height = height;
@@ -420,8 +412,37 @@ function captureImage() {
             contentType: false,
             type: 'POST',
             success: function (data) {
-                log(data.result);
+                log(data.result.Probability + '  ' + data.result.Emotion);
+                if (currentEmotionProbability < parseFloat(data.result.Probability)) {
+                    currentEmotion = data.result.Emotion;
+                    currentEmotionProbability = data.result.Probability;
+                }
+
+                updateCustomerEmotionData(currentEmotion, currentEmotionProbability)
             }
         });
     }
+}
+
+function updateCustomerEmotionData(currentEmotion, currentEmotionProbability) {
+    $('#CustomerEmotion').val(currentEmotion);
+    $('#CustomerEmotionProbability').val(currentEmotionProbability);
+}
+
+function searchCustomer() {
+    $('#search-customer-id').on('click', function () {
+        let data = {
+            customerNumber: $('#CustomerId').val()
+        };
+
+        $.ajax({
+            data: data,
+            type: 'GET',
+            url: '/Customer/SearchCustomerById',
+            success: function(result) {
+                $('#CustomerName').val(result.result.FirstName);
+                $('#CustomerId').val(result.result.CustomerId);
+            }
+        });
+    });
 }

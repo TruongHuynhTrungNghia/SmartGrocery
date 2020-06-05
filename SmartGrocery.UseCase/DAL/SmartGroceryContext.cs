@@ -112,6 +112,7 @@ namespace SmartGrocery.UseCase.DAL
             entity.Property(x => x.Age).IsRequired();
             entity.Property(x => x.DateOfBirth).IsRequired();
             entity.Property(x => x.Points).IsOptional();
+            entity.Property(x => x.LastestCustomerEmotion).HasMaxLength(32);
             entity
                 .HasMany(x => x.Transactions)
                 .WithRequired(t => t.Customer)

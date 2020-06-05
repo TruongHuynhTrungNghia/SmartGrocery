@@ -42,18 +42,22 @@ namespace SmartGrocery.UseCase.Transactions
             var transaction = mapper.Map<Transaction>(command);
 
             var customer = customerUpdater.GetCustomerByCustomerNumber(command.CustomerId);
-            transaction.CustomerId = customer.Id;
+            if (customer != null)
+            {
+                transaction.CustomerId = customer.Id;
+                customerUpdater.UpdateCustomerEmotion(customer, command);
+            }
 
             if (productUpdater.ValidListOfProductResult(mapper.Map<IEnumerable<UpdatedProductSnapshot>>(command.ProductSnapshotDto)).IsValid)
             {
-                transaction.ProductSnapshot = productUpdater
-                    .CreateNewListofProductSnapshot(
+                transaction.ProductSnapshot = productUpdater.CreateNewListofProductSnapshot(
                         mapper.Map<IEnumerable<UpdatedProductSnapshot>>(command.ProductSnapshotDto), 
                         transaction.Id);
 
                 context.Set<Transaction>().Add(transaction);
 
                 context.SaveChangesAsync();
+
                 //TODO: Move this function after implementing background jobs. 
                 productUpdater.UpdateProductQuantity(mapper.Map<IEnumerable<UpdatedProductSnapshot>>(command.ProductSnapshotDto));
             }

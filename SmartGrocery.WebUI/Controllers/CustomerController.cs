@@ -46,21 +46,18 @@ namespace SmartGrocery.WebUI.Controllers
             return View("Summary", viewModel.ToPagedList(pageNumber, pageSize));
         }
 
-        //[HttpGet]
-        //public async Task<ActionResult> SearchCustomer(string searchTerm, CancellationToken cancellationToken)
-        //{
-        //    var response = await client.GetAsync($"customers/lists/{searchTerm}", cancellationToken);
-        //    response.EnsureSuccessStatusCode();
+        [HttpGet]
+        public async Task<ActionResult> SearchCustomerById(string customerNumber, CancellationToken cancellationToken)
+        {
+            var response = await client.GetAsync($"customers/transactions/{customerNumber}", cancellationToken);
+            response.EnsureSuccessStatusCode();
 
-        //    var json = await response.Content.ReadAsStringAsync();
-        //    var contract = JsonConvert.DeserializeObject<CustomerDetailsContract[]>(json);
-        //    var viewModel = mapper.Map<CustomerViewModel[]>(contract);
+            var json = await response.Content.ReadAsStringAsync();
+            var contract = JsonConvert.DeserializeObject<CustomerDetailsContract>(json);
+            var viewModel = mapper.Map<CustomerViewModel>(contract);
 
-        //    int pageNumber = 1;
-        //    int pageSize = int.Parse(ConfigurationManager.AppSettings["DefaultPageSize"]);
-
-        //    return View("Summary", viewModel.ToPagedList(pageNumber, pageSize));
-        //}
+            return Json(new { result = viewModel }, JsonRequestBehavior.AllowGet);
+        }
 
         [HttpGet]
         public async Task<ActionResult> Details(string customerNumber, CancellationToken cancellationToken)

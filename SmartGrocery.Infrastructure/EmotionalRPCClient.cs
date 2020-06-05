@@ -40,7 +40,7 @@ namespace SmartGrocery.Infrastructure
             };
         }
 
-        public string SendEmotionDataToServer(byte[] data)
+        public EmotionalData SendEmotionDataToServer(byte[] data)
         {
             var messageBytes = data;
 
@@ -55,7 +55,20 @@ namespace SmartGrocery.Infrastructure
                 queue: replyQueueName,
                 autoAck: true);
 
-            return respQueue.Take();
+            var result = respQueue.Take();
+
+            return ConverttoEmotionData(result);
+        }
+
+        private EmotionalData ConverttoEmotionData(string result)
+        {
+            string[] data = result.Split(new char[] { ' ' }, 2);
+
+            return new EmotionalData
+            {
+                Emotion = data[1] == "Null" ? string.Empty : data[1],
+                Probability = Decimal.TryParse(data[0], out decimal percentage) == true ? percentage : 0M
+            };
         }
     }
 
@@ -63,6 +76,11 @@ namespace SmartGrocery.Infrastructure
     {
         public string Emotion { get; set; }
 
-        public int Percentage { get; set; }
+        public decimal Probability { get; set; }
+
+        public EmotionalData CheckAndAssert(EmotionalData emotion)
+        {
+            return this.Probability >= emotion.Probability ? this : emotion;
+        }
     }
 }

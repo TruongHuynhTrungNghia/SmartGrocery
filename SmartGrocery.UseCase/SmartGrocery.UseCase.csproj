@@ -114,6 +114,7 @@
     <Compile Include="Customer\GetCustomerByIdQuery.cs" />
     <Compile Include="Customer\GetCustomerByIdQueryHandler.cs" />
     <Compile Include="Customer\MappingProfile.cs" />
+    <Compile Include="Customer\SearchCustomerByCustomerNumberQuery.cs" />
     <Compile Include="Customer\SearchCustomerQuery.cs" />
     <Compile Include="Customer\SearchCustomerQueryHandler.cs" />
     <Compile Include="DAL\Migrations\202004021624198_ImplementedProductSnapshot.cs" />
@@ -131,6 +132,10 @@
     <Compile Include="DAL\Migrations\202005171647286_AddCustomerIdNumberAndEmail.cs" />
     <Compile Include="DAL\Migrations\202005171647286_AddCustomerIdNumberAndEmail.Designer.cs">
       <DependentUpon>202005171647286_AddCustomerIdNumberAndEmail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Migrations\202005291633249_AddLastestCustomerEmotionToCustomerTable.cs" />
+    <Compile Include="DAL\Migrations\202005291633249_AddLastestCustomerEmotionToCustomerTable.Designer.cs">
+      <DependentUpon>202005291633249_AddLastestCustomerEmotionToCustomerTable.cs</DependentUpon>
     </Compile>
     <Compile Include="DAL\SmartGroceryModule.cs" />
     <Compile Include="Migrations\Configuration.cs" />
@@ -159,6 +164,7 @@
     <Compile Include="Product\ProductSnapshotDto.cs" />
     <Compile Include="Product\ProductUpdater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Customer\SearchCustomerByCustomerNumberQueryHandler.cs" />
     <Compile Include="Transactions\CreateTransactionCommand.cs" />
     <Compile Include="Transactions\CreateTransactionCommandHandler.cs" />
     <Compile Include="Transactions\DeleteTransactionCommand.cs" />
@@ -199,6 +205,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DAL\Migrations\202005171647286_AddCustomerIdNumberAndEmail.resx">
       <DependentUpon>202005171647286_AddCustomerIdNumberAndEmail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DAL\Migrations\202005291633249_AddLastestCustomerEmotionToCustomerTable.resx">
+      <DependentUpon>202005291633249_AddLastestCustomerEmotionToCustomerTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

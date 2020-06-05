@@ -10,7 +10,9 @@ namespace SmartGrocery.UseCase.Customer
             CreateMap<CreateCustomerCommand, CustomerBase>()
                 .ForMember(x => x.Id, opt => opt.Ignore())
                 .ForMember(x => x.Transactions, opt => opt.Ignore())
-                .ForMember(x => x.Points, opt => opt.MapFrom(src => src.Points));
+                .ForMember(x => x.Points, opt => opt.MapFrom(src => src.Points))
+                .ForMember(x => x.LastestCustomerEmotion, opt => opt.Ignore())
+                .ForMember(x => x.EmotionProbability, opt => opt.UseValue(0M));
 
             CreateMap<CustomerBase, CustomerDetailsDto>()
                 .ForMember(dest => dest.TransactionDtos, opt => opt.MapFrom(src => src.Transactions));

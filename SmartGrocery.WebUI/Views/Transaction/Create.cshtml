@@ -4,40 +4,54 @@
 
 @using (Html.BeginForm("Create", "Transaction", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
+	<h3>Create Transaction</h3>
 	<div class="section-container">
 		@Html.HiddenFor(x => x.CreatedBy)
 		@Html.HiddenFor(x => x.LastUpdatedBy)
 		<div class="row">
-			<div class="col-md-4 form-group required">
+			<div class="col-md-3 form-group required">
 				@Html.LabelFor(x => x.TransactionNumber, new { @class = "form-label" })
 				@Html.TextBoxFor(x => x.TransactionNumber, new { @class = "form-control" })
 				@Html.ValidationMessageFor(x => x.TransactionNumber)
 			</div>
-			<div class="col-md-offset-1 col-md-4 form-group">
+			<div class="col-md-offset-1 col-md-3 form-group">
 				@Html.LabelFor(x => x.CreatedAt, new { @class = "form-label" })
 				<p>@Model.CreatedAt</p>
 			</div>
 		</div>
 		
 		<div class="row">
-			<div class="col-md-4 form-group">
+			<div class="col-md-3 form-group">
 				@Html.LabelFor(x => x.CustomerId, new { @class = "form-label" })
-				@Html.TextBoxFor(x => x.CustomerId, new { @class = "form-control" })
+				<div class="input-group">
+					@Html.TextBoxFor(x => x.CustomerId, new { @class = "form-control" })
+					<span class="input-group-addon clickable" id="search-customer-id">
+						<i class="input-group glyphicon glyphicon-search"></i>
+					</span>
+				</div>
 				@Html.ValidationMessageFor(x => x.CustomerId)
 			</div>
+			<div class="col-md-3 form-group">
+				@Html.LabelFor(x => x.CustomerName, new { @class = "form-label" })
+				@Html.TextBoxFor(x => x.CustomerName, new { @class = "form-control" })
+			</div>
+			<div class="col-md-3 form-group">
+				@Html.LabelFor(x => x.CustomerEmotion, new { @class = "form-label"})
+				@Html.TextBoxFor(x => x.CustomerEmotion, new { @class = "form-control", @readonly = "readonly" })
+			</div>
+			@Html.HiddenFor(x => x.CustomerEmotionProbability)
 		</div>
 		
 		<div class="row">
-			<div class="col-md-4">
-				<div class="form-group">
-					@Html.LabelFor(x => x.Amount, new { @class = "form-label" })
-					<div class="input-group">
-						@Html.TextBoxFor(x => x.Amount, new { @class = "form-control" })
-						<span class="input-group-addon clickable" id="calculate-total-price">
-							<i class="glyphicon glyphicon-usd"></i>
-						</span>
-					</div>
+			<div class="col-md-3 form-group">
+				@Html.LabelFor(x => x.Amount, new { @class = "form-label" })
+				<div class="input-group">
+					@Html.TextBoxFor(x => x.Amount, new { @class = "form-control" })
+					<span class="input-group-addon clickable" id="calculate-total-price">
+						<i class="input-group glyphicon glyphicon-usd"></i>
+					</span>
 				</div>
+				@Html.ValidationMessageFor(x => x.Amount)
 			</div>
 		</div>
 
@@ -70,46 +84,28 @@
 			</div>
 		</div>
 
-		@*<div class="row">
+		<div class="row">
 			<div class="left">
-				<div id="startButton" class="button">
+				<div id="start" class="button">
 					Start
 				</div>
 				<h2>Preview</h2>
-				<video id="preview" width="160" height="120" autoplay muted></video>
+				<video id="video" controls="controls" autoplay muted></video>
 			</div>
 			<div class="right">
 				<div id="stopButton" class="button">
 					Stop
 				</div>
+				<canvas id="canvas" hidden></canvas>
 			</div>
 			<div class="bottom">
 				<pre id="log"></pre>
 			</div>
-		</div>*@
-
-	<div class="row">
-		<div class="left">
-			<div id="start" class="button">
-				Start
-			</div>
-			<h2>Preview</h2>
-			<video id="video" controls="controls" autoplay muted></video>
 		</div>
-		<div class="right">
-			<div id="stopButton" class="button">
-				Stop
-			</div>
-			<canvas id="canvas" hidden></canvas>
-		</div>
-		<div class="bottom">
-			<pre id="log"></pre>
+		<div class="row form-group">
+			<button type="submit" class="btn btn-success">Confirm</button>
 		</div>
 	</div>
-	<div class="row form-group">
-		<button type="submit" class="btn btn-success" id="create-transaction">Confirm</button>
-	</div>
-</div>
 }
 
 @section scripts{

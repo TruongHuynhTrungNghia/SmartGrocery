@@ -23,6 +23,10 @@ namespace SmartGrocery.UseCase.Customer
 
         public string IdNumber { get; set; }
 
+        public string LastestCustomerEmotion { get; set; }
+
+        public decimal EmotionProbability { get; set; }
+
         public TransactionDto[] TransactionDtos { get; set; }
     }
 }

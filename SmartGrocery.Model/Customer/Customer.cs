@@ -22,6 +22,9 @@ namespace SmartGrocery.Model.Customer
 
         public string IdNumber { get; set; }
 
+        public string LastestCustomerEmotion { get; set; }
+
+        public decimal EmotionProbability { get; set; }
 
         public virtual ICollection<Transaction.Transaction> Transactions { get; set; }
 
@@ -57,5 +60,9 @@ namespace SmartGrocery.Model.Customer
         public string Email { get; set; }
 
         public string IdNumber { get; set; }
+
+        public string LastestCustomerEmotion { get; set; }
+
+        public decimal EmotionProbability { get; set; }
     }
 }

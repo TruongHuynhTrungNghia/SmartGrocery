@@ -8,6 +8,10 @@ namespace SmartGrocery.WebUI.Models.Customer
         [DisplayName("Full Name")]
         public string CustomerFullName { get; set; }
 
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
         [DisplayName("Customer ID")]
         public string CustomerId { get; set; }
 

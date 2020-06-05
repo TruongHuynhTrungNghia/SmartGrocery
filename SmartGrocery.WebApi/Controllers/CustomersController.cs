@@ -99,5 +99,20 @@ namespace SmartGrocery.WebApi.Controllers
 
             return Ok(contract);
         }
+
+        [HttpGet]
+        [Route("transactions/{customerId}")]
+        public async Task<IHttpActionResult> SearchCustomerbyCustomerNumber(string customerId, CancellationToken cancellationToken)
+        {
+            var query = new SearchCustomerByCustomerNumberQuery
+            {
+                CustomerNumber = customerId
+            };
+
+            var response = await mediator.Send(query, cancellationToken);
+            var contract = mapper.Map<CustomerContract>(response);
+
+            return Ok(contract);
+        }
     }
 }

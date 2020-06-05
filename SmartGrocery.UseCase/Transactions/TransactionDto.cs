@@ -13,6 +13,10 @@ namespace SmartGrocery.UseCase.Transactions
 
         public string CustomerId { get; set; }
 
+        public string CustomerEmotion { get; set; }
+
+        public string CustomerEmotionProbability { get; set; }
+
         public string Amount { get; set; }
 
         public string CreatedBy { get; set; }
