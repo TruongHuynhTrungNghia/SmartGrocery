@@ -66,5 +66,8 @@
   <ItemGroup>
     <EmbeddedResource Include="MySqlScript\007_AddLastestCustomerEmotionToCustomerTable.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MySqlScript\008_ChangeLastUpdatedAtDataType.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

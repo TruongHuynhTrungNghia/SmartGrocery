@@ -20,12 +20,12 @@ namespace SmartGrocery.WebUI.Models.Transactions
         public string CreatedBy { get; set; }
 
         [DisplayName("Created At")]
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
         [DisplayName("Last Updated By")]
         public string LastUpdatedBy { get; set; }
 
         [DisplayName("Last Updated At")]
-        public string LastUpdatedAt { get; set; }
+        public DateTime? LastUpdatedAt { get; set; }
     }
 }

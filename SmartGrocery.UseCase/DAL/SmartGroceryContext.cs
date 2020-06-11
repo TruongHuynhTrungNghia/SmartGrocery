@@ -49,12 +49,8 @@ namespace SmartGrocery.UseCase.DAL
             entity.ToTable("transaction");
             entity.Property(x => x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             entity.Property(x => x.Amount).IsRequired();
-            entity.Property(x => x.CreatedAt).IsRequired();
-            entity.Property(x => x.CreatedBy).IsRequired();
             entity.Property(x => x.CustomerId).IsRequired();
             entity.Property(x => x.Id).IsRequired();
-            entity.Property(x => x.LastUpdatedAt).IsRequired();
-            entity.Property(x => x.LastUpdatedBy).IsRequired();
 
             entity
                 .HasRequired(x => x.Customer)

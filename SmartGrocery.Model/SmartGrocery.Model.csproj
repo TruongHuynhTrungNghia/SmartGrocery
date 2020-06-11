@@ -53,6 +53,7 @@
     <Compile Include="Role\Role.cs" />
     <Compile Include="Role\User.cs" />
     <Compile Include="Role\UserLogin.cs" />
+    <Compile Include="Role\UserRoles.cs" />
     <Compile Include="Transaction\Transaction.cs" />
   </ItemGroup>
   <ItemGroup />

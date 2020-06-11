@@ -12,11 +12,11 @@ namespace SmartGrocery.Model.Transaction
 
         public string CreatedBy { get; set; }
 
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
         public string LastUpdatedBy { get; set; }
 
-        public string LastUpdatedAt { get; set; }
+        public DateTime? LastUpdatedAt { get; set; }
 
         public Guid CustomerId { get; set; }
 
@@ -41,7 +41,7 @@ namespace SmartGrocery.Model.Transaction
 
         public string LastUpdatedBy { get; set; }
 
-        public string LastUpdatedAt { get; set; }
+        public DateTime? LastUpdatedAt { get; set; }
 
         public Guid CustomerId { get; set; }
     }

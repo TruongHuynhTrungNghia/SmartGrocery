@@ -91,7 +91,7 @@ namespace SmartGrocery.WebUI.Controllers
             var contract = await response.Content.ReadAsStringAsync();
             var viewModel = JsonConvert.DeserializeObject<TransactionDetailsViewModel>(contract);
             viewModel.LastUpdatedBy = User.Identity.Name;
-            viewModel.LastUpdatedAt = DateTime.Now.ToString();
+            viewModel.LastUpdatedAt = DateTime.Now;
             if (viewModel.ProductSnapshots == null)
             {
                 viewModel.CreateNewProductSnapshot();

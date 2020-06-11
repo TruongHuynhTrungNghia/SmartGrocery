@@ -9,6 +9,8 @@ namespace SmartGrocery.Model.Role
 
         public Guid UserId { get; set; }
 
+        public string LoginProvider { get; set; }
+
         public virtual User User { get; set; }
     }
 }

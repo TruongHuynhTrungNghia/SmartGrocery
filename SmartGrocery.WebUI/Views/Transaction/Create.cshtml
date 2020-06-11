@@ -31,22 +31,22 @@
 				</div>
 				@Html.ValidationMessageFor(x => x.CustomerId)
 			</div>
-			<div class="col-md-3 form-group">
-				@Html.LabelFor(x => x.CustomerName, new { @class = "form-label" })
-				@Html.TextBoxFor(x => x.CustomerName, new { @class = "form-control" })
+			<div class="col-md-3 col-md-offset-1 form-group">
+				@Html.LabelFor(x => x.CustomerName, new { @class="form-label" })
+				@Html.TextBoxFor(x => x.CustomerName, new { @class="form-control" })
 			</div>
-			<div class="col-md-3 form-group">
-				@Html.LabelFor(x => x.CustomerEmotion, new { @class = "form-label"})
-				@Html.TextBoxFor(x => x.CustomerEmotion, new { @class = "form-control", @readonly = "readonly" })
+			<div class="col-md-3 col-md-offset-1 form-group">
+				@Html.LabelFor(x => x.CustomerEmotion, new { @class="form-label"})
+				@Html.TextBoxFor(x => x.CustomerEmotion, new { @class="form-control", @readonly="readonly" })
 			</div>
 			@Html.HiddenFor(x => x.CustomerEmotionProbability)
 		</div>
 		
 		<div class="row">
 			<div class="col-md-3 form-group">
-				@Html.LabelFor(x => x.Amount, new { @class = "form-label" })
+				@Html.LabelFor(x => x.Amount, new { @class="form-label" })
 				<div class="input-group">
-					@Html.TextBoxFor(x => x.Amount, new { @class = "form-control" })
+					@Html.TextBoxFor(x => x.Amount, new { @class="form-control", @readonly="readonly" })
 					<span class="input-group-addon clickable" id="calculate-total-price">
 						<i class="input-group glyphicon glyphicon-usd"></i>
 					</span>
@@ -56,7 +56,7 @@
 		</div>
 
 		<div class="row">
-			<div class="col-md-12 form-group">
+			<div class="col-md-11 form-group">
 				<table id="products-table" class="table table-hover table-bordered">
 					<thead>
 						<tr>
