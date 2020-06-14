@@ -96,6 +96,13 @@ namespace SmartGrocery.WebUI.Controllers
             {
                 viewModel.CreateNewProductSnapshot();
             }
+            else
+            {
+                foreach(var product in viewModel.ProductSnapshots)
+                {
+                    product.DisplayPrice = product.Price;
+                }
+            }
 
             return PartialView("_Edit", viewModel);
         }

@@ -14,6 +14,10 @@ namespace SmartGrocery.WebApi.MappingProfiles
             CreateMap<EditCustomerRequest, EditCustomerCommand>()
                 .ForMember(dest => dest.LastestCustomerEmotion, opt => opt.Ignore())
                 .ForMember(dest => dest.EmotionProbability, opt => opt.Ignore());
+
+            CreateMap<CreateCustomerRequest, CreateCustomerCommand>()
+                .ForMember(dest => dest.LastestCustomerEmotion, opt => opt.Ignore())
+                .ForMember(dest => dest.EmotionProbability, opt => opt.Ignore());
         }
     }
 }
