@@ -27,5 +27,11 @@ namespace SmartGrocery.WebUI.Models.Transactions
 
         [DisplayName("Last Updated At")]
         public DateTime? LastUpdatedAt { get; set; }
+
+        public string DisplayLastUpdatedAt
+            => LastUpdatedAt.HasValue ? LastUpdatedAt.Value.ToString("dd-MMM-yyyy") : string.Empty;
+
+        public string DisplayCreateUpdatedAt
+            => CreatedAt.HasValue ? CreatedAt.Value.ToString("dd-MMM-yyyy") : string.Empty;
     }
 }

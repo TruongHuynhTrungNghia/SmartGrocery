@@ -27,7 +27,7 @@
 			</div>
 			<div class="col-md-3 col-md-offset-1">
 				@Html.LabelFor(x => x.CreatedAt, new { @class = "form-label" })
-				<p>@Model.CreatedAt</p>
+				<p>@Model.DisplayCreateUpdatedAt</p>
 			</div>
 		</div>
 		<div class="row">
@@ -37,7 +37,7 @@
 			</div>
 			<div class="col-md-3 col-md-offset-1">
 				@Html.LabelFor(x => x.LastUpdatedAt, new { @class = "form-label" })
-				<p>@Model.LastUpdatedAt</p>
+				<p>@Model.DisplayLastUpdatedAt</p>
 			</div>
 		</div>
 		<div class="row">
@@ -49,10 +49,10 @@
 				<table class="table table-bordered table-hover" style="background: whitesmoke">
 					<thead>
 						<tr>
-							<th>Product Number</th>
-							<th>Product Name</th>
-							<th>Number Off Sold Product</th>
-							<th>Price</th>
+							<th style="text-align:center">Product Number</th>
+							<th style="text-align:center">Product Name</th>
+							<th style="text-align:center">Number Off Sold Product</th>
+							<th style="text-align:center">Price</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -61,10 +61,10 @@
 							foreach (var productSnapshot in Model.ProductSnapshots)
 							{
 								<tr>
-									<td>@productSnapshot.ProductNumber</td>
-									<td>@productSnapshot.ProductName</td>
-									<td>@productSnapshot.NumberOfSoldProduct</td>
-									<td>@productSnapshot.Price</td>
+									<td style="text-align:center">@productSnapshot.ProductNumber</td>
+									<td style="text-align:center">@productSnapshot.ProductName</td>
+									<td style="text-align:center">@productSnapshot.NumberOfSoldProduct</td>
+									<td style="text-align:right">@productSnapshot.Price.ToString("C2")</td>
 								</tr>
 							}
 						}
