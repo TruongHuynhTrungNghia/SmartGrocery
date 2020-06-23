@@ -418,7 +418,8 @@ function captureImage() {
                     currentEmotionProbability = data.result.Probability;
                 }
 
-                updateCustomerEmotionData(currentEmotion, currentEmotionProbability)
+                updateCustomerEmotionData(currentEmotion, currentEmotionProbability);
+                updateEmotionalProgressBar(data.result.Emotion, data.result.Probability);
             }
         });
     }
@@ -427,6 +428,35 @@ function captureImage() {
 function updateCustomerEmotionData(currentEmotion, currentEmotionProbability) {
     $('#CustomerEmotion').val(currentEmotion);
     $('#CustomerEmotionProbability').val(currentEmotionProbability);
+}
+
+function updateEmotionalProgressBar(currentEmotion, currentEmotionProbability) {
+    const $emotionalProgressBarId = $('#emotional-progress-bar');
+    $emotionalProgressBarId.removeClass();
+
+    switch (currentEmotion) {
+        case 'neutral':
+            $emotionalProgressBarId.addClass('progress-bar progress-bar-info active');
+            break;
+        case 'happy':
+            $emotionalProgressBarId.addClass('progress-bar progress-bar-success active');
+            break;
+        case 'surprised':
+            $('#emotional-progress-bar').addClass('progress-bar progress-bar-success active');
+            break;
+        case 'scared':
+            $emotionalProgressBarId.addClass('progress-bar progress-bar-warning active');
+            break;
+        case 'angry':
+            $emotionalProgressBarId.addClass('progress-bar progress-bar-danger active');
+            break;
+        case 'disgust':
+            $emotionalProgressBarId.addClass('progress-bar progress-bar-danger active');
+            break;
+    }
+
+    $emotionalProgressBarId.css({ "width": currentEmotionProbability * 100 + "%" });
+    $emotionalProgressBarId.val(currentEmotionProbability);
 }
 
 function searchCustomer() {
