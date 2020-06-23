@@ -2,6 +2,7 @@
 using MediatR;
 using SmartGrocery.Model.Product;
 using SmartGrocery.UseCase.DAL;
+using System;
 using System.Linq;
 
 namespace SmartGrocery.UseCase.Product
@@ -20,8 +21,8 @@ namespace SmartGrocery.UseCase.Product
         public BaseProductDto Handle(GetProductByNumberQuery query)
         {
             var baseProduct = context.Set<BaseProduct>()
-                .AsNoTracking()
-                .SingleOrDefault(x => x.ProductNumber.Contains(query.ProductNumber));
+                    .AsNoTracking()
+                    .FirstOrDefault(x => x.ProductNumber.Contains(query.ProductNumber));
 
             return mapper.Map<BaseProductDto>(baseProduct);
         }
