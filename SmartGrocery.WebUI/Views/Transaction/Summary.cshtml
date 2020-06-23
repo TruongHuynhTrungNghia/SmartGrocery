@@ -11,11 +11,11 @@
 			<thead class="thead-dark">
 				<tr>
 					<th>Transaction Number</th>
-					<th>Amount</th>
-					<th>Created By</th>
-					<th>Created At</th>
-					<th>Last Updated By</th>
-					<th>Last Updated At</th>
+					<th style="text-align:center">Amount</th>
+					<th style="text-align:center">Created By</th>
+					<th style="text-align:center">Created At</th>
+					<th style="text-align:center">Last Updated By</th>
+					<th style="text-align:center">Last Updated At</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -25,11 +25,11 @@
 					{
 						<tr>
 							<td><a href="/Transaction/Details/@transaction.TransactionId" style="color:red">@transaction.TransactionNumber</a></td>
-							<td>@transaction.Amount</td>
+							<td style="text-align:center">@transaction.Amount</td>
 							<td>@transaction.CreatedBy</td>
-							<td>@transaction.CreatedAt</td>
+							<td>@transaction.CreatedAt.Value.ToString("dd-MM-yyyy")</td>
 							<td>@transaction.LastUpdatedBy</td>
-							<td>@transaction.LastUpdatedAt</td>
+							<td>@transaction.DisplayLastUpdatedAt</td>
 						</tr>
 					}
 				}

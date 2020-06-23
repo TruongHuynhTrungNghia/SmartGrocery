@@ -23,9 +23,9 @@ namespace SmartGrocery.UseCase.Customer
         {
             var predicate = MatchBySearchTerm(query.SearchTerm);
             var customers = context.Set<MasterCustomer>()
-                .AsNoTracking()
-                .Where(predicate)
-                .ToArray();
+               .AsNoTracking()
+               .Where(predicate)
+               .ToArray();
 
             return mapper.Map<CustomerDetailsDto[]>(customers);
         }

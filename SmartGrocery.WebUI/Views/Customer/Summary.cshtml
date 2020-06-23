@@ -37,10 +37,10 @@
 			<thead class="thead-dark">
 				<tr>
 					<th>Customer Number</th>
-					<th>Customer Name</th>
-					<th>Date of Birth</th>
-					<th>Age</th>
-					<th>Points</th>
+					<th style="text-align:center">Customer Name</th>
+					<th style="text-align:center">Date of Birth</th>
+					<th style="text-align:center">Age</th>
+					<th style="text-align:center">Points</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -50,10 +50,10 @@
 					{
 						<tr>
 							<td><a href="/Customer/Details?customerNumber=@customer.CustomerId" style="color:red">@customer.CustomerId</a></td>
-							<td>@customer.CustomerFullName</td>
-							<td>@customer.DateOfBirth</td>
-							<td>@customer.Age</td>
-							<td>@customer.Points</td>
+							<td style="text-align:center">@customer.CustomerFullName</td>
+							<td style="text-align:center">@customer.DateOfBirth.ToString("dd-MMM-yyyy")</td>
+							<td style="text-align:center">@customer.Age</td>
+							<td style="text-align:center">@customer.Points</td>
 						</tr>
 					}
 				}

@@ -18,7 +18,7 @@
 	<div class="row form-group">
 		<div class="col-md-3">
 			@Html.LabelFor(m => m.DateOfBirth, new { @class = "form-label" })
-			<p>@Model.DateOfBirth</p>
+			<p>@Model.DateOfBirth.ToString("dd-MMM-yyyy")</p>
 		</div>
 		<div class="col-md-3 col-md-offset-1">
 			@Html.LabelFor(m => m.Age, new { @class = "form-label" })

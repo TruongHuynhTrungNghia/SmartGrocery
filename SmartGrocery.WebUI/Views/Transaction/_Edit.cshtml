@@ -30,7 +30,7 @@
 					</div>
 					<div class="col-md-offset-1 col-md-4">
 						@Html.LabelFor(x => x.CreatedAt, new { @class = "form-label" })
-						<p>@Model.CreatedAt</p>
+						<p>@Model.DisplayCreateUpdatedAt</p>
 					</div>
 				</div>
 				@Html.HiddenFor(x => x.LastUpdatedBy)

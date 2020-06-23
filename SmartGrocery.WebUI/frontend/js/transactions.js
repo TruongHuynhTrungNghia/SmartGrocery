@@ -7,7 +7,6 @@ function initilize() {
     calculatMoneyBaseOnAmount();
     calculateTotalPrice();
     recalculateTotalPrice();
-    //handleCustomerEmotionalDetection();
     startup();
     searchCustomer();
 }
