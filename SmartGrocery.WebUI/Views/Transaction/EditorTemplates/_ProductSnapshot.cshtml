@@ -6,7 +6,7 @@
     @Html.HiddenFor(x => x.TotalProduct)
     @Html.HiddenFor(x => x.Price)
     <td class="input-group">
-        @Html.TextBoxFor(x => x.ProductNumber, new { @class = "form-control" })
+        @Html.TextBoxFor(x => x.ProductNumber, new { @class = "form-control scan-product-number" })
         <span class="input-group-addon clickable search-by-product-number">
             <i class="input-group glyphicon glyphicon-search"></i>
         </span>

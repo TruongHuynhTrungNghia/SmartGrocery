@@ -9,6 +9,7 @@ function initilize() {
     recalculateTotalPrice();
     startup();
     searchCustomer();
+
     $(document).ready(function () {
         $(window).keydown(function (event) {
             if (event.keyCode == 13) {
@@ -17,12 +18,8 @@ function initilize() {
             }
         });
     });
-}
 
-
-function handleSuccess(stream) {
-    screenshotButton.disabled = false;
-    video.srcObject = stream;
+    handleScanProductNumber();
 }
 
 function registerEditTransaction() {
@@ -43,7 +40,7 @@ function registerEditTransaction() {
                 });
             },
             error: function () {
-                toastr.error("There are some error while loading data to edit new product.");
+                toastr.error("There are some error while loading data to edit transaction.");
             }
         });
     });
@@ -90,17 +87,18 @@ function removeModalAfterClosing($modal) {
 }
 
 function AddNewCellInTable() {
-    $(document).on('click', '#add-row', function (e) {
-        $.ajax({
-            type: 'GET',
-            url: '/Transaction/GetNewProductSnapshot',
-            success: function (result) {
-                var newRow = $(result);
-                var container = $('#products-table').find('tbody');
-                container.append(newRow);
-                updateNewRowIdandName(newRow, container);
-            }
-        });
+    $(document).on('click', '#add-row', function () {
+        //$.ajax({
+        //    type: 'GET',
+        //    url: '/Transaction/GetNewProductSnapshot',
+        //    success: function (result) {
+        //        var newRow = $(result);
+        //        var container = $('#products-table').find('tbody');
+        //        container.append(newRow);
+        //        updateNewRowIdandName(newRow, container);
+        //    }
+        //});
+        AddNewProductRow();
     });
 
     $(document).on('click', '.deleteRow', function (event) {
@@ -130,15 +128,16 @@ function updateNewRowIdandName(newRow, container) {
         $(this).attr('id', 'ProductSnapshots_' + indexOfNewProduct + '__' + currentId);
         $(this).attr('name', 'ProductSnapshots[' + indexOfNewProduct + '].' + currentId);
     });
+
+    $('#ProductSnapshots_' + indexOfNewProduct + '__ProductNumber').focus();
 }
 
 function SearchNewProduct() {
     $(document).on("click", ".search-by-product-number", function (event) {
-        console.log(event.target);
         let $productNumberId = $(this).siblings('input');
 
         if ($productNumberId.val().length < 3) {
-            toastr.warning("Please input at least 3 characters.");
+            alert("Please input at least 3 characters.");
         } else {
             searchProductByItNumber($productNumberId)
         }
@@ -199,6 +198,7 @@ function calculateTotalPrice() {
         });
 
         $('#Amount').val(total);
+        $('#create-transacion-form').submit();
     })
 }
 
@@ -215,97 +215,6 @@ function recalculateTotalPrice() {
 }
 
 var logElement = document.getElementById("log");
-
-//function handleCustomerEmotionalDetection() {
-//    let preview = document.getElementById("preview");
-//    let startButton = document.getElementById("startButton");
-//    let stopButton = document.getElementById("stopButton");
-
-//    let recordingTimeMS = 2000;
-//    let captureTimeMS = 200;
-
-//    startButton.addEventListener("click", function () {
-//        navigator.mediaDevices.getUserMedia({
-//            video: true
-//        }).then(stream => {
-//            preview.srcObject = stream;
-//            preview.captureStream = preview.captureStream || preview.mozCaptureStream;
-//            return new Promise(resolve => preview.onplaying = resolve);
-//        }).then(() => startRecording(preview.captureStream(), recordingTimeMS))
-//            .then(recordedChunks => {
-//                let recordedBlob = new Blob(recordedChunks, { type: "video/mp4" });
-//                sendBackToController(recordedBlob);
-
-//                log("Successfully recorded " + recordedBlob.size + " bytes of " +
-//                    recordedBlob.type + " media.");
-//            })
-//            .catch(log);
-//    }, false); stopButton.addEventListener("click", function () {
-//        stop(preview.srcObject);
-//    }, false);
-//}
-
-//function startRecording(stream, lengthInMS) {
-//    let recorder = new MediaRecorder(stream);
-//    let data = [];
-
-//    recorder.ondataavailable = event => data.push(event.data);
-//    recorder.start();
-//    log(recorder.state + " for " + (lengthInMS / 1000) + " seconds...");
-
-
-//    let stopped = new Promise((resolve, reject) => {
-//        recorder.onstop = resolve;
-//        recorder.onerror = event => reject(event.name);
-//    });
-
-//    let recorded = wait(lengthInMS).then(
-//        () => recorder.state == "recording" && recorder.stop()
-//    );
-
-//    return Promise.all([
-//        stopped,
-//        recorded
-//    ]).then(() => data);
-//}
-
-//function wait(delayInMS) {
-//    return new Promise(resolve => setTimeout(resolve, delayInMS));
-//}
-
-//function sendBackToController(recordedBlob) {
-//    var fileType = 'video'; // or "audio"
-//    var fileName = 'ABCDEF.webm';  // or "wav"
-
-//    var formData = new FormData();
-//    formData.append(fileType + '-filename', fileName);
-//    formData.append(fileType + '-blob', recordedBlob);
-
-//    //xhr('/Transaction/StoreVideo', formData, function (fName) {
-//    //    window.open(location.href + 'uploads/' + fName);
-//    //});
-//    $.ajax({
-//        url: '/Transaction/StoreVideo',
-//        data: formData,
-//        processData: false,
-//        contentType: false,
-//        type: 'POST',
-//        success: function (data) {
-//            alert(data);
-//        }
-//    });
-//}
-
-//function xhr(url, data, callback) {
-//    var request = new XMLHttpRequest();
-//    request.onreadystatechange = function () {
-//        if (request.readyState == 4 && request.status == 200) {
-//            callback(location.href + request.responseText);
-//        }
-//    };
-//    request.open('POST', url);
-//    request.send(data);
-//}
 
 function capture(recordedBlob) {
     var canvas = document.getElementById('canvas');
@@ -335,42 +244,46 @@ var width = 320;
 var height = 0; 
 var canvas = document.getElementById("canvas");
 var video = document.getElementById("video");
-let stopButton = document.getElementById("stopButton");
+let $stopButton = document.getElementById("stopButton");
 
 function startup() {
     let startButton = document.getElementById("start");
 
-    video.addEventListener('canplay', function (ev) {
-        if (!streaming) {
-            height = video.videoHeight / (video.videoWidth / width);
+    if (video != null) {
+        video.addEventListener('canplay', function (ev) {
+            if (!streaming) {
+                height = video.videoHeight / (video.videoWidth / width);
 
-            // Firefox currently has a bug where the height can't be read from
-            // the video, so we will make assumptions if this happens.
+                // Firefox currently has a bug where the height can't be read from
+                // the video, so we will make assumptions if this happens.
 
-            if (isNaN(height)) {
-                height = width / (4 / 3);
+                if (isNaN(height)) {
+                    height = width / (4 / 3);
+                }
+
+                video.setAttribute('width', width);
+                video.setAttribute('height', height);
+                canvas.setAttribute('width', width);
+                canvas.setAttribute('height', height);
+                streaming = true;
             }
+        }, false);
+    }
 
-            video.setAttribute('width', width);
-            video.setAttribute('height', height);
-            canvas.setAttribute('width', width);
-            canvas.setAttribute('height', height);
-            streaming = true;
-        }
-    }, false);
-
-    startButton.addEventListener('click', function (event) {
-        navigator.mediaDevices.getUserMedia({ video: true, audio: false })
-            .then(function (stream) {
-                video.srcObject = stream;
-                video.play();
-            })
-            .catch(function (err) {
-                console.log("An error occurred: " + err);
-            });
-        captureImages();
-        event.preventDefault();
-    }, false);
+    if (startButton != null) {
+        startButton.addEventListener('click', function (event) {
+            navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+                .then(function (stream) {
+                    video.srcObject = stream;
+                    video.play();
+                })
+                .catch(function (err) {
+                    console.log("An error occurred: " + err);
+                });
+            captureImages();
+            event.preventDefault();
+        }, false);
+    }
 }
 
 function stop(stream) {
@@ -383,18 +296,18 @@ function log(msg) {
 
 function captureImages() {
     let captureTimeMS = 2000;
-    let totalImage = 5;
 
     const timer = setInterval(function () {
         captureImage();
-        totalImage--;
-
-        if (totalImage === 0) {
-            clearInterval(timer);
-        }
+        
+        onStopVideo(timer);
     }, captureTimeMS);
+}
 
-    //stop(video.srcObject);
+function onStopVideo(timer) {
+    $('#stopButton').on("click", function () {
+        clearInterval(timer);
+    });
 }
 
 let currentEmotion;
@@ -438,32 +351,49 @@ function updateCustomerEmotionData(currentEmotion, currentEmotionProbability) {
 }
 
 function updateEmotionalProgressBar(currentEmotion, currentEmotionProbability) {
-    const $emotionalProgressBarId = $('#emotional-progress-bar');
-    $emotionalProgressBarId.removeClass();
+    refreshProccessingBar();
 
     switch (currentEmotion) {
         case 'neutral':
-            $emotionalProgressBarId.addClass('progress-bar progress-bar-info active');
+            setupProcessBar(currentEmotionProbability, 'neutral');
             break;
         case 'happy':
-            $emotionalProgressBarId.addClass('progress-bar progress-bar-success active');
+            setupProcessBar(currentEmotionProbability, 'positive');
             break;
         case 'surprised':
-            $('#emotional-progress-bar').addClass('progress-bar progress-bar-success active');
+            setupProcessBar(currentEmotionProbability, 'positive');
             break;
         case 'scared':
-            $emotionalProgressBarId.addClass('progress-bar progress-bar-warning active');
+            setupProcessBar(currentEmotionProbability, 'negative');
             break;
         case 'angry':
-            $emotionalProgressBarId.addClass('progress-bar progress-bar-danger active');
+            setupProcessBar(currentEmotionProbability, 'negative');
             break;
         case 'disgust':
-            $emotionalProgressBarId.addClass('progress-bar progress-bar-danger active');
+            setupProcessBar(currentEmotionProbability, 'negative');
             break;
     }
+}
 
-    $emotionalProgressBarId.css({ "width": currentEmotionProbability * 100 + "%" });
-    $emotionalProgressBarId.val(currentEmotionProbability);
+function setupProcessBar(currentEmotionProbability, customerEmotionStatus) {
+    const $positiveEmotionProgressBarId = $('#positive-emotion-progress-bar');
+    const $negativeEmotionProgressBarId = $('#negative-emotion-progress-bar');
+    const $neuralEmotionProgressBarId = $('#neural-emotion-progress-bar');
+
+    switch (customerEmotionStatus) {
+        case 'negative':
+            $negativeEmotionProgressBarId.addClass('progress-bar progress-bar-warning active');
+            $negativeEmotionProgressBarId.css({ "width": currentEmotionProbability * 100 + "%" });
+            break;
+        case 'positive':
+            $positiveEmotionProgressBarId.addClass('progress-bar progress-bar-success active');
+            $positiveEmotionProgressBarId.css({ "width": currentEmotionProbability * 100 + "%" });
+            break;
+        default:
+            $neuralEmotionProgressBarId.addClass('progress-bar progress-bar-info active');
+            $neuralEmotionProgressBarId.css({ "width": currentEmotionProbability * 100 + "%" });
+            break;
+    }
 }
 
 function searchCustomer() {
@@ -481,5 +411,42 @@ function searchCustomer() {
                 $('#CustomerId').val(result.result.CustomerId);
             }
         });
+    });
+}
+
+function refreshProccessingBar() {
+    $('#positive-emotion-progress-bar').removeClass();
+    $('#neural-emotion-progress-bar').removeClass();
+    $('#negative-emotion-progress-bar').removeClass();
+}
+
+function handleScanProductNumber() {
+    $(document).on('keydown', '.scan-product-number', function (e) {
+        if (e.keyCode == 13) {
+
+            console.log(e);
+            let $productNumberId = $('#' + $(this).attr('id'));
+
+            if ($productNumberId.val().length < 3) {
+                alert("Please input at least 3 characters.");
+            } else {
+                searchProductByItNumber($productNumberId)
+            }
+
+            AddNewProductRow();
+        }
+    });
+}
+
+function AddNewProductRow() {
+    $.ajax({
+        type: 'GET',
+        url: '/Transaction/GetNewProductSnapshot',
+        success: function (result) {
+            var newRow = $(result);
+            var container = $('#products-table').find('tbody');
+            container.append(newRow);
+            updateNewRowIdandName(newRow, container);
+        }
     });
 }

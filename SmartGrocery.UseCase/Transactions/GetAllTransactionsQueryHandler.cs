@@ -20,7 +20,8 @@ namespace SmartGrocery.UseCase.Transactions
         public TransactionDto[] Handle(GetAllTransactionsQuery query)
         {
             var transactions = context.Set<Transaction>()
-                .Where(x => x.Id != null).ToArray();
+                .Where(x => x.Id != null).ToArray()
+                .OrderByDescending(x => x.CreatedAt);
 
             return mapper.Map<TransactionDto[]>(transactions);
         }

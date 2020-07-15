@@ -33,13 +33,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AWSSDK.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Core.3.3.103.58\lib\net45\AWSSDK.Core.dll</HintPath>
+      <HintPath>..\packages\AWSSDK.Core.3.3.107.22\lib\net45\AWSSDK.Core.dll</HintPath>
     </Reference>
-    <Reference Include="AWSSDK.Kinesis, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Kinesis.3.3.100.93\lib\net45\AWSSDK.Kinesis.dll</HintPath>
-    </Reference>
-    <Reference Include="AWSSDK.KinesisVideo, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.KinesisVideo.3.3.101.48\lib\net45\AWSSDK.KinesisVideo.dll</HintPath>
+    <Reference Include="AWSSDK.Rekognition, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.Rekognition.3.3.106.9\lib\net45\AWSSDK.Rekognition.dll</HintPath>
     </Reference>
     <Reference Include="EasyNetQ, Version=5.1.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\EasyNetQ.5.1.2\lib\net461\EasyNetQ.dll</HintPath>
@@ -98,7 +95,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Customer\IStreamVideo.cs" />
+    <Compile Include="AWSRekognition.cs" />
     <Compile Include="EmotionalRPCClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -107,8 +104,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Analyzer Include="..\packages\AWSSDK.Kinesis.3.3.100.93\analyzers\dotnet\cs\AWSSDK.Kinesis.CodeAnalysis.dll" />
-    <Analyzer Include="..\packages\AWSSDK.KinesisVideo.3.3.101.48\analyzers\dotnet\cs\AWSSDK.KinesisVideo.CodeAnalysis.dll" />
+    <Analyzer Include="..\packages\AWSSDK.Rekognition.3.3.106.9\analyzers\dotnet\cs\AWSSDK.Rekognition.CodeAnalysis.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

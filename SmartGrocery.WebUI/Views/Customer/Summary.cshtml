@@ -4,32 +4,25 @@
 @model PagedList.IPagedList<CustomerViewModel>
 
 <div class="section-container">
-	<h3>Customer Summary</h3>
-	@*<div class="row" style="padding-bottom:5px">
-		<div class="col-md-3">
-			@Html.TextBox("SearchTerm", string.Empty, new { @class = "form-control", @style = "width:500px" })
-		</div>
-		<div class="col-md-3">
-			<button class="btn btn-success" id="search-button">Search</button>
-		</div>
-	</div>*@
-
-	@using (Html.BeginForm("Summary", "Customer", FormMethod.Get))
-	{
-		<div class="row" style="padding-bottom:5px">
-			<div class="col-md-3">
-				@Html.TextBox("SearchTerm", string.Empty, new { @class = "form-control", @style = "width:500px" })
-			</div>
-			<div class="col-md-3">
-				<input class="btn btn-success" type="submit" id="search-button" value= "Search"/>
-			</div>
-		</div>
-	}
-
+	<div class="row" style="margin-bottom:10px;">
+		<h3>Customer Summary</h3>
+	</div>
 	<div class="row">
-		<div class="col-md-12  form-group">
-			<button class="btn btn-success col-md-1" id="create-customer">Create</button>
-		</div>
+		@using (Html.BeginForm("Summary", "Customer", FormMethod.Get))
+		{
+			<div class="row" style="padding-bottom:5px">
+				<div class="col-md-3">
+					@Html.TextBox("SearchTerm", string.Empty, new { @class = "form-control", @style = "width:500px" })
+				</div>
+				<div class="col-md-3">
+					<input class="btn btn-success" type="submit" id="search-button" value="Search" />
+				</div>
+			</div>
+		}
+	</div>
+
+	<div class="row" style="margin-bottom:10px;">
+		<button class="btn btn-primary" id="create-customer">Create</button>
 	</div>
 
 	<div class="row form-group">

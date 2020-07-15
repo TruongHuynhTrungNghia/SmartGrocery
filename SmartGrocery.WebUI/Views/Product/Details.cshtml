@@ -3,49 +3,54 @@
 
 
 @model PagedList.IPagedList<ProductBaseViewModel>
-<h3>Product Summary</h3>
-    <div class="row">
-        <table class="table table-bordered table-hover" style="background: whitesmoke;">
-            <thead>
-                <tr>
-                    <th style="text-align:center">ID</th>
-                    <th style="text-align:center">Name</th>
-                    <th style="text-align:center">Quantity</th>
-                    <th style="text-align:center">Price</th>
-                    <th style="text-align:center">Manufacturing Date</th>
-                    <th style="text-align:center">Expiry Date</th>
-                    <th style="width: 120px"></th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model.Any())
-                {
-                    foreach (var product in Model)
-                    {
-                        <tr>
-                            <td style="text-align:center">@product.ProductNumber</td>
-                            <td style="text-align:center">@product.Name</td>
-                            <td style="text-align:center">@product.Quantity</td>
-                            <td style="text-align:center">@product.Price.ToString("C2")</td>
-                            <td style="text-align:center">@product.ManufacturingDate.ToString("dd-MM-yyyy")</td>
-                            <td style="text-align:center">@product.ExpiryDate.ToString("dd-MM-yyyy")</td>
-                            <td>
-                                <button class="btn btn-success edit-product" data-product-id="@product.Id"><span class="glyphicon glyphicon-cog"></span></button>
-                                <button class="btn btn-danger delete-product" data-product-id="@product.Id"><span class="glyphicon glyphicon-trash"></span></button>
-                            </td>
-                        </tr>
-                    }
-                }
-            </tbody>
-        </table>
-        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+<div class="row">
+    <h3>Product Summary</h3>
 
-        @Html.PagedListPager(Model, page => Url.Action("Product", new { page }))
-    </div>
+</div>
 
 <div class="row">
-    <button class="btn btn-primary" id="create-product">Create</button>
+    <button class="btn btn-primary" id="create-product" style="margin-bottom:10px">Create</button>
 </div>
+
+<div class="row">
+    <table class="table table-bordered table-hover" style="background: whitesmoke;">
+        <thead>
+            <tr>
+                <th style="text-align:center">ID</th>
+                <th style="text-align:center">Name</th>
+                <th style="text-align:center">Quantity</th>
+                <th style="text-align:center">Price</th>
+                <th style="text-align:center">Manufacturing Date</th>
+                <th style="text-align:center">Expiry Date</th>
+                <th style="width: 120px"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Any())
+            {
+                foreach (var product in Model)
+                {
+                    <tr>
+                        <td style="text-align:center">@product.ProductNumber</td>
+                        <td style="text-align:center">@product.Name</td>
+                        <td style="text-align:center">@product.Quantity</td>
+                        <td style="text-align:center">@product.Price.ToString("C2")</td>
+                        <td style="text-align:center">@product.ManufacturingDate.ToString("dd-MM-yyyy")</td>
+                        <td style="text-align:center">@product.ExpiryDate.ToString("dd-MM-yyyy")</td>
+                        <td>
+                            <button class="btn btn-success edit-product" data-product-id="@product.Id"><span class="glyphicon glyphicon-cog"></span></button>
+                            <button class="btn btn-danger delete-product" data-product-id="@product.Id"><span class="glyphicon glyphicon-trash"></span></button>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Product", new { page }))
+</div>
+
 
 <div class="modal" tableindex="-1" role="dialog" id="confirm-delete-product-modal">
     <div class="modal-dialog" role="document">

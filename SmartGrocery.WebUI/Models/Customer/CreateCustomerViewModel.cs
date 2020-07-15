@@ -6,6 +6,11 @@ namespace SmartGrocery.WebUI.Models.Customer
 {
     public class CreateCustomerViewModel
     {
+        public CreateCustomerViewModel()
+        {
+            DateOfBirth = DateTime.Now;
+        }
+
         public int Age { get; set; }
 
         [DisplayName("First Name")]

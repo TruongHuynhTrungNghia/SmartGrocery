@@ -41,41 +41,43 @@
 			</div>
 		</div>
 		<div class="row">
-			<div data-toggle="collapse" data-target="#product-snapshot" class="form-group">
-				<button><span class="glyphicon glyphicon-plus" aria-hidden="false" /></button>
-				@Html.LabelFor(x => x.ProductSnapshots, new { @class = "form-label" })
-			</div>
-			<div id="product-snapshot" class="collapse">
-				<table class="table table-bordered table-hover" style="background: whitesmoke">
-					<thead>
-						<tr>
-							<th style="text-align:center">Product Number</th>
-							<th style="text-align:center">Product Name</th>
-							<th style="text-align:center">Number Off Sold Product</th>
-							<th style="text-align:center">Price</th>
-						</tr>
-					</thead>
-					<tbody>
-						@if (Model.ProductSnapshots.Any())
-						{
-							foreach (var productSnapshot in Model.ProductSnapshots)
+			<div class="col-md-12">
+				<div data-toggle="collapse" data-target="#product-snapshot" class="form-group">
+					<button><span class="glyphicon glyphicon-plus" aria-hidden="false" /></button>
+					@Html.LabelFor(x => x.ProductSnapshots, new { @class = "form-label" })
+				</div>
+				<div id="product-snapshot" class="collapse">
+					<table class="table table-bordered table-hover" style="background: whitesmoke">
+						<thead>
+							<tr>
+								<th style="text-align:center">Product Number</th>
+								<th style="text-align:center">Product Name</th>
+								<th style="text-align:center">Number Off Sold Product</th>
+								<th style="text-align:center">Price</th>
+							</tr>
+						</thead>
+						<tbody>
+							@if (Model.ProductSnapshots.Any())
+							{
+								foreach (var productSnapshot in Model.ProductSnapshots)
+								{
+									<tr>
+										<td style="text-align:center">@productSnapshot.ProductNumber</td>
+										<td style="text-align:center">@productSnapshot.ProductName</td>
+										<td style="text-align:center">@productSnapshot.NumberOfSoldProduct</td>
+										<td style="text-align:right">@productSnapshot.Price.ToString("C2")</td>
+									</tr>
+								}
+							}
+							else
 							{
 								<tr>
-									<td style="text-align:center">@productSnapshot.ProductNumber</td>
-									<td style="text-align:center">@productSnapshot.ProductName</td>
-									<td style="text-align:center">@productSnapshot.NumberOfSoldProduct</td>
-									<td style="text-align:right">@productSnapshot.Price.ToString("C2")</td>
+									<td colspan="4">There are no result.</td>
 								</tr>
 							}
-						}
-						else
-						{
-							<tr>
-								<td colspan="4">There are no result.</td>
-							</tr>
-						}
-					</tbody>
-				</table>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>

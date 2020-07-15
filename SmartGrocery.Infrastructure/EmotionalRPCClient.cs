@@ -60,6 +60,8 @@ namespace SmartGrocery.Infrastructure
             return ConverttoEmotionData(result);
         }
 
+        public EmotionalData EmptyEmotionData => new EmotionalData();
+
         private EmotionalData ConverttoEmotionData(string result)
         {
             string[] data = result.Split(new char[] { ' ' }, 2);

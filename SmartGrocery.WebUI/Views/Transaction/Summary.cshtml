@@ -3,48 +3,50 @@
 
 @model PagedList.IPagedList<TransactionViewModel>
 
-<div class="section-container">
-    <h3>Transaction Summary</h3>
+<h3>Transaction Summary</h3>
+
+<div class="row"  style="margin-bottom:10px;">
 	<a class="btn btn-primary" href="/Transaction/Create">Create</a>
-	<div class="row form-group">
-		<table class="table table-bordered table-hover table-dark" style="background: whitesmoke">
-			<thead class="thead-dark">
-				<tr>
-					<th>Transaction Number</th>
-					<th style="text-align:center">Amount</th>
-					<th style="text-align:center">Created By</th>
-					<th style="text-align:center">Created At</th>
-					<th style="text-align:center">Last Updated By</th>
-					<th style="text-align:center">Last Updated At</th>
-				</tr>
-			</thead>
-			<tbody>
-				@if (Model.Any())
-				{
-					foreach (var transaction in Model)
-					{
-						<tr>
-							<td><a href="/Transaction/Details/@transaction.TransactionId" style="color:red">@transaction.TransactionNumber</a></td>
-							<td style="text-align:center">@transaction.Amount</td>
-							<td style="text-align:center">@transaction.CreatedBy</td>
-							<td style="text-align:center">@transaction.CreatedAt.Value.ToString("dd-MM-yyyy")</td>
-							<td style="text-align:center">@transaction.LastUpdatedBy</td>
-							<td style="text-align:center">@transaction.DisplayLastUpdatedAt</td>
-						</tr>
-					}
-				}
-				else
+</div>
+
+<div class="row">
+	<table class="table table-bordered table-hover" style="background: whitesmoke">
+		<thead class="thead-dark">
+			<tr>
+				<th>Transaction Number</th>
+				<th style="text-align:center">Amount</th>
+				<th style="text-align:center">Created By</th>
+				<th style="text-align:center">Created At</th>
+				<th style="text-align:center">Last Updated By</th>
+				<th style="text-align:center">Last Updated At</th>
+			</tr>
+		</thead>
+		<tbody>
+			@if (Model.Any())
+			{
+				foreach (var transaction in Model)
 				{
 					<tr>
-						<td colspan="6">There are no result</td>
+						<td><a href="/Transaction/Details/@transaction.TransactionId" style="color:red">@transaction.TransactionNumber</a></td>
+						<td style="text-align:center">@transaction.Amount</td>
+						<td style="text-align:center">@transaction.CreatedBy</td>
+						<td style="text-align:center">@transaction.DisplayCreateUpdatedAt</td>
+						<td style="text-align:center">@transaction.LastUpdatedBy</td>
+						<td style="text-align:center">@transaction.DisplayLastUpdatedAt</td>
 					</tr>
 				}
-			</tbody>
-		</table>
-		Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+			}
+			else
+			{
+				<tr>
+					<td colspan="6">There are no result</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+	Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-		@Html.PagedListPager(Model, page => Url.Action("Summary", new { page }))
-</div>
+	@Html.PagedListPager(Model, page => Url.Action("Summary", new { page }))
 </div>
 
 @Scripts.Render("~/bundles/transactions")

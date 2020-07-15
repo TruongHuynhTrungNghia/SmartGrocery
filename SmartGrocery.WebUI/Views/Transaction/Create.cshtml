@@ -2,9 +2,9 @@
 
 @model TransactionDetailsViewModel
 
-@using (Html.BeginForm("Create", "Transaction", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Create", "Transaction", FormMethod.Post, new { enctype = "multipart/form-data", id="create-transacion-form" }))
 {
-	<h3>Create Transaction</h3>
+	<h3>New Transaction</h3>
 	<div class="section-container">
 		@Html.HiddenFor(x => x.CreatedBy)
 		@Html.HiddenFor(x => x.LastUpdatedBy)
@@ -85,32 +85,59 @@
 		</div>
 
 		<div class="row">
-			<div class="left">
+			<div @*class="left"*@ class="col-md-2">
 				<div id="start" class="button">
 					Start
 				</div>
 				<h2>Preview</h2>
 				<video id="video" controls="controls" autoplay muted></video>
 			</div>
-			<div class="right">
+			<div @*class="right"*@ class="col-md-2">
 				<div id="stopButton" class="button">
 					Stop
 				</div>
 				<canvas id="canvas" hidden></canvas>
 			</div>
+			<div class="col-md-8" style="margin-top:100px">
+				<div class="row">
+					<div class="col-md-1">
+						@Html.Label("Positive")
+					</div>
+					<div class="col-md-11">
+						<div class="progress">
+							<div id="positive-emotion-progress-bar" class="progress-bar" role="progressbar"></div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-1">
+						@Html.Label("Neural")
+					</div>
+					<div class="col-md-11">
+						<div class="progress">
+							<div id="neural-emotion-progress-bar" class="progress-bar" role="progressbar"></div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-1">
+						@Html.Label("Negative")
+					</div>
+					<div class="col-md-11">
+						<div class="progress">
+							<div id="negative-emotion-progress-bar" class="progress-bar" role="progressbar"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class=""></div>
 			<div class="bottom">
-				<pre id="log"></pre>
+				<pre id="log" style="overflow-y:scroll;max-height: 100px;"></pre>
 			</div>
 		</div>
-        <div class="row">
-            <div class="progress">
-                @*<div id="emotional-progress-bar"></div>*@
-                <div id="emotional-progress-bar" class="progress-bar" role="progressbar"></div>
-            </div>
-        </div>
-		<div class="row form-group">
+		@*<div class="row form-group">
 			<button type="submit" class="btn btn-success">Confirm</button>
-		</div>
+		</div>*@
 	</div>
 }
 

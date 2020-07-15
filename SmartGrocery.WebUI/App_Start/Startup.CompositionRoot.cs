@@ -24,6 +24,7 @@ namespace SmartGrocery.WebUI
             RegisterFluentValidator(containerBuilder);
 
             containerBuilder.RegisterType<EmotionalRPCClient>().AsSelf();
+            containerBuilder.RegisterType<AWSRekognition>().AsSelf();
 
             var container = containerBuilder.Build();
 

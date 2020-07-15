@@ -1,13 +1,16 @@
 ﻿using AutoMapper;
 using Newtonsoft.Json;
 using PagedList;
+using SmartGrocery.Infrastructure;
 using SmartGrocery.WebApi.Contracts.Customer;
 using SmartGrocery.WebUI.Models.Customer;
 using System;
 using System.Configuration;
+using System.IO;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 
 namespace SmartGrocery.WebUI.Controllers
@@ -16,11 +19,18 @@ namespace SmartGrocery.WebUI.Controllers
     {
         private readonly IMapper mapper;
         private readonly HttpClient client;
+        private readonly EmotionalRPCClient emotionalRPCClient;
+        private readonly AWSRekognition awsRekognition;
 
-        public CustomerController(IMapper mapper, HttpClient client)
+        public CustomerController(IMapper mapper, 
+            HttpClient client,
+            EmotionalRPCClient emotionalRPCClient, 
+            AWSRekognition awsRekognition)
         {
             this.mapper = mapper;
             this.client = client;
+            this.emotionalRPCClient = emotionalRPCClient;
+            this.awsRekognition = awsRekognition;
         }
 
         [HttpGet]
@@ -113,6 +123,33 @@ namespace SmartGrocery.WebUI.Controllers
             response.EnsureSuccessStatusCode();
 
             return RedirectToAction("Summary");
+        }
+
+        [HttpGet]
+        public ActionResult CustomerEmotion()
+        {
+            var viewModel = new CustomerEmotionViewModel();
+            return View("CustomerEmotion", viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult EvaluateCustomerEmotion(HttpPostedFileBase file)
+        {
+            var flag = file;
+            MemoryStream target = new MemoryStream();
+
+            file.InputStream.CopyTo(target);
+            byte[] data = target.ToArray();
+            //Emotion Detection Module
+            //var response = emotionalRPCClient.SendEmotionDataToServer(data);
+            //var viewModel = mapper.Map<CustomerEmotionViewModel>(response);
+            //return View("CustomerEmotion", viewModel);
+
+            //AWS Emotion Detection Module
+            var response = awsRekognition.DetectImage(data);
+            var viewModel = mapper.Map<CustomerEmotionViewModel>(response);
+
+            return View("CustomerEmotion", viewModel);
         }
     }
 }

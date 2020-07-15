@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using SmartGrocery.Infrastructure;
 using SmartGrocery.WebApi.Contracts.Customer;
 
 namespace SmartGrocery.WebUI.Models.Customer
@@ -21,6 +22,10 @@ namespace SmartGrocery.WebUI.Models.Customer
             CreateMap<CreateCustomerViewModel, EditCustomerRequest>()
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.CustomerFirstName))
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.CustomerLastName));
+
+            CreateMap<EmotionalData, CustomerEmotionViewModel>()
+                .ForMember(dest => dest.Emotion, opt => opt.MapFrom(src => src.Emotion))
+                .ForMember(dest => dest.Percentage, opt => opt.MapFrom(src => src.Probability));
         }
 
         private string GetFullName(string lastName, string firstName)

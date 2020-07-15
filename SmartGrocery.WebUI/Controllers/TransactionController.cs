@@ -21,7 +21,9 @@ namespace SmartGrocery.WebUI.Controllers
         private readonly HttpClient client;
         private readonly EmotionalRPCClient emotionalRPCClient;
 
-        public TransactionController(IMapper mapper, HttpClient client, EmotionalRPCClient emotionalRPCClient)
+        public TransactionController(IMapper mapper, 
+            HttpClient client, 
+            EmotionalRPCClient emotionalRPCClient)
         {
             this.mapper = mapper;
             this.client = client;
@@ -128,8 +130,14 @@ namespace SmartGrocery.WebUI.Controllers
 
         public ActionResult StoreVideo(string base64image)
         {
+            if (string.IsNullOrEmpty(base64image))
+            {
+                return Json(new { result = emotionalRPCClient.EmptyEmotionData }, JsonRequestBehavior.AllowGet);
+            }
+
             var image = base64image.Substring(22);
 
+            //Using the emotion detection module
             byte[] bytes = Convert.FromBase64String(image);
 
             var response = emotionalRPCClient.SendEmotionDataToServer(bytes);
