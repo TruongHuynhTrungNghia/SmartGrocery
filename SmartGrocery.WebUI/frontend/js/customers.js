@@ -1,6 +1,7 @@
 ﻿function initilize() {
     registerCreateCustomer();
     registerEditCustomer();
+    registerUploadImage();
 }
 
 function registerCreateCustomer() {
@@ -50,4 +51,26 @@ function removeModalAfterClosing($modal) {
     $modal.on('hidden.bs.modal', function () {
         $modal.remove();
     })
+}
+
+function registerUploadImage() {
+    $('#upload-image').on('click', function () {
+        let emotionToolValue = $('#EmotionTool').find(':selected').text();
+        let fd = new FormData();
+        let files = $('#file')[0].files[0];
+        fd.append('file', files);
+        fd.append('emotionTool', emotionToolValue);
+
+        $.ajax({
+            type: 'POST',
+            data: fd,
+            contentType: false,
+            processData: false,
+            cache: false,
+            url: '/Customer/EvaluateCustomerEmotion',
+            success: function () {
+                alert('Upload image successfully.');
+            }
+        });
+    });
 }

@@ -68,8 +68,8 @@ namespace SmartGrocery.Infrastructure
 
             return new EmotionalData
             {
-                Emotion = data[1] == "Null" ? string.Empty : data[1],
-                Probability = Decimal.TryParse(data[0], out decimal percentage) == true ? percentage : 0M
+                Emotion = data[1] == "Null" ? string.Empty : data[1].ToUpper(),
+                Probability = Decimal.TryParse(data[0], out decimal percentage) == true ? percentage*100M : 0M
             };
         }
     }

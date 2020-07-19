@@ -1,27 +1,49 @@
-﻿@model SmartGrocery.WebUI.Models.Customer.CustomerEmotionViewModel
+﻿@using SmartGrocery.WebUI.Models.Customer
+@model SmartGrocery.WebUI.Models.Customer.CustomerEmotionViewModel
+
+@{
+	var aws = new SelectListItem
+	{
+		Value = EmotionTools.AWSRekognition,
+		Text = EmotionTools.AWSRekognition
+	};
+	var emotionTool = new SelectListItem
+	{
+		Value = EmotionTools.EmotionDetection,
+		Text = EmotionTools.EmotionDetection
+	};
+
+	var emotionTools = new List<SelectListItem>();
+	emotionTools.Add(aws);
+	emotionTools.Add(emotionTool);
+}
 
 @using (Html.BeginForm("EvaluateCustomerEmotion", "Customer", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
+
 	<div class="section-container" style="margin-bottom:5%;">
 		<h3>Customer Emotion</h3>
 	</div>
 
 	<div class="row" style="margin-bottom:20px;">
-		<label class="col-md-2 control-label">Upload Image:</label>
 		<div class="col-md-3">
-			<input type="file" class="form-control" name="file" id="file" multiple accept='image/*'/>
-		</div>
-		<div class="col-md-1 col-md-offset-1">
-			<input type="checkbox" checked data-toggle="toggle" data-on="Ready" data-off="Not Ready" data-onstyle="success" data-offstyle="danger" data-width="120px">
+			<label class="form-label">Upload Image:</label>
+			<input type="file" class="form-control" name="file" id="file" multiple accept='image/*' />
 		</div>
 		<div class="col-md-2 col-md-offset-1">
-			<button type="submit" class="btn btn-success">Upload Image</button>
+			@Html.Label("Emotion Tool", new { @class = "form-label" })
+			@Html.DropDownList("emotionTool", emotionTools, new { @class = "form-control" })
+		</div>
+		<div class="col-md-2 col-md-offset-1">
+			@Html.Label(" ", new { @class = "form-label" })
+			<button type="submit" class="btn btn-success form-control">Upload Image</button>
 		</div>
 	</div>
-	
+}
+
 	<div class="section-container">
 		<div class="row">
-			<div class="col-md-2">
+			<div class="col-md-3">
 				@Html.LabelFor(m => m.Emotion)
 				<p>@Model.Emotion</p>
 			</div>
@@ -31,4 +53,3 @@
 			</div>
 		</div>
 	</div>
-}

@@ -330,7 +330,9 @@
     <Compile Include="Models\Authentication\IdentityModels.cs" />
     <Compile Include="Models\Authentication\ManageViewModels.cs" />
     <Compile Include="Models\Customer\CreateCustomerViewModel.cs" />
+    <Compile Include="Models\Customer\CustomerEmotionViewModel.cs" />
     <Compile Include="Models\Customer\CustomerViewModel.cs" />
+    <Compile Include="Models\Customer\EmotionTools.cs" />
     <Compile Include="Models\Customer\MappingProfile.cs" />
     <Compile Include="Models\Products\ProductMappingProfile.cs" />
     <Compile Include="Models\Products\ProductBaseViewModel.cs" />
@@ -426,6 +428,7 @@
     <Content Include="Views\Transaction\_Edit.cshtml" />
     <Content Include="Views\Transaction\EditorTemplates\_ProductSnapshot.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
+    <Content Include="Views\Customer\CustomerEmotion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

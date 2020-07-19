@@ -2,7 +2,24 @@
 
 @model TransactionDetailsViewModel
 
-@using (Html.BeginForm("Create", "Transaction", FormMethod.Post, new { enctype = "multipart/form-data", id="create-transacion-form" }))
+@{
+	var aws = new SelectListItem
+	{
+		Value = "AWS",
+		Text = "AWS Recognition"
+	};
+	var emotionTool = new SelectListItem
+	{
+		Value = "EmotionDetection",
+		Text = "Emotion Detection"
+	};
+
+	var emotionTools = new List<SelectListItem>();
+	emotionTools.Add(aws);
+	emotionTools.Add(emotionTool);
+}
+
+@using (Html.BeginForm("Create", "Transaction", FormMethod.Post, new { enctype = "multipart/form-data", id = "create-transacion-form" }))
 {
 	<h3>New Transaction</h3>
 	<div class="section-container">
@@ -19,7 +36,7 @@
 				<p>@Model.CreatedAt</p>
 			</div>
 		</div>
-		
+
 		<div class="row">
 			<div class="col-md-3 form-group">
 				@Html.LabelFor(x => x.CustomerId, new { @class = "form-label" })
@@ -32,21 +49,21 @@
 				@Html.ValidationMessageFor(x => x.CustomerId)
 			</div>
 			<div class="col-md-3 col-md-offset-1 form-group">
-				@Html.LabelFor(x => x.CustomerName, new { @class="form-label" })
-				@Html.TextBoxFor(x => x.CustomerName, new { @class="form-control" })
+				@Html.LabelFor(x => x.CustomerName, new { @class = "form-label" })
+				@Html.TextBoxFor(x => x.CustomerName, new { @class = "form-control" })
 			</div>
 			<div class="col-md-3 col-md-offset-1 form-group">
-				@Html.LabelFor(x => x.CustomerEmotion, new { @class="form-label"})
-				@Html.TextBoxFor(x => x.CustomerEmotion, new { @class="form-control", @readonly="readonly" })
+				@Html.LabelFor(x => x.CustomerEmotion, new { @class = "form-label" })
+				@Html.TextBoxFor(x => x.CustomerEmotion, new { @class = "form-control", @readonly = "readonly" })
 			</div>
 			@Html.HiddenFor(x => x.CustomerEmotionProbability)
 		</div>
-		
+
 		<div class="row">
 			<div class="col-md-3 form-group">
-				@Html.LabelFor(x => x.Amount, new { @class="form-label" })
+				@Html.LabelFor(x => x.Amount, new { @class = "form-label" })
 				<div class="input-group">
-					@Html.TextBoxFor(x => x.Amount, new { @class="form-control", @readonly="readonly" })
+					@Html.TextBoxFor(x => x.Amount, new { @class = "form-control", @readonly = "readonly" })
 					<span class="input-group-addon clickable" id="calculate-total-price">
 						<i class="input-group glyphicon glyphicon-usd"></i>
 					</span>
@@ -85,20 +102,27 @@
 		</div>
 
 		<div class="row">
-			<div @*class="left"*@ class="col-md-2">
+			<div class="col-md-2 form-group">
+				@Html.Label("Emotion Tool", new { @class = "form-label" })
+				@Html.DropDownList("emotionTool", emotionTools, new { @class = "form-control" })
+			</div>
+		</div>
+
+		<div class="row">
+			<div @*class="left"*@ class="col-md-2 form-group">
 				<div id="start" class="button">
 					Start
 				</div>
 				<h2>Preview</h2>
 				<video id="video" controls="controls" autoplay muted></video>
 			</div>
-			<div @*class="right"*@ class="col-md-2">
+			<div @*class="right"*@ class="col-md-2 form-group">
 				<div id="stopButton" class="button">
 					Stop
 				</div>
 				<canvas id="canvas" hidden></canvas>
 			</div>
-			<div class="col-md-8" style="margin-top:100px">
+			<div class="col-md-8 form-group" style="margin-top:100px">
 				<div class="row">
 					<div class="col-md-1">
 						@Html.Label("Positive")
@@ -136,8 +160,8 @@
 			</div>
 		</div>
 		@*<div class="row form-group">
-			<button type="submit" class="btn btn-success">Confirm</button>
-		</div>*@
+				<button type="submit" class="btn btn-success">Confirm</button>
+			</div>*@
 	</div>
 }
 

@@ -5,6 +5,7 @@ using SmartGrocery.Infrastructure;
 using SmartGrocery.WebApi.Contracts.Customer;
 using SmartGrocery.WebUI.Models.Customer;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Net.Http;
@@ -129,27 +130,49 @@ namespace SmartGrocery.WebUI.Controllers
         public ActionResult CustomerEmotion()
         {
             var viewModel = new CustomerEmotionViewModel();
+            var emotionTool = new List<SelectListItem>();
+            emotionTool.Add(new SelectListItem
+            {
+                Value = "AWS",
+                Text = "AWS"
+            });
             return View("CustomerEmotion", viewModel);
         }
 
         [HttpPost]
-        public ActionResult EvaluateCustomerEmotion(HttpPostedFileBase file)
+        public ActionResult EvaluateCustomerEmotion(HttpPostedFileBase file, string emotionTool)
         {
-            var flag = file;
-            MemoryStream target = new MemoryStream();
+            if (file == null)
+            {
+                return View("CustomerEmotion");
+            }
 
-            file.InputStream.CopyTo(target);
-            byte[] data = target.ToArray();
-            //Emotion Detection Module
-            //var response = emotionalRPCClient.SendEmotionDataToServer(data);
-            //var viewModel = mapper.Map<CustomerEmotionViewModel>(response);
-            //return View("CustomerEmotion", viewModel);
+            var emotionData = ConvertImageToByte(file);
 
-            //AWS Emotion Detection Module
-            var response = awsRekognition.DetectImage(data);
-            var viewModel = mapper.Map<CustomerEmotionViewModel>(response);
-
+            var viewModel = InitializeViewModelBaseOnEmotionTool(emotionTool, emotionData);
+            
             return View("CustomerEmotion", viewModel);
+        }
+
+        private byte[] ConvertImageToByte(HttpPostedFileBase file)
+        {
+            MemoryStream target = new MemoryStream();
+            file.InputStream.CopyTo(target);
+            return target.ToArray();
+        }
+
+        private CustomerEmotionViewModel InitializeViewModelBaseOnEmotionTool(string emotionTool, byte[] data)
+        {
+            if (emotionTool == EmotionTools.EmotionDetection)
+            {
+                var response = emotionalRPCClient.SendEmotionDataToServer(data);
+                return mapper.Map<CustomerEmotionViewModel>(response);
+            }
+            else
+            {
+                var response = awsRekognition.DetectImage(data);
+                return mapper.Map<CustomerEmotionViewModel>(response);
+            }
         }
     }
 }

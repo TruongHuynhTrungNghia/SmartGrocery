@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using PagedList;
 using SmartGrocery.Infrastructure;
 using SmartGrocery.WebApi.Contracts.Transaction;
+using SmartGrocery.WebUI.Models.Customer;
 using SmartGrocery.WebUI.Models.Products;
 using SmartGrocery.WebUI.Models.Transactions;
 using System;
@@ -20,14 +21,17 @@ namespace SmartGrocery.WebUI.Controllers
         private readonly IMapper mapper;
         private readonly HttpClient client;
         private readonly EmotionalRPCClient emotionalRPCClient;
+        private readonly AWSRekognition awsRekognition;
 
         public TransactionController(IMapper mapper, 
             HttpClient client, 
-            EmotionalRPCClient emotionalRPCClient)
+            EmotionalRPCClient emotionalRPCClient,
+            AWSRekognition awsRekognition)
         {
             this.mapper = mapper;
             this.client = client;
             this.emotionalRPCClient = emotionalRPCClient;
+            this.awsRekognition = awsRekognition;
         }
 
         [HttpGet]
@@ -128,7 +132,8 @@ namespace SmartGrocery.WebUI.Controllers
             return PartialView("EditorTemplates/_ProductSnapshot", new ProductSnapshotViewModel());
         }
 
-        public ActionResult StoreVideo(string base64image)
+        [HttpPost]
+        public ActionResult StoreVideo(string base64image, string emotionTool)
         {
             if (string.IsNullOrEmpty(base64image))
             {
@@ -136,14 +141,21 @@ namespace SmartGrocery.WebUI.Controllers
             }
 
             var image = base64image.Substring(22);
+            byte[] imageInBytes = Convert.FromBase64String(image);
 
-            //Using the emotion detection module
-            byte[] bytes = Convert.FromBase64String(image);
+            if (emotionTool == EmotionTools.EmotionDetection)
+            {
+                var response = emotionalRPCClient.SendEmotionDataToServer(imageInBytes);
 
-            var response = emotionalRPCClient.SendEmotionDataToServer(bytes);
-            ViewData["CustomerEmotionData"] = new List<EmotionalData>();
+                return Json(new { result = response }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                var response = awsRekognition.DetectImage(imageInBytes);
 
-            return Json(new { result = response }, JsonRequestBehavior.AllowGet);
+                return Json(new { result = response }, JsonRequestBehavior.AllowGet);
+            }
+            
         }
     }
 }

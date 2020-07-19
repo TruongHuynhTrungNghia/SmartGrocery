@@ -295,14 +295,30 @@ function log(msg) {
 }
 
 function captureImages() {
-    let captureTimeMS = 2000;
+    let captureTimems = 2000;
 
     const timer = setInterval(function () {
         captureImage();
         
-        onStopVideo(timer);
-    }, captureTimeMS);
+        onstopvideo(timer);
+    }, captureTimems);
 }
+
+//function captureImages() {
+//    let captureTimeMS = 2000;
+//    let totalImage = 1;
+
+//    const timer = setInterval(function () {
+//        captureImage();
+//        totalImage--;
+
+//        if (totalImage === 0) {
+//            clearInterval(timer);
+//        }
+//    }, captureTimeMS);
+
+//    //stop(video.srcObject);
+//}
 
 function onStopVideo(timer) {
     $('#stopButton').on("click", function () {
@@ -320,16 +336,20 @@ function captureImage() {
         canvas.height = height;
         context.drawImage(video, 0, 0, width, height);
 
-        let data = canvas.toDataURL('image/png');
+        let image = canvas.toDataURL('image/png');
+        let emotionToolValue = $('#emotionTool').find(':selected').text();
 
-        var formData = new FormData();
-        formData.append("base64image", data);
+        //var formData = new FormData();
+        //formData.append("base64image", data);
+        //formData.append("EmotionTool", emotionToolValue);
+        let data = {
+            base64image: image,
+            emotionTool: emotionToolValue
+        };
 
         $.ajax({
             url: '/Transaction/StoreVideo',
-            data: formData,
-            processData: false,
-            contentType: false,
+            data: data,
             type: 'POST',
             success: function (data) {
                 log(data.result.Probability + '  ' + data.result.Emotion);
@@ -354,22 +374,37 @@ function updateEmotionalProgressBar(currentEmotion, currentEmotionProbability) {
     refreshProccessingBar();
 
     switch (currentEmotion) {
-        case 'neutral':
+        case 'NEUTRAL':
             setupProcessBar(currentEmotionProbability, 'neutral');
             break;
-        case 'happy':
+        case 'CALM':
+            setupProcessBar(currentEmotionProbability, 'neutral');
+            break;
+        case 'UNKNOWN':
+            setupProcessBar(currentEmotionProbability, 'neutral');
+            break;
+        case 'HAPPY':
             setupProcessBar(currentEmotionProbability, 'positive');
             break;
-        case 'surprised':
+        case 'SURPRISED':
             setupProcessBar(currentEmotionProbability, 'positive');
             break;
-        case 'scared':
+        case 'SCARED':
             setupProcessBar(currentEmotionProbability, 'negative');
             break;
-        case 'angry':
+        case 'ANGRY':
             setupProcessBar(currentEmotionProbability, 'negative');
             break;
-        case 'disgust':
+        case 'DISGUST':
+            setupProcessBar(currentEmotionProbability, 'negative');
+            break;
+        case 'CONFUSED':
+            setupProcessBar(currentEmotionProbability, 'negative');
+            break;
+        case 'DISGUSTED':
+            setupProcessBar(currentEmotionProbability, 'negative');
+            break;
+        case 'FEAR':
             setupProcessBar(currentEmotionProbability, 'negative');
             break;
     }
@@ -383,15 +418,15 @@ function setupProcessBar(currentEmotionProbability, customerEmotionStatus) {
     switch (customerEmotionStatus) {
         case 'negative':
             $negativeEmotionProgressBarId.addClass('progress-bar progress-bar-warning active');
-            $negativeEmotionProgressBarId.css({ "width": currentEmotionProbability * 100 + "%" });
+            $negativeEmotionProgressBarId.css({ "width": currentEmotionProbability + "%" });
             break;
         case 'positive':
             $positiveEmotionProgressBarId.addClass('progress-bar progress-bar-success active');
-            $positiveEmotionProgressBarId.css({ "width": currentEmotionProbability * 100 + "%" });
+            $positiveEmotionProgressBarId.css({ "width": currentEmotionProbability + "%" });
             break;
         default:
             $neuralEmotionProgressBarId.addClass('progress-bar progress-bar-info active');
-            $neuralEmotionProgressBarId.css({ "width": currentEmotionProbability * 100 + "%" });
+            $neuralEmotionProgressBarId.css({ "width": currentEmotionProbability + "%" });
             break;
     }
 }
@@ -424,10 +459,9 @@ function handleScanProductNumber() {
     $(document).on('keydown', '.scan-product-number', function (e) {
         if (e.keyCode == 13) {
 
-            console.log(e);
             let $productNumberId = $('#' + $(this).attr('id'));
 
-            if ($productNumberId.val().length < 3) {
+            if ($productNumberId.val().length <= 3) {
                 alert("Please input at least 3 characters.");
             } else {
                 searchProductByItNumber($productNumberId)
