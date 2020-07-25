@@ -79,11 +79,19 @@ namespace SmartGrocery.WebUI.Controllers
                 return View("Create", viewModel);
             }
 
+            viewModel.RemoveEmptyProduct();
             viewModel.CalculateProductPrice();
             var request = mapper.Map<CreateTransactionRequest>(viewModel);
 
             var response = await client.PostAsJsonAsync("transactions", request, cancellationToken);
-            response.EnsureSuccessStatusCode();
+            //response.EnsureSuccessStatusCode();
+            if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest, response.ReasonPhrase);
+                //ViewBag errorMessage = response.ReasonPhrase;
+
+                //return View("Create", viewModel);
+            }
 
             return RedirectToAction("Summary");
         }

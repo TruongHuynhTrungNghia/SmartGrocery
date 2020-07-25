@@ -4,6 +4,7 @@ using Microsoft.Web.Http;
 using SmartGrocery.UseCase.Transactions;
 using SmartGrocery.WebApi.Contracts.Transaction;
 using System;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -65,7 +66,11 @@ namespace SmartGrocery.WebApi.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                throw new HttpResponseException(new HttpResponseMessage
+                {
+                    StatusCode = System.Net.HttpStatusCode.BadRequest,
+                    ReasonPhrase = ex.Message
+                });
             }
         }
 

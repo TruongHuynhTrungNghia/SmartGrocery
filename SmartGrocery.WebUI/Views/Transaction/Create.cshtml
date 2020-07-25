@@ -19,7 +19,7 @@
 	emotionTools.Add(emotionTool);
 }
 
-@using (Html.BeginForm("Create", "Transaction", FormMethod.Post, new { enctype = "multipart/form-data", id = "create-transacion-form" }))
+@using (Html.BeginForm("Create", "Transaction", FormMethod.Post, new { enctype = "multipart/form-data", id = "create-transacion-form", data_failure = "onFailure" }))
 {
 	<h3>New Transaction</h3>
 	<div class="section-container">

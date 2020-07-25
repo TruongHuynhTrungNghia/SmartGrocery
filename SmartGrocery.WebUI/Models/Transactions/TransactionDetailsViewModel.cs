@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 
 namespace SmartGrocery.WebUI.Models.Transactions
 {
@@ -40,6 +41,11 @@ namespace SmartGrocery.WebUI.Models.Transactions
             {
                 snapshot.UpdateProductPriceByQuantity();
             }
+        }
+
+        internal void RemoveEmptyProduct()
+        {
+            this.ProductSnapshots = this.ProductSnapshots.Where(x => !string.IsNullOrEmpty(x.ProductNumber)).ToArray();
         }
     }
 }
