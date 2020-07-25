@@ -29,7 +29,7 @@ namespace SmartGrocery.Infrastructure
             }
 
             AmazonRekognitionClient rekognitionClient = new AmazonRekognitionClient(
-                "AKIA2XLKZZCOCULT2HV4", "/JEReHseRHEl+RCjMdHeV2vilaB6CfuMUQUzVNNx", RegionEndpoint.APSoutheast1
+                "", "", RegionEndpoint.APSoutheast1
                 );
             DetectLabelsRequest detectlabelsRequest = new DetectLabelsRequest()
             {
